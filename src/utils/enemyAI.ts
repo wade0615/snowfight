@@ -19,7 +19,6 @@ import {
   constrainEnemyPosition,
   calculateThrowVelocity,
   calculateMaxDistance,
-  findNearestPlayer,
 } from './physics';
 
 // 記錄關卡開始時間
@@ -216,10 +215,10 @@ function createEnemySnowball(
   height: number,
   scale: number
 ): Snowball | null {
-  // 找到最近的存活玩家作為目標
-  const target = findNearestPlayer(enemy.x, enemy.y, players);
+  // 隨機選擇一個存活玩家作為目標
+  const alivePlayers = players.filter((p) => p.alive);
 
-  if (!target) {
+  if (alivePlayers.length === 0) {
     // 沒有存活玩家，隨機丟向玩家區域
     const targetX = width * ((BOUNDS.player.minX + BOUNDS.player.maxX) / 2);
     const targetY = height * ((BOUNDS.player.minY + BOUNDS.player.maxY) / 2);
@@ -245,6 +244,9 @@ function createEnemySnowball(
       startY: enemy.y,
     };
   }
+
+  // 從存活玩家中隨機選擇一個目標
+  const target = alivePlayers[Math.floor(Math.random() * alivePlayers.length)];
 
   // 加入大幅隨機偏移，讓敵人不會直接命中
   // ENEMY_ACCURACY 越低，偏差越大
