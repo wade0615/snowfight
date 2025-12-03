@@ -6,6 +6,7 @@ import {
   COLORS,
   PLAYER_MAX_HP,
   ENEMY_MAX_HP,
+  BOUNDS,
 } from './constants';
 
 // 繪製背景
@@ -14,19 +15,73 @@ export function drawBackground(
   width: number,
   height: number
 ): void {
-  // 天空漸層
-  const gradient = ctx.createLinearGradient(0, 0, 0, height);
-  gradient.addColorStop(0, COLORS.sky.top);
-  gradient.addColorStop(1, COLORS.sky.bottom);
-  ctx.fillStyle = gradient;
+  // 全範圍雪白色底色
+  ctx.fillStyle = '#FFFFFF';
   ctx.fillRect(0, 0, width, height);
 
-  // 雪地
-  ctx.fillStyle = '#FFFFFF';
-  ctx.fillRect(0, height * 0.85, width, height * 0.15);
+  // 繪製敵人區域邊界（左上三角形）
+  drawEnemyAreaBoundary(ctx, width, height);
 
-  // 雪堆裝飾
-  drawSnowPiles(ctx, width, height);
+  // 繪製玩家區域邊界（右下三角形）
+  drawPlayerAreaBoundary(ctx, width, height);
+}
+
+// 繪製敵人區域邊界（左上三角形）
+function drawEnemyAreaBoundary(
+  ctx: CanvasRenderingContext2D,
+  width: number,
+  height: number
+): void {
+  const minX = width * BOUNDS.enemy.minX;
+  const maxX = width * BOUNDS.enemy.maxX;
+  const minY = height * BOUNDS.enemy.minY;
+  const maxY = height * BOUNDS.enemy.maxY;
+
+  ctx.save();
+  ctx.strokeStyle = '#CCCCCC'; // 淺灰色
+  ctx.lineWidth = 2;
+  ctx.setLineDash([]); // 實線
+
+  ctx.beginPath();
+  // 左邊界
+  ctx.moveTo(minX, minY);
+  ctx.lineTo(minX, maxY);
+  // 下邊界（對角線）
+  ctx.lineTo(maxX, minY);
+  // 上邊界
+  ctx.lineTo(minX, minY);
+  ctx.stroke();
+
+  ctx.restore();
+}
+
+// 繪製玩家區域邊界（右下三角形）
+function drawPlayerAreaBoundary(
+  ctx: CanvasRenderingContext2D,
+  width: number,
+  height: number
+): void {
+  const minX = width * BOUNDS.player.minX;
+  const maxX = width * BOUNDS.player.maxX;
+  const minY = height * BOUNDS.player.minY;
+  const maxY = height * BOUNDS.player.maxY;
+
+  ctx.save();
+  ctx.strokeStyle = '#CCCCCC'; // 淺灰色
+  ctx.lineWidth = 2;
+  ctx.setLineDash([]); // 實線
+
+  ctx.beginPath();
+  // 左下角開始
+  ctx.moveTo(minX, maxY);
+  // 右邊界
+  ctx.lineTo(maxX, maxY);
+  ctx.lineTo(maxX, minY);
+  // 對角線回到左下
+  ctx.lineTo(minX, maxY);
+  ctx.stroke();
+
+  ctx.restore();
 }
 
 // 繪製雪堆

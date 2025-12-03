@@ -7,8 +7,8 @@ export const ASPECT_RATIO = 16 / 9;
 
 // 角色尺寸
 export const BASE_PLAYER_RADIUS = 16; // 原本 26，縮小為 60%
-export const BASE_ENEMY_RADIUS = 16;  // 原本 26，縮小為 60%
-export const SNOWBALL_RADIUS = 6;     // 原本 10，同步縮小為 60%
+export const BASE_ENEMY_RADIUS = 16; // 原本 26，縮小為 60%
+export const SNOWBALL_RADIUS = 6; // 原本 10，同步縮小為 60%
 
 // 角色數量
 export const PLAYER_COUNT = 3;
@@ -26,8 +26,8 @@ export const CHARGE_TIME = 700;
 export const GREETING_DURATION = 2000;
 
 // 雪球速度
-export const SNOWBALL_BASE_SPEED = 8;
-export const SNOWBALL_MAX_SPEED = 18;
+export const SNOWBALL_BASE_SPEED = 2;
+export const SNOWBALL_MAX_SPEED = 8;
 export const SNOWBALL_MAX_DISTANCE = 800;
 
 // 敵人 AI
@@ -53,33 +53,33 @@ export const SCORE_PER_HIT = 50;
 // 顏色
 export const COLORS = {
   sky: {
-    top: '#87CEEB',
-    bottom: '#E0F6FF',
+    top: "#87CEEB",
+    bottom: "#E0F6FF",
   },
   player: {
-    body: '#E74C3C',
-    outline: '#C0392B',
+    body: "#E74C3C",
+    outline: "#C0392B",
   },
   enemy: {
-    body: '#27AE60',
-    outline: '#1E8449',
+    body: "#27AE60",
+    outline: "#1E8449",
   },
   snowball: {
-    fill: '#FFFFFF',
-    shadow: '#E8E8E8',
+    fill: "#FFFFFF",
+    shadow: "#E8E8E8",
   },
   charge: {
-    fill: 'rgba(255, 165, 0, 0.3)',
-    stroke: 'rgba(255, 165, 0, 0.8)',
+    fill: "rgba(255, 165, 0, 0.3)",
+    stroke: "rgba(255, 165, 0, 0.8)",
   },
   hp: {
-    full: '#2ECC71',
-    medium: '#F39C12',
-    low: '#E74C3C',
+    full: "#2ECC71",
+    medium: "#F39C12",
+    low: "#E74C3C",
   },
   ui: {
-    text: '#333333',
-    overlay: 'rgba(0, 0, 0, 0.7)',
+    text: "#333333",
+    overlay: "rgba(0, 0, 0, 0.7)",
   },
 };
 
@@ -87,17 +87,17 @@ export const COLORS = {
 export const BOUNDS = {
   // 玩家拖曳活動區域 (擴大範圍)
   player: {
-    minX: 0.3,
+    minX: 0.1,
     maxX: 0.95,
-    minY: 0.3,
+    minY: 0.15,
     maxY: 0.95,
   },
   // 敵人活動區域 (左上三角形)
   enemy: {
     minX: 0.05,
-    maxX: 0.5,
+    maxX: 0.85,
     minY: 0.1,
-    maxY: 0.5,
+    maxY: 0.85,
   },
 };
 
