@@ -6,6 +6,7 @@ import {
   COLORS,
   PLAYER_MAX_HP,
   ENEMY_MAX_HP,
+  BARRIER_MAX_HP,
   BOUNDS,
 } from './constants';
 
@@ -330,6 +331,9 @@ export function drawBarrier(
     ctx.arc(x + actualRadius * 0.2, y - actualRadius * 0.2, actualRadius * 0.15, 0, Math.PI * 2);
     ctx.fill();
   }
+
+  // 血量顯示
+  drawHpBar(ctx, x, y - actualRadius - 10, barrier.hp, BARRIER_MAX_HP, scale);
 }
 
 // 繪製雪球

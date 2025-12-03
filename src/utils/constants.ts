@@ -19,6 +19,7 @@ export const MAX_LEVEL = 50;
 // 血量
 export const PLAYER_MAX_HP = 2;
 export const ENEMY_MAX_HP = 3;
+export const BARRIER_MAX_HP = 10;
 
 // 時間常數 (毫秒)
 export const STUN_DURATION = 1000;

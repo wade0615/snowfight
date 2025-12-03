@@ -192,7 +192,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
   initBarriers: () => {
     const { canvasSize, players } = get();
     const scale = canvasSize.width / 960; // 基於 mobile 尺寸計算 scale
-    const barrierRadius = BASE_PLAYER_RADIUS * scale;
+    const barrierRadius = BASE_PLAYER_RADIUS * scale * 1.5; // 提升 1.5 倍大小
 
     // 為每個玩家在其前方（左上方向）創建一個掩體
     const barriers: Barrier[] = players.map((player) => ({
