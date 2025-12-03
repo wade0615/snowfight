@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { useGameStore } from '@/stores/gameStore';
+import { useGameStore } from "@/stores/gameStore";
 
 export default function GameUI() {
   const {
@@ -14,7 +14,7 @@ export default function GameUI() {
     setShowInstructions,
   } = useGameStore();
 
-  if (gameState === 'showGreeting') {
+  if (gameState === "showGreeting") {
     return null;
   }
 
@@ -26,7 +26,7 @@ export default function GameUI() {
           absolute top-4 left-4 z-10
           bg-white/90 backdrop-blur-sm rounded-lg shadow-lg
           transition-all duration-300
-          ${menuCollapsed ? 'w-12 h-12' : 'p-4'}
+          ${menuCollapsed ? "w-12 h-12" : "p-4"}
         `}
       >
         {menuCollapsed ? (
@@ -61,7 +61,7 @@ export default function GameUI() {
               </div>
             </div>
 
-            <div className="border-t pt-2 mt-2 space-y-1">
+            <div className="border-t pt-2 mt-2 space-y-1 text-gray-700">
               <button
                 onClick={() => setShowLeaderboard(true)}
                 className="w-full text-left px-2 py-1 rounded hover:bg-gray-100 text-sm"
