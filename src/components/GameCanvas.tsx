@@ -151,6 +151,15 @@ export default function GameCanvas() {
   const { handleCanvasClick } = useGameLoop(canvasRef, images);
   useCanvasEvents(canvasRef);
 
+  // 處理觸控事件（手機版進入下一關/重新開始）
+  const handleTouchEnd = useCallback((e: React.TouchEvent) => {
+    // 只在 win/lose 狀態下處理，避免與拖曳操作衝突
+    if (gameState === 'win' || gameState === 'lose') {
+      e.preventDefault();
+      handleCanvasClick();
+    }
+  }, [gameState, handleCanvasClick]);
+
   return (
     <div
       ref={containerRef}
@@ -160,6 +169,7 @@ export default function GameCanvas() {
       <canvas
         ref={canvasRef}
         onClick={handleCanvasClick}
+        onTouchEnd={handleTouchEnd}
         className="shadow-2xl cursor-pointer"
         style={{
           maxWidth: '960px',

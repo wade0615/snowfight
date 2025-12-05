@@ -10,6 +10,23 @@ import {
   BOUNDS,
 } from './constants';
 
+// 裝飾用雪堆位置（固定位置，確保敵我雙方區域都有）
+const DECORATIVE_SNOW_PILES = [
+  // 敵人區域（左上）
+  { x: 0.10, y: 0.15 },
+  { x: 0.25, y: 0.20 },
+  { x: 0.15, y: 0.35 },
+  { x: 0.35, y: 0.30 },
+  // 中央區域
+  { x: 0.45, y: 0.45 },
+  { x: 0.55, y: 0.55 },
+  // 玩家區域（右下）
+  { x: 0.65, y: 0.70 },
+  { x: 0.80, y: 0.65 },
+  { x: 0.75, y: 0.85 },
+  { x: 0.90, y: 0.80 },
+];
+
 // 繪製背景
 export function drawBackground(
   ctx: CanvasRenderingContext2D,
@@ -20,11 +37,59 @@ export function drawBackground(
   ctx.fillStyle = '#FFFFFF';
   ctx.fillRect(0, 0, width, height);
 
+  // 繪製裝飾用雪堆
+  drawDecorativeSnowPiles(ctx, width, height);
+
   // 繪製敵人區域邊界（左上三角形）
   drawEnemyAreaBoundary(ctx, width, height);
 
   // 繪製玩家區域邊界（右下三角形）
   drawPlayerAreaBoundary(ctx, width, height);
+}
+
+// 繪製裝飾用雪堆（僅視覺效果）
+function drawDecorativeSnowPiles(
+  ctx: CanvasRenderingContext2D,
+  width: number,
+  height: number
+): void {
+  ctx.save();
+
+  DECORATIVE_SNOW_PILES.forEach((pile) => {
+    const x = width * pile.x;
+    const y = height * pile.y;
+    const baseWidth = 40;
+    const pileHeight = 20;
+    const topRadius = 6; // 頂端圓角半徑
+
+    // 計算三角形的三個點
+    const leftX = x - baseWidth / 2;
+    const rightX = x + baseWidth / 2;
+    const bottomY = y + pileHeight / 2;
+    const topY = y - pileHeight / 2;
+
+    // 繪製錐形雪堆（頂端帶圓角）
+    ctx.beginPath();
+    ctx.moveTo(leftX, bottomY);
+    // 左邊線到接近頂端
+    ctx.lineTo(x - topRadius * 0.5, topY + topRadius);
+    // 頂端圓角
+    ctx.quadraticCurveTo(x, topY - topRadius * 0.3, x + topRadius * 0.5, topY + topRadius);
+    // 右邊線到底端
+    ctx.lineTo(rightX, bottomY);
+    ctx.closePath();
+
+    // 淺淺的填充
+    ctx.fillStyle = 'rgba(220, 230, 240, 0.4)';
+    ctx.fill();
+
+    // 淺淺的邊框
+    ctx.strokeStyle = 'rgba(200, 210, 220, 0.3)';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+  });
+
+  ctx.restore();
 }
 
 // 繪製敵人區域邊界（左上三角形，帶圓角）
