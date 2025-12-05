@@ -1,36 +1,77 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# SnowCraft - 雪球大戰
 
-## Getting Started
+一款有趣的網頁打雪仗遊戲，支援電腦和手機！
 
-First, run the development server:
+## 遊戲介紹
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+在雪球戰爭中與敵人對戰，體驗刺激的雪球大戰。拖曳你的角色進行蓄力投擲，擊敗所有敵人即可進入下一關。
+
+### 遊戲特色
+
+- 支援滑鼠和觸控操作
+- 50 個關卡挑戰
+- 排行榜系統
+- 響應式設計，支援電腦和手機
+
+### 操作方式
+
+- **拖曳**：點擊並拖曳紅色角色下方的控制圈
+- **蓄力**：按住越久，投擲距離越遠
+- **投擲**：放開後自動向敵人方向投擲雪球
+
+## 技術架構
+
+- **框架**：Next.js 16 + React 19
+- **語言**：TypeScript
+- **狀態管理**：Zustand
+- **樣式**：Tailwind CSS 4
+- **渲染**：Canvas API
+
+## 專案結構
+
+```
+src/
+├── app/                 # Next.js App Router
+├── components/          # React 元件
+│   ├── GameCanvas.tsx   # 遊戲畫布
+│   ├── GameUI.tsx       # UI 面板
+│   └── modals/          # 彈窗元件
+├── hooks/               # 自訂 Hooks
+│   ├── useGameLoop.ts   # 遊戲主迴圈
+│   └── useCanvasEvents.ts # 事件處理
+├── stores/              # Zustand 狀態
+├── types/               # TypeScript 型別
+└── utils/               # 工具函數
+    ├── constants.ts     # 遊戲常數
+    ├── physics.ts       # 物理計算
+    ├── enemyAI.ts       # 敵人 AI
+    └── renderer.ts      # Canvas 繪製
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 開發
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+# 安裝依賴
+npm install
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+# 啟動開發伺服器
+npm run dev
 
-## Learn More
+# 建構
+npm run build
 
-To learn more about Next.js, take a look at the following resources:
+# 啟動生產伺服器
+npm start
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+開啟 [http://localhost:3000](http://localhost:3000) 即可遊玩。
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 部署
 
-## Deploy on Vercel
+可直接部署至 [Vercel](https://vercel.com)：
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/cruxover/snowcraft)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 授權
+
+MIT License
