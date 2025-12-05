@@ -2,14 +2,45 @@ import type { Metadata, Viewport } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: '打雪仗 SnowCraft',
-  description: '一個有趣的網頁打雪仗遊戲',
-  keywords: ['遊戲', 'game', '打雪仗', 'snowball', 'snowcraft'],
+  title: '打雪仗 SnowCraft - 雪球大戰網頁遊戲',
+  description: '免費線上打雪仗遊戲！在雪球戰爭中與敵人對戰，體驗刺激的雪球大戰。支援電腦和手機，隨時隨地享受 SnowCraft 雪球對戰的樂趣。',
+  keywords: [
+    'snowcraft',
+    'snowfight',
+    '雪球戰爭',
+    '雪球大戰',
+    '打雪仗',
+    'snowball fight',
+    'snowball game',
+    '雪球遊戲',
+    '網頁遊戲',
+    'web game',
+    '免費遊戲',
+    'free game',
+  ],
   authors: [{ name: 'Cruxover' }],
+  creator: 'Cruxover',
+  publisher: 'Cruxover',
+  openGraph: {
+    title: '打雪仗 SnowCraft - 雪球大戰網頁遊戲',
+    description: '免費線上打雪仗遊戲！在雪球戰爭中與敵人對戰，體驗刺激的雪球大戰。',
+    type: 'website',
+    locale: 'zh_TW',
+    siteName: 'SnowCraft 雪球大戰',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: '打雪仗 SnowCraft - 雪球大戰網頁遊戲',
+    description: '免費線上打雪仗遊戲！體驗刺激的雪球戰爭。',
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
   appleWebApp: {
     capable: true,
     statusBarStyle: 'black-translucent',
-    title: '打雪仗',
+    title: '打雪仗 SnowCraft',
   },
 };
 
