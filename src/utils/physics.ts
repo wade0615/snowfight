@@ -270,10 +270,10 @@ export function findPlayerAtPosition(
   players: Player[],
   scale: number
 ): number | null {
-  // 控制圈偏移量（參考 main.js）
-  const controlOffsetY = 50;
-  // 控制圈半徑（參考 main.js：getPlayerRadius() + 30）
-  const controlRadius = BASE_PLAYER_RADIUS + 30;
+  // 控制圈偏移量（調整為 1.5 倍）
+  const controlOffsetY = 25;
+  // 控制圈半徑（調整為 1.5 倍）
+  const controlRadius = BASE_PLAYER_RADIUS + 15;
 
   // 先找出所有存活且未被暈眩的玩家
   const candidates: { index: number; dist: number }[] = [];

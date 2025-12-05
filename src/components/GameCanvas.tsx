@@ -101,36 +101,36 @@ export default function GameCanvas() {
     const canvas = canvasRef.current;
     if (!container || !canvas) return;
 
-    const isMobile = window.innerWidth < 768;
-    const baseWidth = isMobile ? BASE_WIDTH_MOBILE : BASE_WIDTH_DESKTOP;
-    const baseHeight = isMobile ? BASE_HEIGHT_MOBILE : BASE_HEIGHT_DESKTOP;
+    // 固定使用 960x540 尺寸
+    const maxWidth = 960;
+    const maxHeight = 540;
 
     // 計算容器可用空間
     const containerWidth = container.clientWidth;
     const containerHeight = container.clientHeight;
 
-    // 根據容器尺寸計算縮放
-    let width = containerWidth;
-    let height = containerWidth / ASPECT_RATIO;
+    // 計算顯示尺寸（不超過最大尺寸，保持比例）
+    let displayWidth = Math.min(containerWidth, maxWidth);
+    let displayHeight = displayWidth / ASPECT_RATIO;
 
-    if (height > containerHeight) {
-      height = containerHeight;
-      width = containerHeight * ASPECT_RATIO;
+    if (displayHeight > Math.min(containerHeight, maxHeight)) {
+      displayHeight = Math.min(containerHeight, maxHeight);
+      displayWidth = displayHeight * ASPECT_RATIO;
     }
 
-    // 設定 Canvas 尺寸（不使用 dpr，簡化座標計算）
-    canvas.width = baseWidth;
-    canvas.height = baseHeight;
+    // 設定 Canvas 邏輯尺寸（固定 960x540）
+    canvas.width = maxWidth;
+    canvas.height = maxHeight;
 
     // 設定 Canvas 顯示尺寸
-    canvas.style.width = `${width}px`;
-    canvas.style.height = `${height}px`;
+    canvas.style.width = `${displayWidth}px`;
+    canvas.style.height = `${displayHeight}px`;
 
     // 更新 store 中的尺寸
     setCanvasSize({
-      width: baseWidth,
-      height: baseHeight,
-      scale: baseWidth / BASE_WIDTH_MOBILE,
+      width: maxWidth,
+      height: maxHeight,
+      scale: 1,
     });
   }, [setCanvasSize]);
 
@@ -154,23 +154,24 @@ export default function GameCanvas() {
   return (
     <div
       ref={containerRef}
-      className="relative w-full h-full flex items-center justify-center bg-gray-900"
+      className="relative w-full h-full flex items-center justify-center"
+      style={{ backgroundColor: '#e5e5e5' }}
     >
       <canvas
         ref={canvasRef}
         onClick={handleCanvasClick}
-        className="rounded-lg shadow-2xl cursor-pointer"
+        className="shadow-2xl cursor-pointer"
         style={{
-          maxWidth: '100%',
-          maxHeight: '100%',
+          maxWidth: '960px',
+          maxHeight: '540px',
         }}
       />
 
       {/* 載入中 */}
       {isLoading && (
-        <div className="absolute inset-0 flex flex-col items-center justify-center bg-gray-900/80">
-          <div className="text-white text-2xl mb-4">載入中...</div>
-          <div className="w-64 h-2 bg-gray-700 rounded-full overflow-hidden">
+        <div className="absolute inset-0 flex flex-col items-center justify-center bg-gray-200/80">
+          <div className="text-gray-700 text-2xl mb-4">載入中...</div>
+          <div className="w-64 h-2 bg-gray-400 rounded-full overflow-hidden">
             <div
               className="h-full bg-blue-500 transition-all duration-300"
               style={{ width: `${useGameStore.getState().loadingProgress}%` }}

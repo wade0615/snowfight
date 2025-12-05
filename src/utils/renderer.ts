@@ -119,10 +119,10 @@ export function drawPlayer(
   const { x, y } = player;
   const isStunned = now < player.stunUntil;
 
-  // 圖片偏移量（參考 main.js，固定像素值不乘 scale）
-  const offsetX = -35;
-  const offsetY = -12;
-  const targetH = 64;
+  // 圖片偏移量（調整為 1/3 的 1.5 倍）
+  const offsetX = -18;
+  const offsetY = -6;
+  const targetH = 32;
 
   ctx.save();
 
@@ -240,7 +240,7 @@ export function drawEnemy(
   const radius = BASE_ENEMY_RADIUS * scale;
   const { x, y, throwState } = enemy;
   const isStunned = now < enemy.stunUntil;
-  const targetH = 64 * scale;
+  const targetH = 32 * scale;
 
   ctx.save();
 
@@ -450,9 +450,9 @@ function drawControlCircle(
   y: number,
   hp: number
 ): void {
-  // 控制圈位置在玩家下方 50 像素（參考 main.js: controlY = p.y + 50）
-  const controlOffsetY = 50;
-  const controlRadius = BASE_PLAYER_RADIUS + 30;
+  // 控制圈位置在玩家下方（調整為 1.5 倍）
+  const controlOffsetY = 25;
+  const controlRadius = BASE_PLAYER_RADIUS + 15;
 
   ctx.save();
   ctx.beginPath();
