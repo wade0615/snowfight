@@ -27,7 +27,7 @@ export function drawBackground(
   drawPlayerAreaBoundary(ctx, width, height);
 }
 
-// 繪製敵人區域邊界（左上三角形）
+// 繪製敵人區域邊界（左上三角形，帶圓角）
 function drawEnemyAreaBoundary(
   ctx: CanvasRenderingContext2D,
   width: number,
@@ -37,26 +37,31 @@ function drawEnemyAreaBoundary(
   const maxX = width * BOUNDS.enemy.maxX;
   const minY = height * BOUNDS.enemy.minY;
   const maxY = height * BOUNDS.enemy.maxY;
+  const radius = 10; // 圓角半徑
 
   ctx.save();
-  ctx.strokeStyle = '#CCCCCC'; // 淺灰色
+  ctx.strokeStyle = '#F0F0F0'; // 更淺的灰色
   ctx.lineWidth = 2;
   ctx.setLineDash([]); // 實線
 
   ctx.beginPath();
-  // 左邊界
-  ctx.moveTo(minX, minY);
-  ctx.lineTo(minX, maxY);
-  // 下邊界（對角線）
-  ctx.lineTo(maxX, minY);
-  // 上邊界
-  ctx.lineTo(minX, minY);
+  // 從左上角開始（帶圓角）
+  ctx.moveTo(minX + radius, minY);
+  // 對角線到右上
+  ctx.lineTo(maxX - radius, minY);
+  ctx.arcTo(maxX, minY, maxX, minY + radius, radius);
+  // 對角線往左下
+  ctx.lineTo(minX + radius, maxY - radius);
+  ctx.arcTo(minX, maxY, minX, maxY - radius, radius);
+  // 左邊界往上
+  ctx.lineTo(minX, minY + radius);
+  ctx.arcTo(minX, minY, minX + radius, minY, radius);
   ctx.stroke();
 
   ctx.restore();
 }
 
-// 繪製玩家區域邊界（右下三角形）
+// 繪製玩家區域邊界（右下三角形，帶圓角）
 function drawPlayerAreaBoundary(
   ctx: CanvasRenderingContext2D,
   width: number,
@@ -66,20 +71,25 @@ function drawPlayerAreaBoundary(
   const maxX = width * BOUNDS.player.maxX;
   const minY = height * BOUNDS.player.minY;
   const maxY = height * BOUNDS.player.maxY;
+  const radius = 10; // 圓角半徑
 
   ctx.save();
-  ctx.strokeStyle = '#CCCCCC'; // 淺灰色
+  ctx.strokeStyle = '#F0F0F0'; // 更淺的灰色
   ctx.lineWidth = 2;
   ctx.setLineDash([]); // 實線
 
   ctx.beginPath();
-  // 左下角開始
-  ctx.moveTo(minX, maxY);
-  // 右邊界
-  ctx.lineTo(maxX, maxY);
-  ctx.lineTo(maxX, minY);
-  // 對角線回到左下
-  ctx.lineTo(minX, maxY);
+  // 從右下角開始（帶圓角）
+  ctx.moveTo(maxX, maxY - radius);
+  // 右邊界往上
+  ctx.lineTo(maxX, minY + radius);
+  ctx.arcTo(maxX, minY, maxX - radius, minY, radius);
+  // 對角線往左下
+  ctx.lineTo(minX + radius, maxY - radius);
+  ctx.arcTo(minX, maxY, minX + radius, maxY, radius);
+  // 下邊界往右
+  ctx.lineTo(maxX - radius, maxY);
+  ctx.arcTo(maxX, maxY, maxX, maxY - radius, radius);
   ctx.stroke();
 
   ctx.restore();
