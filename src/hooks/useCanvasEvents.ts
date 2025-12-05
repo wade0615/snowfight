@@ -17,6 +17,8 @@ export function useCanvasEvents(
   canvasRef: React.RefObject<HTMLCanvasElement | null>
 ) {
   const chargeStartRef = useRef<number>(0);
+  // 記錄點擊時的偏移量（參考 main.js）
+  const dragOffsetRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
 
   const {
     gameState,
@@ -61,6 +63,11 @@ export function useCanvasEvents(
       if (playerIndex !== null) {
         const player = players[playerIndex];
         if (player.alive && Date.now() >= player.stunUntil) {
+          // 記錄點擊位置與玩家位置的偏移量（參考 main.js）
+          dragOffsetRef.current = {
+            x: x - player.x,
+            y: y - player.y,
+          };
           setSelectedPlayer(playerIndex);
           setIsDragging(true);
           chargeStartRef.current = Date.now();
@@ -80,7 +87,10 @@ export function useCanvasEvents(
       if (!isDragging || selectedPlayerIndex === null) return;
 
       const { width, height, scale } = canvasSize;
-      const constrained = constrainPlayerPosition(x, y, width, height, scale);
+      // 使用偏移量計算新位置，避免玩家「跳」到滑鼠位置（參考 main.js）
+      const newX = x - dragOffsetRef.current.x;
+      const newY = y - dragOffsetRef.current.y;
+      const constrained = constrainPlayerPosition(newX, newY, width, height, scale);
 
       updatePlayer(selectedPlayerIndex, {
         x: constrained.x,

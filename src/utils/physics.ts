@@ -263,20 +263,39 @@ export function findNearestPlayer(
 }
 
 // 找到點擊位置最近的玩家
+// 參考 main.js：控制圈位置在玩家下方 50 像素，半徑為 getPlayerRadius() + 30
 export function findPlayerAtPosition(
   x: number,
   y: number,
   players: Player[],
   scale: number
 ): number | null {
-  const hitRadius = BASE_PLAYER_RADIUS * scale * 1.5; // 放大點擊範圍
+  // 控制圈偏移量（參考 main.js）
+  const controlOffsetY = 50;
+  // 控制圈半徑（參考 main.js：getPlayerRadius() + 30）
+  const controlRadius = BASE_PLAYER_RADIUS + 30;
+
+  // 先找出所有存活且未被暈眩的玩家
+  const candidates: { index: number; dist: number }[] = [];
 
   for (let i = 0; i < players.length; i++) {
     const player = players[i];
     if (!player.alive) continue;
-    if (distance(x, y, player.x, player.y) < hitRadius) {
-      return i;
+
+    // 控制圈中心位置（在玩家下方）
+    const controlX = player.x;
+    const controlY = player.y + controlOffsetY;
+
+    const dist = distance(x, y, controlX, controlY);
+    if (dist < controlRadius) {
+      candidates.push({ index: i, dist });
     }
+  }
+
+  // 如果有多個候選，選擇最近的
+  if (candidates.length > 0) {
+    candidates.sort((a, b) => a.dist - b.dist);
+    return candidates[0].index;
   }
 
   return null;

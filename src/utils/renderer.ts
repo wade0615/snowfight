@@ -112,11 +112,17 @@ export function drawPlayer(
   images: GameImages,
   now: number
 ): void {
+  // 死亡動畫完成後不再繪製
   if (!player.alive && player.deadState >= 3) return;
 
   const radius = BASE_PLAYER_RADIUS * scale;
   const { x, y } = player;
   const isStunned = now < player.stunUntil;
+
+  // 圖片偏移量（參考 main.js，固定像素值不乘 scale）
+  const offsetX = -35;
+  const offsetY = -12;
+  const targetH = 64;
 
   ctx.save();
 
@@ -124,19 +130,59 @@ export function drawPlayer(
     ctx.globalAlpha = 0.5;
   }
 
-  // 嘗試使用圖片
-  const img = player.charging ? images.playerPrepare : images.player;
-  if (img && img.complete && img.naturalWidth > 0) {
-    const imgSize = radius * 3;
-    ctx.drawImage(img, x - imgSize / 2, y - imgSize / 2, imgSize, imgSize);
-  } else {
-    // Fallback: 幾何圖形
-    drawPlayerShape(ctx, x, y, radius, player.charging);
+  // 優先檢查死亡狀態
+  if (player.deadState) {
+    const img = images.playerDead;
+    if (img && img.complete && img.naturalWidth > 0) {
+      const imgScale = targetH / img.naturalHeight;
+      const targetW = img.naturalWidth * imgScale;
+      ctx.drawImage(img, x - targetW / 2 + offsetX, y - targetH / 2 + offsetY, targetW, targetH);
+      ctx.restore();
+      return;
+    }
   }
 
-  // 蓄力圈
-  if (player.charging && player.charge > 0) {
-    drawChargeCircle(ctx, x, y, radius, player.charge);
+  // 蓄力/準備投擲狀態
+  if (player.charging && player.alive) {
+    const img = images.playerPrepare;
+    if (img && img.complete && img.naturalWidth > 0) {
+      const imgScale = targetH / img.naturalHeight;
+      const targetW = img.naturalWidth * imgScale;
+      ctx.drawImage(img, x - targetW / 2 + offsetX, y - targetH / 2 + offsetY, targetW, targetH);
+      // 繪製控制圈指示
+      drawControlCircle(ctx, x, y, player.hp);
+      // 血量顯示
+      drawHpBar(ctx, x, y - radius - 15, player.hp, PLAYER_MAX_HP, scale);
+      ctx.restore();
+      return;
+    }
+  }
+
+  // 平常站立狀態
+  if (player.alive && !player.deadState) {
+    const img = images.player;
+    if (img && img.complete && img.naturalWidth > 0) {
+      const imgScale = targetH / img.naturalHeight;
+      const targetW = img.naturalWidth * imgScale;
+      ctx.drawImage(img, x - targetW / 2 + offsetX, y - targetH / 2 + offsetY, targetW, targetH);
+      // 繪製控制圈指示
+      drawControlCircle(ctx, x, y, player.hp);
+      // 血量顯示
+      drawHpBar(ctx, x, y - radius - 15, player.hp, PLAYER_MAX_HP, scale);
+      ctx.restore();
+      return;
+    }
+  }
+
+  // Fallback: 幾何圖形
+  ctx.save();
+  ctx.translate(x, y);
+  drawPlayerShape(ctx, 0, 0, radius, player.charging);
+  ctx.restore();
+
+  // 控制圈（fallback 也要畫）
+  if (player.alive) {
+    drawControlCircle(ctx, x, y, player.hp);
   }
 
   // 血量顯示
@@ -188,11 +234,13 @@ export function drawEnemy(
   images: GameImages,
   now: number
 ): void {
+  // 死亡動畫完成後不再繪製
   if (!enemy.alive && enemy.deadState >= 3) return;
 
   const radius = BASE_ENEMY_RADIUS * scale;
   const { x, y, throwState } = enemy;
   const isStunned = now < enemy.stunUntil;
+  const targetH = 64 * scale;
 
   ctx.save();
 
@@ -200,38 +248,65 @@ export function drawEnemy(
     ctx.globalAlpha = 0.5;
   }
 
-  // 選擇對應狀態的圖片
-  let img: HTMLImageElement | null = null;
-  switch (throwState) {
-    case 'crouch':
-      img = images.crouch;
-      break;
-    case 'prepare':
-      img = images.prepare;
-      break;
-    case 'throw':
-      img = images.throw;
-      break;
-    case 'standup':
-      img = images.standup;
-      break;
-    case 'pain':
-      img = images.pain;
-      break;
-    case 'fall':
-      img = images.fall;
-      break;
-    default:
-      img = enemy.walkFrame % 2 === 0 ? images.walk1 : images.walk2;
+  // 輔助函數：繪製置中圖片（參考 main.js 的 drawCenteredImage）
+  const drawCenteredImage = (img: HTMLImageElement | null): boolean => {
+    if (!img || !img.complete || !img.naturalWidth) return false;
+    const imgScale = targetH / img.naturalHeight;
+    const targetW = img.naturalWidth * imgScale;
+    ctx.drawImage(img, x - targetW / 2, y - targetH / 2, targetW, targetH);
+    return true;
+  };
+
+  // 優先檢查死亡狀態
+  if (enemy.deadState) {
+    if (drawCenteredImage(images.dead)) {
+      ctx.restore();
+      return;
+    }
   }
 
-  if (img && img.complete && img.naturalWidth > 0) {
-    const imgSize = radius * 3;
-    ctx.drawImage(img, x - imgSize / 2, y - imgSize / 2, imgSize, imgSize);
-  } else {
-    // Fallback: 幾何圖形
-    drawEnemyShape(ctx, x, y, radius, throwState);
+  // 根據投擲狀態選擇圖片（參考 main.js 的邏輯順序）
+  let drawn = false;
+  switch (throwState) {
+    case 'crouch':
+      drawn = drawCenteredImage(images.crouch);
+      break;
+    case 'prepare':
+      drawn = drawCenteredImage(images.prepare);
+      break;
+    case 'standup':
+      drawn = drawCenteredImage(images.standup);
+      break;
+    case 'throw':
+      drawn = drawCenteredImage(images.throw);
+      break;
+    case 'pain':
+      drawn = drawCenteredImage(images.pain);
+      break;
+    case 'fall':
+      drawn = drawCenteredImage(images.fall);
+      break;
+    case 'idle':
+    default:
+      // 行走動畫（參考 main.js：walkFrame 0 用 walk1，其他用 walk2）
+      const walkImg = enemy.walkFrame % 30 < 15 ? images.walk1 : images.walk2;
+      drawn = drawCenteredImage(walkImg);
+      break;
   }
+
+  if (drawn) {
+    // 蓄力圈 (敵人準備投擲時)
+    if (throwState === 'prepare' && enemy.charge > 0) {
+      drawChargeCircle(ctx, x, y, radius, enemy.charge);
+    }
+    // 血量顯示
+    drawHpBar(ctx, x, y - radius - 15, enemy.hp, ENEMY_MAX_HP, scale);
+    ctx.restore();
+    return;
+  }
+
+  // Fallback: 幾何圖形
+  drawEnemyShape(ctx, x, y, radius, throwState);
 
   // 蓄力圈 (敵人準備投擲時)
   if (throwState === 'prepare' && enemy.charge > 0) {
@@ -366,6 +441,29 @@ export function drawSnowball(
   ctx.arc(x - radius * 0.3, y - radius * 0.3, radius * 0.2, 0, Math.PI * 2);
   ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
   ctx.fill();
+}
+
+// 繪製控制圈指示（參考 main.js）
+function drawControlCircle(
+  ctx: CanvasRenderingContext2D,
+  x: number,
+  y: number,
+  hp: number
+): void {
+  // 控制圈位置在玩家下方 50 像素（參考 main.js: controlY = p.y + 50）
+  const controlOffsetY = 50;
+  const controlRadius = BASE_PLAYER_RADIUS + 30;
+
+  ctx.save();
+  ctx.beginPath();
+  ctx.arc(x, y + controlOffsetY, controlRadius, 0, Math.PI * 2);
+  // 根據血量決定顏色（參考 main.js: hp === 2 ? '#0f0' : '#fa0'）
+  ctx.strokeStyle = hp === PLAYER_MAX_HP ? '#0f0' : '#fa0';
+  ctx.lineWidth = 2;
+  ctx.globalAlpha = 0.2;
+  ctx.stroke();
+  ctx.globalAlpha = 1;
+  ctx.restore();
 }
 
 // 繪製蓄力圈

@@ -18,8 +18,8 @@ export default function GameCanvas() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [images, setImages] = useState<GameImages>({
     player: null,
-    playerIdle: null,
     playerPrepare: null,
+    playerDead: null,
     crouch: null,
     prepare: null,
     standup: null,
@@ -43,9 +43,11 @@ export default function GameCanvas() {
   // 載入圖片
   useEffect(() => {
     const imageList: { key: keyof GameImages; src: string }[] = [
-      { key: 'player', src: '/img/player.png' },
-      { key: 'playerIdle', src: '/img/player_idle.png' },
-      { key: 'playerPrepare', src: '/img/player_prepare.png' },
+      // 玩家圖片
+      { key: 'player', src: '/img/player.png' },           // 站立狀態
+      { key: 'playerPrepare', src: '/img/player_prepare.png' }, // 蓄力狀態
+      { key: 'playerDead', src: '/img/player_dead.png' },  // 死亡狀態
+      // 敵人圖片
       { key: 'crouch', src: '/img/crouch.png' },
       { key: 'prepare', src: '/img/prepare.png' },
       { key: 'standup', src: '/img/standup.png' },

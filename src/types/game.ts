@@ -76,18 +76,20 @@ export interface CanvasSize {
 
 // 遊戲圖片資源
 export interface GameImages {
-  player: HTMLImageElement | null;
-  playerIdle: HTMLImageElement | null;
-  playerPrepare: HTMLImageElement | null;
-  crouch: HTMLImageElement | null;
-  prepare: HTMLImageElement | null;
-  standup: HTMLImageElement | null;
-  throw: HTMLImageElement | null;
-  walk1: HTMLImageElement | null;
-  walk2: HTMLImageElement | null;
-  dead: HTMLImageElement | null;
-  pain: HTMLImageElement | null;
-  fall: HTMLImageElement | null;
+  // 玩家圖片
+  player: HTMLImageElement | null;        // 玩家站立狀態
+  playerPrepare: HTMLImageElement | null; // 玩家蓄力/準備投擲狀態
+  playerDead: HTMLImageElement | null;    // 玩家死亡狀態（躺著）
+  // 敵人圖片
+  crouch: HTMLImageElement | null;        // 敵人蹲下
+  prepare: HTMLImageElement | null;       // 敵人準備投擲
+  standup: HTMLImageElement | null;       // 敵人站起
+  throw: HTMLImageElement | null;         // 敵人投擲
+  walk1: HTMLImageElement | null;         // 敵人走路動畫幀1
+  walk2: HTMLImageElement | null;         // 敵人走路動畫幀2
+  dead: HTMLImageElement | null;          // 敵人死亡
+  pain: HTMLImageElement | null;          // 敵人被擊中/痛苦
+  fall: HTMLImageElement | null;          // 敵人倒下
 }
 
 // 遊戲音效資源
