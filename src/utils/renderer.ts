@@ -665,8 +665,8 @@ export function drawGreeting(
   ctx.font = '24px Arial';
   ctx.fillStyle = '#333';
 
-  // 檢測是否為手機（簡易判斷）
-  const isMobile = width < 768;
+  // 檢測是否為手機（使用視窗寬度而非 canvas 寬度）
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
 
   if (isMobile) {
     ctx.fillText('📱 手機版操作：', width / 2, height / 2 - 10);
