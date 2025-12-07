@@ -654,11 +654,34 @@ export function drawGreeting(
 ): void {
   ctx.save();
   ctx.fillStyle = COLORS.ui.text;
-  ctx.font = 'bold 72px Arial';
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
-  ctx.fillText('❄️ 打雪仗 ❄️', width / 2, height / 2 - 30);
-  ctx.font = '28px Arial';
-  ctx.fillText('拖曳角色瞄準，放開投擲雪球！', width / 2, height / 2 + 50);
+
+  // 標題
+  ctx.font = 'bold 72px Arial';
+  ctx.fillText('❄️ 打雪仗 ❄️', width / 2, height / 2 - 80);
+
+  // 操作說明
+  ctx.font = '24px Arial';
+  ctx.fillStyle = '#333';
+
+  // 檢測是否為手機（簡易判斷）
+  const isMobile = width < 768;
+
+  if (isMobile) {
+    ctx.fillText('📱 手機版操作：', width / 2, height / 2 - 10);
+    ctx.font = '20px Arial';
+    ctx.fillText('拖曳角色移動 → 按住左下角按鈕蓄力', width / 2, height / 2 + 20);
+  } else {
+    ctx.fillText('💻 電腦版操作：', width / 2, height / 2 - 10);
+    ctx.font = '20px Arial';
+    ctx.fillText('滑鼠拖曳角色移動 → 空白鍵蓄力攻擊', width / 2, height / 2 + 20);
+  }
+
+  // 開始提示
+  ctx.font = 'bold 28px Arial';
+  ctx.fillStyle = '#0066cc';
+  ctx.fillText('點擊畫面開始遊戲！', width / 2, height / 2 + 80);
+
   ctx.restore();
 }

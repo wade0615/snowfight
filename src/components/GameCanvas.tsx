@@ -152,10 +152,10 @@ export default function GameCanvas() {
   const { handleCanvasClick } = useGameLoop(canvasRef, images);
   const { handleTouchAttackStart, handleTouchAttackEnd } = useCanvasEvents(canvasRef);
 
-  // 處理觸控事件（手機版進入下一關/重新開始）
+  // 處理觸控事件（手機版開場/進入下一關/重新開始）
   const handleTouchEnd = useCallback((e: React.TouchEvent) => {
-    // 只在 win/lose 狀態下處理，避免與拖曳操作衝突
-    if (gameState === 'win' || gameState === 'lose') {
+    // 在開場、win、lose 狀態下處理，避免與遊戲中的拖曳操作衝突
+    if (gameState === 'showGreeting' || gameState === 'win' || gameState === 'lose') {
       e.preventDefault();
       handleCanvasClick();
     }

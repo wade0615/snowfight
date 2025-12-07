@@ -234,15 +234,8 @@ export function useGameLoop(
 
     const now = timestamp;
 
-    // 處理開場動畫
-    if (gameState === 'showGreeting') {
-      if (greetingStartTime === 0) {
-        setGreetingStartTime(now);
-      } else if (now - greetingStartTime >= GREETING_DURATION) {
-        setLevelStartTime(now); // 記錄關卡開始時間
-        startLevel(1);
-      }
-    }
+    // 開場畫面不自動開始，等待玩家點擊
+    // （點擊處理在 handleCanvasClick 中）
 
     // 遊戲進行中更新邏輯
     if (gameState === 'playing') {
@@ -281,9 +274,12 @@ export function useGameLoop(
     };
   }, [gameLoop]);
 
-  // 處理畫布點擊（遊戲結束後的重啟）
+  // 處理畫布點擊（開場開始 & 遊戲結束後的重啟）
   const handleCanvasClick = useCallback(() => {
-    if (gameState === 'win') {
+    if (gameState === 'showGreeting') {
+      setLevelStartTime(performance.now()); // 記錄關卡開始時間
+      startLevel(1);
+    } else if (gameState === 'win') {
       setLevelStartTime(performance.now()); // 記錄新關卡開始時間
       startLevel(level + 1);
     } else if (gameState === 'lose') {
