@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import { useGameStore } from "@/stores/gameStore";
 
 export default function GameUI() {
@@ -13,6 +14,13 @@ export default function GameUI() {
     setShowSkipLevel,
     setShowInstructions,
   } = useGameStore();
+
+  // 手機版預設收起選單
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.innerWidth < 768) {
+      setMenuCollapsed(true);
+    }
+  }, [setMenuCollapsed]);
 
   if (gameState === "showGreeting") {
     return null;

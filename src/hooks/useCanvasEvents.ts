@@ -15,7 +15,10 @@ import {
 
 export function useCanvasEvents(
   canvasRef: React.RefObject<HTMLCanvasElement | null>
-) {
+): {
+  handleTouchAttackStart: () => void;
+  handleTouchAttackEnd: () => void;
+} {
   const chargeStartRef = useRef<number>(0);
   // 記錄點擊時的偏移量（參考 main.js）
   const dragOffsetRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
@@ -112,41 +115,6 @@ export function useCanvasEvents(
     const player = players[selectedPlayerIndex];
     if (!player) return;
 
-    const { scale } = canvasSize;
-
-    // 只有觸控裝置才在放開時發射雪球
-    if (isTouchDeviceRef.current) {
-      const chargeTime = Date.now() - chargeStartRef.current;
-      const charge = Math.min(1, chargeTime / CHARGE_TIME);
-
-      // 固定朝左上方投擲
-      const finalTargetX = player.x - 500;
-      const finalTargetY = player.y - 500;
-
-      const velocity = calculateThrowVelocity(
-        player.x,
-        player.y,
-        finalTargetX,
-        finalTargetY,
-        charge,
-        SNOWBALL_BASE_SPEED * scale,
-        SNOWBALL_MAX_SPEED * scale
-      );
-
-      const snowball: Snowball = {
-        x: player.x,
-        y: player.y,
-        vx: velocity.vx,
-        vy: velocity.vy,
-        from: 'player',
-        maxDistance: calculateMaxDistance(charge),
-        startX: player.x,
-        startY: player.y,
-      };
-
-      addSnowball(snowball);
-    }
-
     // 玩家留在釋放位置，更新 baseX/baseY 為新位置
     updatePlayer(selectedPlayerIndex, {
       baseX: player.x,
@@ -155,19 +123,13 @@ export function useCanvasEvents(
       charge: 0,
     });
 
-    // PC 端保持選中狀態，觸控裝置取消選中
-    if (isTouchDeviceRef.current) {
-      setSelectedPlayer(null);
-    }
+    // PC 端保持選中狀態，手機端也保持選中（改為使用攻擊按鈕）
     setIsDragging(false);
   }, [
     isDragging,
     selectedPlayerIndex,
     players,
-    canvasSize,
-    addSnowball,
     updatePlayer,
-    setSelectedPlayer,
     setIsDragging,
   ]);
 
@@ -234,6 +196,68 @@ export function useCanvasEvents(
     });
 
     isSpaceChargingRef.current = false;
+    spaceChargeStartRef.current = 0;
+  }, [selectedPlayerIndex, players, canvasSize, addSnowball, updatePlayer]);
+
+  // 觸控攻擊按鈕 - 開始蓄力
+  const handleTouchAttackStart = useCallback(() => {
+    if (gameState !== 'playing') return;
+    if (selectedPlayerIndex === null) return;
+
+    const player = players[selectedPlayerIndex];
+    if (!player || !player.alive || Date.now() < player.stunUntil) return;
+
+    spaceChargeStartRef.current = Date.now();
+    updatePlayer(selectedPlayerIndex, {
+      charging: true,
+      charge: spaceChargeStartRef.current,
+    });
+  }, [gameState, selectedPlayerIndex, players, updatePlayer]);
+
+  // 觸控攻擊按鈕 - 放開發射
+  const handleTouchAttackEnd = useCallback(() => {
+    if (selectedPlayerIndex === null) return;
+
+    const player = players[selectedPlayerIndex];
+    if (!player || !player.charging) return;
+
+    const { scale } = canvasSize;
+    const chargeTime = Date.now() - spaceChargeStartRef.current;
+    const charge = Math.min(1, chargeTime / CHARGE_TIME);
+
+    // 固定朝左上方投擲
+    const finalTargetX = player.x - 500;
+    const finalTargetY = player.y - 500;
+
+    const velocity = calculateThrowVelocity(
+      player.x,
+      player.y,
+      finalTargetX,
+      finalTargetY,
+      charge,
+      SNOWBALL_BASE_SPEED * scale,
+      SNOWBALL_MAX_SPEED * scale
+    );
+
+    const snowball: Snowball = {
+      x: player.x,
+      y: player.y,
+      vx: velocity.vx,
+      vy: velocity.vy,
+      from: 'player',
+      maxDistance: calculateMaxDistance(charge),
+      startX: player.x,
+      startY: player.y,
+    };
+
+    addSnowball(snowball);
+
+    // 重置蓄力狀態
+    updatePlayer(selectedPlayerIndex, {
+      charging: false,
+      charge: 0,
+    });
+
     spaceChargeStartRef.current = 0;
   }, [selectedPlayerIndex, players, canvasSize, addSnowball, updatePlayer]);
 
@@ -328,4 +352,9 @@ export function useCanvasEvents(
     handleSpaceDown,
     handleSpaceUp,
   ]);
+
+  return {
+    handleTouchAttackStart,
+    handleTouchAttackEnd,
+  };
 }

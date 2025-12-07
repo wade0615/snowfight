@@ -4,6 +4,7 @@ import { useRef, useEffect, useState, useCallback } from 'react';
 import { useGameStore } from '@/stores/gameStore';
 import { useGameLoop } from '@/hooks/useGameLoop';
 import { useCanvasEvents } from '@/hooks/useCanvasEvents';
+import AttackButton from '@/components/AttackButton';
 import type { GameImages } from '@/types/game';
 import {
   BASE_WIDTH_DESKTOP,
@@ -149,7 +150,7 @@ export default function GameCanvas() {
 
   // 使用遊戲迴圈和事件處理
   const { handleCanvasClick } = useGameLoop(canvasRef, images);
-  useCanvasEvents(canvasRef);
+  const { handleTouchAttackStart, handleTouchAttackEnd } = useCanvasEvents(canvasRef);
 
   // 處理觸控事件（手機版進入下一關/重新開始）
   const handleTouchEnd = useCallback((e: React.TouchEvent) => {
@@ -175,6 +176,12 @@ export default function GameCanvas() {
           maxWidth: '960px',
           maxHeight: '540px',
         }}
+      />
+
+      {/* 手機版攻擊按鈕 */}
+      <AttackButton
+        onAttackStart={handleTouchAttackStart}
+        onAttackEnd={handleTouchAttackEnd}
       />
 
       {/* 載入中 */}
