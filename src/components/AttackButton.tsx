@@ -11,11 +11,26 @@ interface AttackButtonProps {
 export default function AttackButton({ onAttackStart, onAttackEnd }: AttackButtonProps) {
   const [isCharging, setIsCharging] = useState(false);
   const [chargeProgress, setChargeProgress] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
   const chargeIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const { gameState, selectedPlayerIndex } = useGameStore();
 
+  // 偵測手機裝置
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+
+    return () => {
+      window.removeEventListener('resize', checkMobile);
+    };
+  }, []);
+
   // 只在手機端且遊戲進行中顯示
-  const shouldShow = gameState === 'playing';
+  const shouldShow = isMobile && gameState === 'playing';
 
   const handleTouchStart = (e: React.TouchEvent) => {
     e.preventDefault();
@@ -63,17 +78,12 @@ export default function AttackButton({ onAttackStart, onAttackEnd }: AttackButto
 
   if (!shouldShow) return null;
 
-  // 由於整個畫面在手機版會旋轉 90 度（順時針）
-  // 旋轉前: top-left → 旋轉後: top-right (視覺上的右上角)
-  // 旋轉前: top-right → 旋轉後: bottom-right (視覺上的右下角)
-  // 旋轉前: bottom-right → 旋轉後: bottom-left (視覺上的左下角)
-  // 旋轉前: bottom-left → 旋轉後: top-left (視覺上的左上角)
-  // 因此，視覺上的左下角 = 旋轉前的 bottom-right
-  // 但因為容器旋轉，我們需要從旋轉後的視角考慮
-  // 實際上應該放在 left-6 top-6，旋轉後會變成左下角
+  // 手機版畫面會旋轉 90 度，但按鈕本身也會跟著旋轉
+  // 我們希望按鈕在視覺上（旋轉後）位於左下角
+  // 直接使用 left-6 bottom-6，按鈕會隨容器旋轉到正確位置
   return (
     <div
-      className="fixed left-6 top-6 z-50"
+      className="fixed left-6 bottom-6 z-50"
       style={{
         width: '80px',
         height: '80px',

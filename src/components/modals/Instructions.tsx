@@ -34,11 +34,26 @@ export default function Instructions() {
 
           <section>
             <h3 className="font-bold text-lg mb-2">🎮 操作方式</h3>
-            <ul className="list-disc list-inside space-y-1">
-              <li>點擊並拖曳你的角色（紅色）來瞄準</li>
-              <li>按住越久，投擲距離越遠</li>
-              <li>放開滑鼠/手指來投擲雪球</li>
-            </ul>
+            <div className="space-y-3">
+              <div>
+                <p className="font-semibold text-blue-600 mb-1">💻 電腦版：</p>
+                <ul className="list-disc list-inside space-y-1 ml-2">
+                  <li>滑鼠拖曳紅色角色來移動和選中</li>
+                  <li>按住空白鍵蓄力攻擊</li>
+                  <li>蓄力越久，投擲距離越遠</li>
+                  <li>放開空白鍵發射雪球</li>
+                </ul>
+              </div>
+              <div>
+                <p className="font-semibold text-green-600 mb-1">📱 手機版：</p>
+                <ul className="list-disc list-inside space-y-1 ml-2">
+                  <li>拖曳紅色角色來移動和選中</li>
+                  <li>按住左下角攻擊按鈕蓄力</li>
+                  <li>蓄力越久，投擲距離越遠</li>
+                  <li>放開按鈕發射雪球</li>
+                </ul>
+              </div>
+            </div>
           </section>
 
           <section>
