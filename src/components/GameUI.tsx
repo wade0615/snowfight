@@ -15,10 +15,11 @@ export default function GameUI() {
     setShowInstructions,
   } = useGameStore();
 
-  // 手機版預設收起選單
+  // 根據裝置類型設定選單初始狀態
   useEffect(() => {
-    if (typeof window !== 'undefined' && window.innerWidth < 768) {
-      setMenuCollapsed(true);
+    if (typeof window !== 'undefined') {
+      const isMobile = window.innerWidth < 768;
+      setMenuCollapsed(isMobile); // 手機版收起，PC 版展開
     }
   }, [setMenuCollapsed]);
 
@@ -32,7 +33,7 @@ export default function GameUI() {
       <div
         className={`
           absolute top-4 left-4 z-10
-          bg-white/90 backdrop-blur-sm rounded-lg shadow-lg
+          bg-white/95 backdrop-blur-sm rounded-lg shadow-lg
           transition-all duration-300
           ${menuCollapsed ? "w-12 h-12" : "p-4"}
         `}
@@ -40,7 +41,7 @@ export default function GameUI() {
         {menuCollapsed ? (
           <button
             onClick={() => setMenuCollapsed(false)}
-            className="w-full h-full flex items-center justify-center text-xl"
+            className="w-full h-full flex items-center justify-center text-xl text-gray-800 hover:text-gray-600"
             aria-label="展開選單"
           >
             ☰
@@ -48,43 +49,43 @@ export default function GameUI() {
         ) : (
           <div className="space-y-2">
             <div className="flex justify-between items-center mb-2">
-              <span className="font-bold text-gray-800">遊戲資訊</span>
+              <span className="font-bold text-gray-900">遊戲資訊</span>
               <button
                 onClick={() => setMenuCollapsed(true)}
-                className="text-gray-500 hover:text-gray-700"
+                className="text-gray-600 hover:text-gray-800 text-xl leading-none"
                 aria-label="收合選單"
               >
                 ✕
               </button>
             </div>
 
-            <div className="text-gray-700">
+            <div className="text-gray-800">
               <div className="flex justify-between">
-                <span>關卡:</span>
-                <span className="font-bold">{level}</span>
+                <span className="font-medium">關卡:</span>
+                <span className="font-bold text-blue-600">{level}</span>
               </div>
               <div className="flex justify-between">
-                <span>分數:</span>
-                <span className="font-bold">{score}</span>
+                <span className="font-medium">分數:</span>
+                <span className="font-bold text-green-600">{score}</span>
               </div>
             </div>
 
-            <div className="border-t pt-2 mt-2 space-y-1 text-gray-700">
+            <div className="border-t border-gray-300 pt-2 mt-2 space-y-1">
               <button
                 onClick={() => setShowLeaderboard(true)}
-                className="w-full text-left px-2 py-1 rounded hover:bg-gray-100 text-sm"
+                className="w-full text-left px-2 py-1 rounded hover:bg-gray-200 text-sm text-gray-800 font-medium transition-colors"
               >
                 🏆 排行榜
               </button>
               <button
                 onClick={() => setShowSkipLevel(true)}
-                className="w-full text-left px-2 py-1 rounded hover:bg-gray-100 text-sm"
+                className="w-full text-left px-2 py-1 rounded hover:bg-gray-200 text-sm text-gray-800 font-medium transition-colors"
               >
                 ⏭️ 跳關
               </button>
               <button
                 onClick={() => setShowInstructions(true)}
-                className="w-full text-left px-2 py-1 rounded hover:bg-gray-100 text-sm"
+                className="w-full text-left px-2 py-1 rounded hover:bg-gray-200 text-sm text-gray-800 font-medium transition-colors"
               >
                 ❓ 說明
               </button>
