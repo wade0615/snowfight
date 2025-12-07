@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { useGameStore } from '@/stores/gameStore';
+import { isMobileDevice } from '@/utils/deviceDetection';
 
 interface AttackButtonProps {
   onAttackStart: () => void;
@@ -15,21 +16,12 @@ export default function AttackButton({ onAttackStart, onAttackEnd }: AttackButto
   const chargeIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const { gameState, selectedPlayerIndex } = useGameStore();
 
-  // 偵測手機裝置
+  // 偵測行動裝置
   useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-
-    return () => {
-      window.removeEventListener('resize', checkMobile);
-    };
+    setIsMobile(isMobileDevice());
   }, []);
 
-  // 只在手機端且遊戲進行中顯示
+  // 只在行動裝置且遊戲進行中顯示
   const shouldShow = isMobile && gameState === 'playing';
 
   const handleTouchStart = (e: React.TouchEvent) => {
@@ -78,16 +70,17 @@ export default function AttackButton({ onAttackStart, onAttackEnd }: AttackButto
 
   if (!shouldShow) return null;
 
-  // 手機版畫面會旋轉 90 度，但按鈕本身也會跟著旋轉
-  // 我們希望按鈕在視覺上（旋轉後）位於左下角
-  // 直接使用 left-6 bottom-6，按鈕會隨容器旋轉到正確位置
+  // 手機版畫面會旋轉 90 度，按鈕也會跟著旋轉
+  // 使用 absolute 定位相對於旋轉容器
+  // 在旋轉前的座標系統中，left-6 bottom-6 會在旋轉後顯示在左下角
   return (
     <div
-      className="fixed left-6 bottom-6 z-50"
+      className="absolute left-6 bottom-6 z-50"
       style={{
         width: '80px',
         height: '80px',
         touchAction: 'none',
+        pointerEvents: 'auto', // 確保觸控事件可以被捕獲
       }}
     >
       <div

@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { useGameStore } from "@/stores/gameStore";
+import { isMobileDevice } from "@/utils/deviceDetection";
 
 export default function GameUI() {
   const {
@@ -17,10 +18,8 @@ export default function GameUI() {
 
   // 根據裝置類型設定選單初始狀態
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const isMobile = window.innerWidth < 768;
-      setMenuCollapsed(isMobile); // 手機版收起，PC 版展開
-    }
+    // 使用 User Agent 偵測，行動裝置收起，桌面裝置展開
+    setMenuCollapsed(isMobileDevice());
   }, [setMenuCollapsed]);
 
   if (gameState === "showGreeting") {

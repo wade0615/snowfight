@@ -6,25 +6,14 @@ import GameUI from '@/components/GameUI';
 import Leaderboard from '@/components/modals/Leaderboard';
 import SkipLevel from '@/components/modals/SkipLevel';
 import Instructions from '@/components/modals/Instructions';
+import { isMobileDevice } from '@/utils/deviceDetection';
 
 export default function Home() {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    // 使用螢幕尺寸偵測手機裝置（寬度小於 768px）
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-
-    // 初始檢查
-    checkMobile();
-
-    // 監聽視窗大小變化
-    window.addEventListener('resize', checkMobile);
-
-    return () => {
-      window.removeEventListener('resize', checkMobile);
-    };
+    // 使用 User Agent 偵測行動裝置
+    setIsMobile(isMobileDevice());
   }, []);
 
   return (

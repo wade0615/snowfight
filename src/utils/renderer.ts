@@ -9,6 +9,7 @@ import {
   BARRIER_MAX_HP,
   BOUNDS,
 } from './constants';
+import { isMobileDevice } from './deviceDetection';
 
 // 裝飾用雪堆位置（固定位置，確保敵我雙方區域都有）
 const DECORATIVE_SNOW_PILES = [
@@ -665,8 +666,8 @@ export function drawGreeting(
   ctx.font = '24px Arial';
   ctx.fillStyle = '#333';
 
-  // 檢測是否為手機（使用視窗寬度而非 canvas 寬度）
-  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+  // 使用 User Agent 偵測裝置類型
+  const isMobile = isMobileDevice();
 
   if (isMobile) {
     ctx.fillText('📱 手機版操作：', width / 2, height / 2 - 10);

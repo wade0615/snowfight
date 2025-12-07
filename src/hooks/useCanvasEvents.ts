@@ -12,9 +12,11 @@ import {
   SNOWBALL_MAX_SPEED,
   CHARGE_TIME,
 } from '@/utils/constants';
+import { isMobileDevice } from '@/utils/deviceDetection';
 
 export function useCanvasEvents(
-  canvasRef: React.RefObject<HTMLCanvasElement | null>
+  canvasRef: React.RefObject<HTMLCanvasElement | null>,
+  handleCanvasClick: () => void
 ): {
   handleTouchAttackStart: () => void;
   handleTouchAttackEnd: () => void;
@@ -47,15 +49,43 @@ export function useCanvasEvents(
       if (!canvas) return null;
 
       const rect = canvas.getBoundingClientRect();
-      // 使用 store 中的邏輯尺寸進行座標轉換
       const { width, height } = canvasSize;
-      const scaleX = width / rect.width;
-      const scaleY = height / rect.height;
 
-      return {
-        x: (clientX - rect.left) * scaleX,
-        y: (clientY - rect.top) * scaleY,
-      };
+      // 檢查是否為手機裝置（會旋轉 90 度）
+      const isMobile = isMobileDevice();
+
+      if (isMobile) {
+        // 手機版畫面旋轉了 90 度，需要反向轉換座標
+        // 旋轉後：觸控的 X 對應 canvas 的 Y，觸控的 Y 對應 canvas 的 X（但方向相反）
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+
+        // 計算相對於旋轉中心的偏移
+        const offsetX = clientX - centerX;
+        const offsetY = clientY - centerY;
+
+        // 逆向旋轉 90 度：(x, y) -> (y, -x)
+        const rotatedX = offsetY;
+        const rotatedY = -offsetX;
+
+        // 轉換回 canvas 坐標
+        const scaleX = width / rect.height;  // 注意：旋轉後寬高互換
+        const scaleY = height / rect.width;
+
+        return {
+          x: (rotatedX + rect.height / 2) * scaleX,
+          y: (rotatedY + rect.width / 2) * scaleY,
+        };
+      } else {
+        // PC 版不旋轉，直接轉換
+        const scaleX = width / rect.width;
+        const scaleY = height / rect.height;
+
+        return {
+          x: (clientX - rect.left) * scaleX,
+          y: (clientY - rect.top) * scaleY,
+        };
+      }
     },
     [canvasRef, canvasSize]
   );
@@ -285,6 +315,13 @@ export function useCanvasEvents(
     const onTouchStart = (e: TouchEvent) => {
       e.preventDefault();
       isTouchDeviceRef.current = true; // 標記為觸控裝置
+
+      // 在開場、win、lose 畫面時，直接處理點擊
+      if (gameState === 'showGreeting' || gameState === 'win' || gameState === 'lose') {
+        handleCanvasClick();
+        return;
+      }
+
       const touch = e.touches[0];
       const coords = getCanvasCoords(touch.clientX, touch.clientY);
       if (coords) handlePointerDown(coords.x, coords.y);
@@ -351,6 +388,8 @@ export function useCanvasEvents(
     handlePointerUp,
     handleSpaceDown,
     handleSpaceUp,
+    handleCanvasClick,
+    gameState,
   ]);
 
   return {

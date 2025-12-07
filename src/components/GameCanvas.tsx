@@ -150,16 +150,7 @@ export default function GameCanvas() {
 
   // 使用遊戲迴圈和事件處理
   const { handleCanvasClick } = useGameLoop(canvasRef, images);
-  const { handleTouchAttackStart, handleTouchAttackEnd } = useCanvasEvents(canvasRef);
-
-  // 處理觸控事件（手機版開場/進入下一關/重新開始）
-  const handleTouchEnd = useCallback((e: React.TouchEvent) => {
-    // 在開場、win、lose 狀態下處理，避免與遊戲中的拖曳操作衝突
-    if (gameState === 'showGreeting' || gameState === 'win' || gameState === 'lose') {
-      e.preventDefault();
-      handleCanvasClick();
-    }
-  }, [gameState, handleCanvasClick]);
+  const { handleTouchAttackStart, handleTouchAttackEnd } = useCanvasEvents(canvasRef, handleCanvasClick);
 
   return (
     <div
@@ -170,11 +161,11 @@ export default function GameCanvas() {
       <canvas
         ref={canvasRef}
         onClick={handleCanvasClick}
-        onTouchEnd={handleTouchEnd}
         className="shadow-2xl cursor-pointer"
         style={{
           maxWidth: '960px',
           maxHeight: '540px',
+          touchAction: 'none', // 防止瀏覽器預設的觸控行為
         }}
       />
 
