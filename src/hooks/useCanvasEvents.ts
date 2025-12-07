@@ -19,6 +19,11 @@ export function useCanvasEvents(
   const chargeStartRef = useRef<number>(0);
   // 記錄點擊時的偏移量（參考 main.js）
   const dragOffsetRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
+  // 用於區分 PC 和移動端
+  const isTouchDeviceRef = useRef<boolean>(false);
+  // 空白鍵蓄力相關
+  const spaceChargeStartRef = useRef<number>(0);
+  const isSpaceChargingRef = useRef<boolean>(false);
 
   const {
     gameState,
@@ -108,7 +113,91 @@ export function useCanvasEvents(
     if (!player) return;
 
     const { scale } = canvasSize;
-    const chargeTime = Date.now() - chargeStartRef.current;
+
+    // 只有觸控裝置才在放開時發射雪球
+    if (isTouchDeviceRef.current) {
+      const chargeTime = Date.now() - chargeStartRef.current;
+      const charge = Math.min(1, chargeTime / CHARGE_TIME);
+
+      // 固定朝左上方投擲
+      const finalTargetX = player.x - 500;
+      const finalTargetY = player.y - 500;
+
+      const velocity = calculateThrowVelocity(
+        player.x,
+        player.y,
+        finalTargetX,
+        finalTargetY,
+        charge,
+        SNOWBALL_BASE_SPEED * scale,
+        SNOWBALL_MAX_SPEED * scale
+      );
+
+      const snowball: Snowball = {
+        x: player.x,
+        y: player.y,
+        vx: velocity.vx,
+        vy: velocity.vy,
+        from: 'player',
+        maxDistance: calculateMaxDistance(charge),
+        startX: player.x,
+        startY: player.y,
+      };
+
+      addSnowball(snowball);
+    }
+
+    // 玩家留在釋放位置，更新 baseX/baseY 為新位置
+    updatePlayer(selectedPlayerIndex, {
+      baseX: player.x,
+      baseY: player.y,
+      charging: false,
+      charge: 0,
+    });
+
+    // PC 端保持選中狀態，觸控裝置取消選中
+    if (isTouchDeviceRef.current) {
+      setSelectedPlayer(null);
+    }
+    setIsDragging(false);
+  }, [
+    isDragging,
+    selectedPlayerIndex,
+    players,
+    canvasSize,
+    addSnowball,
+    updatePlayer,
+    setSelectedPlayer,
+    setIsDragging,
+  ]);
+
+  // 處理空白鍵按下（開始蓄力）
+  const handleSpaceDown = useCallback(() => {
+    if (gameState !== 'playing') return;
+    if (selectedPlayerIndex === null) return;
+    if (isSpaceChargingRef.current) return; // 防止重複觸發
+
+    const player = players[selectedPlayerIndex];
+    if (!player || !player.alive || Date.now() < player.stunUntil) return;
+
+    isSpaceChargingRef.current = true;
+    spaceChargeStartRef.current = Date.now();
+    updatePlayer(selectedPlayerIndex, {
+      charging: true,
+      charge: spaceChargeStartRef.current,
+    });
+  }, [gameState, selectedPlayerIndex, players, updatePlayer]);
+
+  // 處理空白鍵放開（發射雪球）
+  const handleSpaceUp = useCallback(() => {
+    if (!isSpaceChargingRef.current) return;
+    if (selectedPlayerIndex === null) return;
+
+    const player = players[selectedPlayerIndex];
+    if (!player) return;
+
+    const { scale } = canvasSize;
+    const chargeTime = Date.now() - spaceChargeStartRef.current;
     const charge = Math.min(1, chargeTime / CHARGE_TIME);
 
     // 固定朝左上方投擲
@@ -138,26 +227,15 @@ export function useCanvasEvents(
 
     addSnowball(snowball);
 
-    // 玩家留在釋放位置，更新 baseX/baseY 為新位置
+    // 重置蓄力狀態
     updatePlayer(selectedPlayerIndex, {
-      baseX: player.x,
-      baseY: player.y,
       charging: false,
       charge: 0,
     });
 
-    setSelectedPlayer(null);
-    setIsDragging(false);
-  }, [
-    isDragging,
-    selectedPlayerIndex,
-    players,
-    canvasSize,
-    addSnowball,
-    updatePlayer,
-    setSelectedPlayer,
-    setIsDragging,
-  ]);
+    isSpaceChargingRef.current = false;
+    spaceChargeStartRef.current = 0;
+  }, [selectedPlayerIndex, players, canvasSize, addSnowball, updatePlayer]);
 
   // 綁定事件
   useEffect(() => {
@@ -182,6 +260,7 @@ export function useCanvasEvents(
     // Touch events
     const onTouchStart = (e: TouchEvent) => {
       e.preventDefault();
+      isTouchDeviceRef.current = true; // 標記為觸控裝置
       const touch = e.touches[0];
       const coords = getCanvasCoords(touch.clientX, touch.clientY);
       if (coords) handlePointerDown(coords.x, coords.y);
@@ -199,6 +278,21 @@ export function useCanvasEvents(
       handlePointerUp();
     };
 
+    // Keyboard events (全局監聽，因為 canvas 不一定有焦點)
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.code === 'Space' || e.key === ' ') {
+        e.preventDefault(); // 防止頁面滾動
+        handleSpaceDown();
+      }
+    };
+
+    const onKeyUp = (e: KeyboardEvent) => {
+      if (e.code === 'Space' || e.key === ' ') {
+        e.preventDefault();
+        handleSpaceUp();
+      }
+    };
+
     canvas.addEventListener('mousedown', onMouseDown);
     canvas.addEventListener('mousemove', onMouseMove);
     canvas.addEventListener('mouseup', onMouseUp);
@@ -207,6 +301,10 @@ export function useCanvasEvents(
     canvas.addEventListener('touchstart', onTouchStart, { passive: false });
     canvas.addEventListener('touchmove', onTouchMove, { passive: false });
     canvas.addEventListener('touchend', onTouchEnd, { passive: false });
+
+    // 鍵盤事件綁定到 window，確保不會漏掉
+    window.addEventListener('keydown', onKeyDown);
+    window.addEventListener('keyup', onKeyUp);
 
     return () => {
       canvas.removeEventListener('mousedown', onMouseDown);
@@ -217,6 +315,9 @@ export function useCanvasEvents(
       canvas.removeEventListener('touchstart', onTouchStart);
       canvas.removeEventListener('touchmove', onTouchMove);
       canvas.removeEventListener('touchend', onTouchEnd);
+
+      window.removeEventListener('keydown', onKeyDown);
+      window.removeEventListener('keyup', onKeyUp);
     };
   }, [
     canvasRef,
@@ -224,5 +325,7 @@ export function useCanvasEvents(
     handlePointerDown,
     handlePointerMove,
     handlePointerUp,
+    handleSpaceDown,
+    handleSpaceUp,
   ]);
 }
