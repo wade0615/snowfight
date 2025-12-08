@@ -17,7 +17,6 @@ export default function Home() {
       <div
         className="relative transition-transform duration-300"
         style={{
-          transform: isMobile ? 'rotate(90deg)' : 'none',
           // 手機版：填滿整個 viewport，旋轉後會正確顯示
           width: isMobile ? '100vh' : '100%',
           height: isMobile ? '100vw' : '100%',
@@ -27,7 +26,9 @@ export default function Home() {
             left: '50%',
             top: '50%',
             transform: 'translate(-50%, -50%) rotate(90deg)',
-          } : {}),
+          } : {
+            transform: 'none',
+          }),
         }}
       >
         <GameCanvas />
