@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import GameCanvas from '@/components/GameCanvas';
 import GameUI from '@/components/GameUI';
 import Leaderboard from '@/components/modals/Leaderboard';
@@ -9,8 +9,16 @@ import Instructions from '@/components/modals/Instructions';
 import { isMobileDevice } from '@/utils/deviceDetection';
 
 export default function Home() {
-  // 直接在初始化時偵測，避免 useEffect 中的 setState
-  const [isMobile] = useState(() => isMobileDevice());
+  // 使用 useState 初始化為 false，避免 SSR hydration mismatch
+  const [isMobile, setIsMobile] = useState(false);
+
+  // 在客戶端掛載後檢測裝置類型
+  // 使用 requestAnimationFrame 延遲到下一幀更新，避免在 effect 中直接 setState
+  useEffect(() => {
+    requestAnimationFrame(() => {
+      setIsMobile(isMobileDevice());
+    });
+  }, []);
 
   return (
     <main className={`w-screen h-screen bg-gray-900 overflow-hidden ${isMobile ? '' : 'flex items-center justify-center'}`}>
