@@ -263,7 +263,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
   getLeaderboard: () => {
     if (typeof window === 'undefined') return [];
     try {
-      const data = localStorage.getItem('snowcraft-leaderboard');
+      const data = localStorage.getItem('snowball-fight-leaderboard');
       return data ? JSON.parse(data) : [];
     } catch {
       return [];
@@ -282,11 +282,11 @@ export const useGameStore = create<GameStore>((set, get) => ({
     leaderboard.push(entry);
     leaderboard.sort((a, b) => b.score - a.score);
     const top10 = leaderboard.slice(0, 10);
-    localStorage.setItem('snowcraft-leaderboard', JSON.stringify(top10));
+    localStorage.setItem('snowball-fight-leaderboard', JSON.stringify(top10));
   },
 
   clearLeaderboard: () => {
     if (typeof window === 'undefined') return;
-    localStorage.removeItem('snowcraft-leaderboard');
+    localStorage.removeItem('snowball-fight-leaderboard');
   },
 }));

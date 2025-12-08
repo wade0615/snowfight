@@ -1,4 +1,4 @@
-# SnowCraft - 雪球大戰
+# Snowball Fight - 雪球大戰
 
 一款有趣的網頁打雪仗遊戲，支援電腦和手機！
 
@@ -78,7 +78,7 @@ npm start
 
 可直接部署至 [Vercel](https://vercel.com)：
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/cruxover/snowcraft)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/cruxover/snowball-fight)
 
 ## 授權
 
