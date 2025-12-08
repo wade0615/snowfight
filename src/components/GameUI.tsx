@@ -31,7 +31,7 @@ export default function GameUI() {
       {/* 遊戲資訊面板 */}
       <div
         className={`
-          absolute top-4 left-4 z-10
+          absolute top-4 left-10 z-10
           bg-white/95 backdrop-blur-sm rounded-lg shadow-lg
           transition-all duration-300
           ${menuCollapsed ? "w-12 h-12" : "p-4"}
