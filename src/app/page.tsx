@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react';
 import GameCanvas from '@/components/GameCanvas';
 import GameUI from '@/components/GameUI';
 import Leaderboard from '@/components/modals/Leaderboard';
-import SkipLevel from '@/components/modals/SkipLevel';
 import Instructions from '@/components/modals/Instructions';
 import { isMobileDevice } from '@/utils/deviceDetection';
 
@@ -42,7 +41,6 @@ export default function Home() {
         <GameCanvas />
         <GameUI />
         <Leaderboard />
-        <SkipLevel />
         <Instructions />
       </div>
     </main>

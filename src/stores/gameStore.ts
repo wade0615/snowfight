@@ -37,10 +37,8 @@ interface GameStore {
 
   // UI 狀態
   showLeaderboard: boolean;
-  showSkipLevel: boolean;
   showInstructions: boolean;
   menuCollapsed: boolean;
-  skipToLevel: number;
 
   // 載入狀態
   isLoading: boolean;
@@ -71,10 +69,8 @@ interface GameStore {
   setCanvasSize: (size: CanvasSize) => void;
 
   setShowLeaderboard: (show: boolean) => void;
-  setShowSkipLevel: (show: boolean) => void;
   setShowInstructions: (show: boolean) => void;
   setMenuCollapsed: (collapsed: boolean) => void;
-  setSkipToLevel: (level: number) => void;
 
   setIsLoading: (loading: boolean) => void;
   setLoadingProgress: (progress: number) => void;
@@ -158,10 +154,8 @@ export const useGameStore = create<GameStore>((set, get) => ({
   },
 
   showLeaderboard: false,
-  showSkipLevel: false,
   showInstructions: false,
   menuCollapsed: false,
-  skipToLevel: 1,
 
   isLoading: true,
   loadingProgress: 0,
@@ -240,10 +234,8 @@ export const useGameStore = create<GameStore>((set, get) => ({
   setCanvasSize: (size) => set({ canvasSize: size }),
 
   setShowLeaderboard: (show) => set({ showLeaderboard: show }),
-  setShowSkipLevel: (show) => set({ showSkipLevel: show }),
   setShowInstructions: (show) => set({ showInstructions: show }),
   setMenuCollapsed: (collapsed) => set({ menuCollapsed: collapsed }),
-  setSkipToLevel: (level) => set({ skipToLevel: level }),
 
   setIsLoading: (loading) => set({ isLoading: loading }),
   setLoadingProgress: (progress) => set({ loadingProgress: progress }),

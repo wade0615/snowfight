@@ -12,7 +12,6 @@ export default function GameUI() {
     menuCollapsed,
     setMenuCollapsed,
     setShowLeaderboard,
-    setShowSkipLevel,
     setShowInstructions,
   } = useGameStore();
 
@@ -75,12 +74,6 @@ export default function GameUI() {
                 className="w-full text-left px-2 py-1 rounded hover:bg-gray-200 text-sm text-gray-800 font-medium transition-colors"
               >
                 🏆 排行榜
-              </button>
-              <button
-                onClick={() => setShowSkipLevel(true)}
-                className="w-full text-left px-2 py-1 rounded hover:bg-gray-200 text-sm text-gray-800 font-medium transition-colors"
-              >
-                ⏭️ 跳關
               </button>
               <button
                 onClick={() => setShowInstructions(true)}
