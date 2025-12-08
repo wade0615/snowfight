@@ -8,6 +8,7 @@ export const metadata: Metadata = {
     'snowball fight',
     'snowball game',
     'snowfight',
+    'snowcraft',
     '雪球戰爭',
     '雪球大戰',
     '打雪仗',
