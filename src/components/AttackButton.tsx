@@ -1,15 +1,18 @@
-'use client';
+"use client";
 
-import { useEffect, useRef, useState } from 'react';
-import { useGameStore } from '@/stores/gameStore';
-import { isMobileDevice } from '@/utils/deviceDetection';
+import { useEffect, useRef, useState } from "react";
+import { useGameStore } from "@/stores/gameStore";
+import { isMobileDevice } from "@/utils/deviceDetection";
 
 interface AttackButtonProps {
   onAttackStart: () => void;
   onAttackEnd: () => void;
 }
 
-export default function AttackButton({ onAttackStart, onAttackEnd }: AttackButtonProps) {
+export default function AttackButton({
+  onAttackStart,
+  onAttackEnd,
+}: AttackButtonProps) {
   const [isCharging, setIsCharging] = useState(false);
   const [chargeProgress, setChargeProgress] = useState(0);
   // 直接在初始化時偵測，避免 useEffect 中的 setState
@@ -18,7 +21,7 @@ export default function AttackButton({ onAttackStart, onAttackEnd }: AttackButto
   const { gameState, selectedPlayerIndex } = useGameStore();
 
   // 只在行動裝置且遊戲進行中顯示
-  const shouldShow = isMobile && gameState === 'playing';
+  const shouldShow = isMobile && gameState === "playing";
 
   const handleTouchStart = (e: React.TouchEvent) => {
     e.preventDefault();
@@ -68,15 +71,15 @@ export default function AttackButton({ onAttackStart, onAttackEnd }: AttackButto
 
   // 手機版畫面會旋轉 90 度，按鈕也會跟著旋轉
   // 使用 absolute 定位相對於旋轉容器
-  // 在旋轉前的座標系統中，left-6 bottom-6 會在旋轉後顯示在左下角
+  // 在旋轉前的座標系統中，left-12 bottom-6 會在旋轉後顯示在左下角
   return (
     <div
-      className="absolute left-6 bottom-6 z-50"
+      className="absolute left-12 bottom-6 z-50"
       style={{
-        width: '80px',
-        height: '80px',
-        touchAction: 'none',
-        pointerEvents: 'auto', // 確保觸控事件可以被捕獲
+        width: "80px",
+        height: "80px",
+        touchAction: "none",
+        pointerEvents: "auto", // 確保觸控事件可以被捕獲
       }}
     >
       <div
@@ -87,22 +90,24 @@ export default function AttackButton({ onAttackStart, onAttackEnd }: AttackButto
           relative w-full h-full rounded-full
           flex items-center justify-center
           transition-all duration-150
-          ${selectedPlayerIndex === null
-            ? 'bg-gray-400/30 cursor-not-allowed'
-            : isCharging
-              ? 'bg-blue-500/60 scale-110'
-              : 'bg-blue-500/40 active:scale-95'
+          ${
+            selectedPlayerIndex === null
+              ? "bg-gray-400/30 cursor-not-allowed"
+              : isCharging
+              ? "bg-blue-500/60 scale-110"
+              : "bg-blue-500/40 active:scale-95"
           }
           border-2 border-white/50
           shadow-lg
         `}
         style={{
-          background: selectedPlayerIndex !== null && isCharging
-            ? `conic-gradient(
+          background:
+            selectedPlayerIndex !== null && isCharging
+              ? `conic-gradient(
                 rgba(59, 130, 246, 0.8) ${chargeProgress}%,
                 rgba(59, 130, 246, 0.3) ${chargeProgress}%
               )`
-            : undefined,
+              : undefined,
         }}
       >
         {/* 內圈 */}
