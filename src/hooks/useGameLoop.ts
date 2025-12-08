@@ -187,7 +187,8 @@ export function useGameLoop(
 
     // 根據遊戲狀態繪製
     if (gameState === 'showGreeting') {
-      drawGreeting(ctx, width, height);
+      const { t } = useGameStore.getState();
+      drawGreeting(ctx, width, height, t);
     } else {
       // 繪製掩體（雪堆）
       barriers.forEach((barrier) => {

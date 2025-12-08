@@ -13,6 +13,9 @@ export default function GameUI() {
     setMenuCollapsed,
     setShowLeaderboard,
     setShowInstructions,
+    t,
+    language,
+    setLanguage,
   } = useGameStore();
 
   // 根據裝置類型設定選單初始狀態
@@ -47,11 +50,11 @@ export default function GameUI() {
         ) : (
           <div className="space-y-2">
             <div className="flex justify-between items-center mb-2">
-              <span className="font-bold text-gray-900">遊戲資訊</span>
+              <span className="font-bold text-gray-900">{t.gameInfo}</span>
               <button
                 onClick={() => setMenuCollapsed(true)}
                 className="text-gray-600 hover:text-gray-800 text-xl leading-none"
-                aria-label="收合選單"
+                aria-label="Close menu"
               >
                 ✕
               </button>
@@ -59,11 +62,11 @@ export default function GameUI() {
 
             <div className="text-gray-800">
               <div className="flex justify-between">
-                <span className="font-medium">關卡:</span>
+                <span className="font-medium">{t.level}:</span>
                 <span className="font-bold text-blue-600">{level}</span>
               </div>
               <div className="flex justify-between">
-                <span className="font-medium">分數:</span>
+                <span className="font-medium">{t.score}:</span>
                 <span className="font-bold text-green-600">{score}</span>
               </div>
             </div>
@@ -73,14 +76,40 @@ export default function GameUI() {
                 onClick={() => setShowLeaderboard(true)}
                 className="w-full text-left px-2 py-1 rounded hover:bg-gray-200 text-sm text-gray-800 font-medium transition-colors"
               >
-                🏆 排行榜
+                🏆 {t.leaderboard}
               </button>
               <button
                 onClick={() => setShowInstructions(true)}
                 className="w-full text-left px-2 py-1 rounded hover:bg-gray-200 text-sm text-gray-800 font-medium transition-colors"
               >
-                ❓ 說明
+                ❓ {t.instructions}
               </button>
+            </div>
+
+            <div className="border-t border-gray-300 pt-2 mt-2">
+              <div className="text-xs text-gray-600 mb-1">{t.language}</div>
+              <div className="flex gap-1">
+                <button
+                  onClick={() => setLanguage('zh')}
+                  className={`flex-1 px-2 py-1 rounded text-sm font-medium transition-colors ${
+                    language === 'zh'
+                      ? 'bg-blue-500 text-white'
+                      : 'bg-gray-200 text-gray-800 hover:bg-gray-300'
+                  }`}
+                >
+                  {t.chinese}
+                </button>
+                <button
+                  onClick={() => setLanguage('en')}
+                  className={`flex-1 px-2 py-1 rounded text-sm font-medium transition-colors ${
+                    language === 'en'
+                      ? 'bg-blue-500 text-white'
+                      : 'bg-gray-200 text-gray-800 hover:bg-gray-300'
+                  }`}
+                >
+                  {t.english}
+                </button>
+              </div>
             </div>
           </div>
         )}

@@ -18,7 +18,7 @@ export default function AttackButton({
   // 直接在初始化時偵測，避免 useEffect 中的 setState
   const [isMobile] = useState(() => isMobileDevice());
   const chargeIntervalRef = useRef<NodeJS.Timeout | null>(null);
-  const { gameState, selectedPlayerIndex } = useGameStore();
+  const { gameState, selectedPlayerIndex, t } = useGameStore();
 
   // 只在行動裝置且遊戲進行中顯示
   const shouldShow = isMobile && gameState === "playing";
@@ -119,7 +119,7 @@ export default function AttackButton({
         {/* 提示文字 */}
         {selectedPlayerIndex === null && (
           <div className="absolute -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap text-xs text-white/70 bg-black/40 px-2 py-1 rounded">
-            先選擇角色
+            {t.attackButtonHint}
           </div>
         )}
       </div>

@@ -632,7 +632,8 @@ export function drawGameOver(
 export function drawGreeting(
   ctx: CanvasRenderingContext2D,
   width: number,
-  height: number
+  height: number,
+  t: { greetingTitle: string; greetingControlsPC: string; greetingControlsPCDesc: string; greetingControlsMobile: string; greetingControlsMobileDesc: string; greetingStart: string }
 ): void {
   ctx.save();
   ctx.fillStyle = COLORS.ui.text;
@@ -641,7 +642,7 @@ export function drawGreeting(
 
   // 標題
   ctx.font = 'bold 72px Arial';
-  ctx.fillText('❄️ 打雪仗 ❄️', width / 2, height / 2 - 80);
+  ctx.fillText(t.greetingTitle, width / 2, height / 2 - 80);
 
   // 操作說明
   ctx.font = '24px Arial';
@@ -651,19 +652,19 @@ export function drawGreeting(
   const isMobile = isMobileDevice();
 
   if (isMobile) {
-    ctx.fillText('📱 手機版操作：', width / 2, height / 2 - 10);
+    ctx.fillText(t.greetingControlsMobile, width / 2, height / 2 - 10);
     ctx.font = '20px Arial';
-    ctx.fillText('拖曳角色移動 → 按住左下角按鈕蓄力', width / 2, height / 2 + 20);
+    ctx.fillText(t.greetingControlsMobileDesc, width / 2, height / 2 + 20);
   } else {
-    ctx.fillText('💻 電腦版操作：', width / 2, height / 2 - 10);
+    ctx.fillText(t.greetingControlsPC, width / 2, height / 2 - 10);
     ctx.font = '20px Arial';
-    ctx.fillText('滑鼠拖曳角色移動 → 空白鍵蓄力攻擊', width / 2, height / 2 + 20);
+    ctx.fillText(t.greetingControlsPCDesc, width / 2, height / 2 + 20);
   }
 
   // 開始提示
   ctx.font = 'bold 28px Arial';
   ctx.fillStyle = '#0066cc';
-  ctx.fillText('點擊畫面開始遊戲！', width / 2, height / 2 + 80);
+  ctx.fillText(t.greetingStart, width / 2, height / 2 + 80);
 
   ctx.restore();
 }

@@ -14,6 +14,8 @@ import {
   BASE_HEIGHT_DESKTOP,
   BASE_PLAYER_RADIUS,
 } from '@/utils/constants';
+import type { Language, Translations } from '@/utils/i18n';
+import { translations, getBrowserLanguage, getStoredLanguage, setStoredLanguage } from '@/utils/i18n';
 
 interface GameStore {
   // 遊戲狀態
@@ -43,6 +45,10 @@ interface GameStore {
   // 載入狀態
   isLoading: boolean;
   loadingProgress: number;
+
+  // 語言
+  language: Language;
+  t: Translations;
 
   // Actions
   setGameState: (state: GameState) => void;
@@ -74,6 +80,8 @@ interface GameStore {
 
   setIsLoading: (loading: boolean) => void;
   setLoadingProgress: (progress: number) => void;
+
+  setLanguage: (lang: Language) => void;
 
   startLevel: (level: number) => void;
   resetGame: () => void;
@@ -132,35 +140,43 @@ const createInitialEnemy = (index: number, total: number, canvasWidth: number, c
   };
 };
 
-export const useGameStore = create<GameStore>((set, get) => ({
-  // 初始狀態
-  gameState: 'showGreeting',
-  level: 1,
-  score: 0,
-  greetingStartTime: 0,
+export const useGameStore = create<GameStore>((set, get) => {
+  // 初始化語言：優先使用儲存的語言，否則使用瀏覽器語言
+  const initialLanguage = getStoredLanguage() || getBrowserLanguage();
 
-  players: [],
-  enemies: [],
-  snowballs: [],
-  barriers: [],
+  return {
+    // 初始狀態
+    gameState: 'showGreeting',
+    level: 1,
+    score: 0,
+    greetingStartTime: 0,
 
-  selectedPlayerIndex: null,
-  isDragging: false,
+    players: [],
+    enemies: [],
+    snowballs: [],
+    barriers: [],
 
-  canvasSize: {
-    width: BASE_WIDTH_DESKTOP,
-    height: BASE_HEIGHT_DESKTOP,
-    scale: 1,
-  },
+    selectedPlayerIndex: null,
+    isDragging: false,
 
-  showLeaderboard: false,
-  showInstructions: false,
-  menuCollapsed: false,
+    canvasSize: {
+      width: BASE_WIDTH_DESKTOP,
+      height: BASE_HEIGHT_DESKTOP,
+      scale: 1,
+    },
 
-  isLoading: true,
-  loadingProgress: 0,
+    showLeaderboard: false,
+    showInstructions: false,
+    menuCollapsed: false,
 
-  // Actions
+    isLoading: true,
+    loadingProgress: 0,
+
+    // 語言
+    language: initialLanguage,
+    t: translations[initialLanguage],
+
+    // Actions
   setGameState: (state) => set({ gameState: state }),
   setLevel: (level) => set({ level }),
   setScore: (score) => set({ score }),
@@ -240,6 +256,11 @@ export const useGameStore = create<GameStore>((set, get) => ({
   setIsLoading: (loading) => set({ isLoading: loading }),
   setLoadingProgress: (progress) => set({ loadingProgress: progress }),
 
+  setLanguage: (lang) => {
+    setStoredLanguage(lang);
+    set({ language: lang, t: translations[lang] });
+  },
+
   startLevel: (level) => {
     const enemyCount = ENEMY_START_COUNT + (level - 1) * ENEMY_ADD_PER_LEVEL;
     get().initPlayers();
@@ -289,4 +310,5 @@ export const useGameStore = create<GameStore>((set, get) => ({
     if (typeof window === 'undefined') return;
     localStorage.removeItem('snowball-fight-leaderboard');
   },
-}));
+};
+});
