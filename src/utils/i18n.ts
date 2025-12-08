@@ -54,8 +54,12 @@ export interface Translations {
 
   // 遊戲狀態
   levelComplete: string;
+  levelCompleted: string;
+  clickToNextLevel: string;
   gameOver: string;
-  clickToStart: string;
+  finalScore: string;
+  reachedLevel: string;
+  clickToRestart: string;
 
   // 開場畫面
   greetingTitle: string;
@@ -123,9 +127,13 @@ export const translations: Record<Language, Translations> = {
     instructionsClose: '了解了！',
 
     // 遊戲狀態
-    levelComplete: '過關！',
-    gameOver: '遊戲結束',
-    clickToStart: '點擊開始',
+    levelComplete: '🎉 過關！',
+    levelCompleted: '關完成',
+    clickToNextLevel: '點擊任意處進入下一關',
+    gameOver: '💀 遊戲結束',
+    finalScore: '最終分數',
+    reachedLevel: '到達第',
+    clickToRestart: '點擊任意處重新開始',
 
     // 開場畫面
     greetingTitle: '❄️ 打雪仗 ❄️',
@@ -192,9 +200,13 @@ export const translations: Record<Language, Translations> = {
     instructionsClose: 'Got it!',
 
     // 遊戲狀態
-    levelComplete: 'Level Complete!',
-    gameOver: 'Game Over',
-    clickToStart: 'Click to Start',
+    levelComplete: '🎉 Level Complete!',
+    levelCompleted: 'completed',
+    clickToNextLevel: 'Click anywhere to continue',
+    gameOver: '💀 Game Over',
+    finalScore: 'Final Score',
+    reachedLevel: 'Reached Level',
+    clickToRestart: 'Click anywhere to restart',
 
     // 開場畫面
     greetingTitle: '❄️ Snowball Fight ❄️',

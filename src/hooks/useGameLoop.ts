@@ -212,9 +212,11 @@ export function useGameLoop(
 
       // 繪製遊戲結束畫面
       if (gameState === 'win') {
-        drawGameOver(ctx, true, level, score, width, height);
+        const { t } = useGameStore.getState();
+        drawGameOver(ctx, true, level, score, width, height, t);
       } else if (gameState === 'lose') {
-        drawGameOver(ctx, false, level, score, width, height);
+        const { t } = useGameStore.getState();
+        drawGameOver(ctx, false, level, score, width, height, t);
       }
     }
   }, [gameState, players, enemies, snowballs, barriers, level, score, canvasSize, images]);

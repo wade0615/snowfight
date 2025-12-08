@@ -599,7 +599,8 @@ export function drawGameOver(
   level: number,
   score: number,
   width: number,
-  height: number
+  height: number,
+  t: { levelComplete: string; levelCompleted: string; clickToNextLevel: string; gameOver: string; finalScore: string; reachedLevel: string; clickToRestart: string }
 ): void {
   // 半透明覆蓋
   ctx.fillStyle = COLORS.ui.overlay;
@@ -612,17 +613,17 @@ export function drawGameOver(
 
   if (isWin) {
     ctx.font = 'bold 64px Arial';
-    ctx.fillText('🎉 過關！', width / 2, height / 2 - 40);
+    ctx.fillText(t.levelComplete, width / 2, height / 2 - 40);
     ctx.font = '32px Arial';
-    ctx.fillText(`第 ${level} 關完成`, width / 2, height / 2 + 20);
-    ctx.fillText('點擊任意處進入下一關', width / 2, height / 2 + 70);
+    ctx.fillText(`${level} ${t.levelCompleted}`, width / 2, height / 2 + 20);
+    ctx.fillText(t.clickToNextLevel, width / 2, height / 2 + 70);
   } else {
     ctx.font = 'bold 64px Arial';
-    ctx.fillText('💀 遊戲結束', width / 2, height / 2 - 60);
+    ctx.fillText(t.gameOver, width / 2, height / 2 - 60);
     ctx.font = '32px Arial';
-    ctx.fillText(`最終分數: ${score}`, width / 2, height / 2);
-    ctx.fillText(`到達第 ${level} 關`, width / 2, height / 2 + 40);
-    ctx.fillText('點擊任意處重新開始', width / 2, height / 2 + 100);
+    ctx.fillText(`${t.finalScore}: ${score}`, width / 2, height / 2);
+    ctx.fillText(`${t.reachedLevel} ${level}`, width / 2, height / 2 + 40);
+    ctx.fillText(t.clickToRestart, width / 2, height / 2 + 100);
   }
 
   ctx.restore();
