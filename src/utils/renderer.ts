@@ -161,25 +161,6 @@ function drawPlayerAreaBoundary(
   ctx.restore();
 }
 
-// 繪製雪堆
-function drawSnowPiles(
-  ctx: CanvasRenderingContext2D,
-  width: number,
-  height: number
-): void {
-  ctx.fillStyle = '#F8F8F8';
-
-  // 左側雪堆
-  ctx.beginPath();
-  ctx.ellipse(width * 0.1, height * 0.88, width * 0.08, height * 0.04, 0, 0, Math.PI * 2);
-  ctx.fill();
-
-  // 右側雪堆
-  ctx.beginPath();
-  ctx.ellipse(width * 0.9, height * 0.86, width * 0.1, height * 0.05, 0, 0, Math.PI * 2);
-  ctx.fill();
-}
-
 // 繪製玩家 (使用色塊)
 export function drawPlayer(
   ctx: CanvasRenderingContext2D,

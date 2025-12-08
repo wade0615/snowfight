@@ -20,7 +20,6 @@ import {
 } from '@/utils/physics';
 import { updateEnemyAI, handleEnemyHit, setLevelStartTime } from '@/utils/enemyAI';
 import {
-  GREETING_DURATION,
   STUN_DURATION,
   CHARGE_TIME,
   SCORE_PER_HIT,
@@ -31,15 +30,12 @@ export function useGameLoop(
   images: GameImages
 ) {
   const animationFrameRef = useRef<number>(0);
-  const lastTimeRef = useRef<number>(0);
 
   const {
     gameState,
     setGameState,
     level,
     score,
-    greetingStartTime,
-    setGreetingStartTime,
     players,
     enemies,
     snowballs,
@@ -49,13 +45,11 @@ export function useGameLoop(
     updateBarrier,
     addSnowball,
     removeSnowball,
-    clearSnowballs,
     addScore,
     canvasSize,
     startLevel,
     resetGame,
     addScoreToLeaderboard,
-    selectedPlayerIndex,
   } = useGameStore();
 
   // 更新蓄力中的玩家
@@ -224,55 +218,49 @@ export function useGameLoop(
     }
   }, [gameState, players, enemies, snowballs, barriers, level, score, canvasSize, images]);
 
-  // 遊戲主迴圈
-  const gameLoop = useCallback((timestamp: number) => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
+  // 遊戲主迴圈 - 使用 useRef 存儲最新的函數避免 immutability 問題
+  const gameLoopRef = useRef<((timestamp: number) => void) | null>(null);
 
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
+  // 使用 useEffect 更新 gameLoopRef，避免在 render 期間更新 ref
+  useEffect(() => {
+    gameLoopRef.current = (timestamp: number) => {
+      const canvas = canvasRef.current;
+      if (!canvas) return;
 
-    const now = timestamp;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return;
 
-    // 開場畫面不自動開始，等待玩家點擊
-    // （點擊處理在 handleCanvasClick 中）
+      const now = timestamp;
 
-    // 遊戲進行中更新邏輯
-    if (gameState === 'playing') {
-      updateChargingPlayers(now);
-      updateSnowballs(now);
-      updateEnemies(now);
-      checkGameEnd();
-    }
+      // 開場畫面不自動開始，等待玩家點擊
+      // （點擊處理在 handleCanvasClick 中）
 
-    // 渲染
-    render(ctx, now);
+      // 遊戲進行中更新邏輯
+      if (gameState === 'playing') {
+        updateChargingPlayers(now);
+        updateSnowballs(now);
+        updateEnemies(now);
+        checkGameEnd();
+      }
 
-    // 繼續下一幀
-    animationFrameRef.current = requestAnimationFrame(gameLoop);
-  }, [
-    canvasRef,
-    gameState,
-    greetingStartTime,
-    setGreetingStartTime,
-    startLevel,
-    updateChargingPlayers,
-    updateSnowballs,
-    updateEnemies,
-    checkGameEnd,
-    render,
-  ]);
+      // 渲染
+      render(ctx, now);
+
+      // 繼續下一幀
+      animationFrameRef.current = requestAnimationFrame((ts) => gameLoopRef.current?.(ts));
+    };
+  });
 
   // 啟動遊戲迴圈
   useEffect(() => {
-    animationFrameRef.current = requestAnimationFrame(gameLoop);
+    animationFrameRef.current = requestAnimationFrame((ts) => gameLoopRef.current?.(ts));
 
     return () => {
       if (animationFrameRef.current) {
         cancelAnimationFrame(animationFrameRef.current);
       }
     };
-  }, [gameLoop]);
+  }, []); // 只在mount時啟動一次
 
   // 處理畫布點擊（開場開始 & 遊戲結束後的重啟）
   const handleCanvasClick = useCallback(() => {

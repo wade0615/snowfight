@@ -95,8 +95,7 @@ export function useCanvasEvents(
     (x: number, y: number) => {
       if (gameState !== 'playing') return;
 
-      const { scale } = canvasSize;
-      const playerIndex = findPlayerAtPosition(x, y, players, scale);
+      const playerIndex = findPlayerAtPosition(x, y, players);
 
       if (playerIndex !== null) {
         const player = players[playerIndex];
@@ -116,7 +115,7 @@ export function useCanvasEvents(
         }
       }
     },
-    [gameState, players, canvasSize, setSelectedPlayer, setIsDragging, updatePlayer]
+    [gameState, players, setSelectedPlayer, setIsDragging, updatePlayer]
   );
 
   // 處理滑鼠/觸控移動

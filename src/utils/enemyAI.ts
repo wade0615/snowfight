@@ -192,7 +192,7 @@ function generateNewTarget(width: number, height: number): { x: number; y: numbe
   const maxY = height * BOUNDS.enemy.maxY;
 
   // 在敵人區域內隨機選點
-  let x = minX + Math.random() * (maxX - minX);
+  const x = minX + Math.random() * (maxX - minX);
   let y = minY + Math.random() * (maxY - minY);
 
   // 確保在三角形內

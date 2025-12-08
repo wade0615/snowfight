@@ -12,7 +12,7 @@ export function isMobileDevice(): boolean {
     return false;
   }
 
-  const userAgent = navigator.userAgent || navigator.vendor || (window as any).opera;
+  const userAgent = navigator.userAgent || navigator.vendor || (window as Window & { opera?: string }).opera || '';
 
   // 偵測 Android 裝置
   if (/android/i.test(userAgent)) {
@@ -20,7 +20,7 @@ export function isMobileDevice(): boolean {
   }
 
   // 偵測 iOS 裝置 (iPhone, iPad, iPod)
-  if (/iPad|iPhone|iPod/.test(userAgent) && !(window as any).MSStream) {
+  if (/iPad|iPhone|iPod/.test(userAgent) && !(window as Window & { MSStream?: unknown }).MSStream) {
     return true;
   }
 

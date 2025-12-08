@@ -122,7 +122,7 @@ export function constrainPlayerPosition(
   const maxY = height * BOUNDS.player.maxY - radius;
 
   // 基本邊界限制
-  let newX = Math.max(minX, Math.min(maxX, x));
+  const newX = Math.max(minX, Math.min(maxX, x));
   let newY = Math.max(minY, Math.min(maxY, y));
 
   // 三角形限制：右下區域
@@ -155,7 +155,7 @@ export function constrainEnemyPosition(
   const maxY = height * BOUNDS.enemy.maxY - radius;
 
   // 基本邊界限制
-  let newX = Math.max(minX, Math.min(maxX, x));
+  const newX = Math.max(minX, Math.min(maxX, x));
   let newY = Math.max(minY, Math.min(maxY, y));
 
   // 三角形限制：左上區域
@@ -267,8 +267,7 @@ export function findNearestPlayer(
 export function findPlayerAtPosition(
   x: number,
   y: number,
-  players: Player[],
-  scale: number
+  players: Player[]
 ): number | null {
   // 控制圈偏移量（調整為 1.5 倍）
   const controlOffsetY = 25;

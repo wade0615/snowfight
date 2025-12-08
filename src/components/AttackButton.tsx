@@ -12,14 +12,10 @@ interface AttackButtonProps {
 export default function AttackButton({ onAttackStart, onAttackEnd }: AttackButtonProps) {
   const [isCharging, setIsCharging] = useState(false);
   const [chargeProgress, setChargeProgress] = useState(0);
-  const [isMobile, setIsMobile] = useState(false);
+  // 直接在初始化時偵測，避免 useEffect 中的 setState
+  const [isMobile] = useState(() => isMobileDevice());
   const chargeIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const { gameState, selectedPlayerIndex } = useGameStore();
-
-  // 偵測行動裝置
-  useEffect(() => {
-    setIsMobile(isMobileDevice());
-  }, []);
 
   // 只在行動裝置且遊戲進行中顯示
   const shouldShow = isMobile && gameState === 'playing';

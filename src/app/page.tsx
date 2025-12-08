@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import GameCanvas from '@/components/GameCanvas';
 import GameUI from '@/components/GameUI';
 import Leaderboard from '@/components/modals/Leaderboard';
@@ -9,12 +9,8 @@ import Instructions from '@/components/modals/Instructions';
 import { isMobileDevice } from '@/utils/deviceDetection';
 
 export default function Home() {
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    // 使用 User Agent 偵測行動裝置
-    setIsMobile(isMobileDevice());
-  }, []);
+  // 直接在初始化時偵測，避免 useEffect 中的 setState
+  const [isMobile] = useState(() => isMobileDevice());
 
   return (
     <main className={`w-screen h-screen bg-gray-900 overflow-hidden ${isMobile ? '' : 'flex items-center justify-center'}`}>

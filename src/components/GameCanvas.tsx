@@ -7,10 +7,6 @@ import { useCanvasEvents } from '@/hooks/useCanvasEvents';
 import AttackButton from '@/components/AttackButton';
 import type { GameImages } from '@/types/game';
 import {
-  BASE_WIDTH_DESKTOP,
-  BASE_HEIGHT_DESKTOP,
-  BASE_WIDTH_MOBILE,
-  BASE_HEIGHT_MOBILE,
   ASPECT_RATIO,
 } from '@/utils/constants';
 
@@ -34,11 +30,9 @@ export default function GameCanvas() {
 
   const {
     setCanvasSize,
-    canvasSize,
     setIsLoading,
     setLoadingProgress,
     isLoading,
-    gameState,
   } = useGameStore();
 
   // 載入圖片
