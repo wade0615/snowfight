@@ -43,6 +43,7 @@ interface GameStore {
   showLeaderboard: boolean;
   showInstructions: boolean;
   menuCollapsed: boolean;
+  previousGameState: GameState | null; // 記錄暫停前的遊戲狀態
 
   // 載入狀態
   isLoading: boolean;
@@ -178,6 +179,7 @@ export const useGameStore = create<GameStore>((set, get) => {
     showLeaderboard: false,
     showInstructions: false,
     menuCollapsed: false,
+    previousGameState: null,
 
     isLoading: true,
     loadingProgress: 0,
@@ -276,8 +278,42 @@ export const useGameStore = create<GameStore>((set, get) => {
 
   setCanvasSize: (size) => set({ canvasSize: size }),
 
-  setShowLeaderboard: (show) => set({ showLeaderboard: show }),
-  setShowInstructions: (show) => set({ showInstructions: show }),
+  setShowLeaderboard: (show) => {
+    const { gameState, previousGameState } = get();
+    if (show) {
+      // 打開時：保存當前狀態並暫停
+      if (gameState === 'playing') {
+        set({ showLeaderboard: true, previousGameState: gameState, gameState: 'pause' });
+      } else {
+        set({ showLeaderboard: true });
+      }
+    } else {
+      // 關閉時：恢復之前的狀態
+      if (previousGameState) {
+        set({ showLeaderboard: false, gameState: previousGameState, previousGameState: null });
+      } else {
+        set({ showLeaderboard: false });
+      }
+    }
+  },
+  setShowInstructions: (show) => {
+    const { gameState, previousGameState } = get();
+    if (show) {
+      // 打開時：保存當前狀態並暫停
+      if (gameState === 'playing') {
+        set({ showInstructions: true, previousGameState: gameState, gameState: 'pause' });
+      } else {
+        set({ showInstructions: true });
+      }
+    } else {
+      // 關閉時：恢復之前的狀態
+      if (previousGameState) {
+        set({ showInstructions: false, gameState: previousGameState, previousGameState: null });
+      } else {
+        set({ showInstructions: false });
+      }
+    }
+  },
   setMenuCollapsed: (collapsed) => set({ menuCollapsed: collapsed }),
 
   setIsLoading: (loading) => set({ isLoading: loading }),
