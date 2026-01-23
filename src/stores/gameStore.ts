@@ -23,6 +23,7 @@ interface GameStore {
   level: number;
   score: number;
   greetingStartTime: number;
+  gameStartTime: number; // 遊戲開始時間（用於排行榜記錄遊戲時長）
   hitCount: number; // 命中計數器
   hitTarget: number; // 過關所需命中次數
 
@@ -159,6 +160,7 @@ export const useGameStore = create<GameStore>((set, get) => {
     level: 1,
     score: 0,
     greetingStartTime: 0,
+    gameStartTime: 0,
     hitCount: 0,
     hitTarget: ENEMY_START_COUNT,
 
@@ -329,7 +331,7 @@ export const useGameStore = create<GameStore>((set, get) => {
     get().initPlayers();
     get().initEnemies(enemyCount);
     get().initBarriers(); // 初始化掩體
-    set({
+    const updates: Record<string, unknown> = {
       level,
       gameState: 'playing',
       snowballs: [],
@@ -337,11 +339,16 @@ export const useGameStore = create<GameStore>((set, get) => {
       isDragging: false,
       hitCount: 0,
       hitTarget: enemyCount, // 過關所需命中次數 = 敵方人數
-    });
+    };
+    // 第一關開始時記錄遊戲開始時間
+    if (level === 1) {
+      updates.gameStartTime = Date.now();
+    }
+    set(updates);
   },
 
   resetGame: () => {
-    set({ score: 0, level: 1, hitCount: 0 });
+    set({ score: 0, level: 1, hitCount: 0, gameStartTime: 0 });
     get().startLevel(1);
   },
 
@@ -358,10 +365,14 @@ export const useGameStore = create<GameStore>((set, get) => {
 
   addScoreToLeaderboard: (score) => {
     if (typeof window === 'undefined') return;
+    const { level, gameStartTime } = get();
     const leaderboard = get().getLeaderboard();
     const now = new Date();
+    const duration = gameStartTime > 0 ? Date.now() - gameStartTime : 0;
     const entry: LeaderboardEntry = {
       score,
+      level,
+      duration,
       date: now.toLocaleDateString('zh-TW'),
       time: now.toLocaleTimeString('zh-TW'),
     };

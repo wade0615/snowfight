@@ -18,6 +18,8 @@ export interface Translations {
   leaderboardTitle: string;
   leaderboardRank: string;
   leaderboardScore: string;
+  leaderboardLevel: string;
+  leaderboardDuration: string;
   leaderboardDate: string;
   leaderboardTime: string;
   leaderboardEmpty: string;
@@ -93,6 +95,8 @@ export const translations: Record<Language, Translations> = {
     leaderboardTitle: '排行榜',
     leaderboardRank: '排名',
     leaderboardScore: '分數',
+    leaderboardLevel: '關卡',
+    leaderboardDuration: '時長',
     leaderboardDate: '日期',
     leaderboardTime: '時間',
     leaderboardEmpty: '尚無紀錄',
@@ -167,6 +171,8 @@ export const translations: Record<Language, Translations> = {
     leaderboardTitle: 'Leaderboard',
     leaderboardRank: 'Rank',
     leaderboardScore: 'Score',
+    leaderboardLevel: 'Level',
+    leaderboardDuration: 'Time',
     leaderboardDate: 'Date',
     leaderboardTime: 'Time',
     leaderboardEmpty: 'No records yet',

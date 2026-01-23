@@ -63,6 +63,8 @@ export interface Barrier {
 // 排行榜項目
 export interface LeaderboardEntry {
   score: number;
+  level: number;
+  duration: number; // 遊戲時長（毫秒）
   date: string;
   time: string;
 }
