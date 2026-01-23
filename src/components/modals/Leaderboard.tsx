@@ -55,7 +55,7 @@ export default function Leaderboard() {
                   <tr
                     key={index}
                     className={`
-                      border-t border-gray-100
+                      border-t border-gray-100 text-gray-600
                       ${entry.score === score ? 'bg-yellow-50' : ''}
                       ${index === 0 ? 'bg-amber-50' : ''}
                     `}

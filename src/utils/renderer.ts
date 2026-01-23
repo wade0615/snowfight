@@ -508,12 +508,13 @@ function drawControlCircle(
   hp: number
 ): void {
   // 控制圈位置在玩家下方（調整為 1.5 倍）
-  const controlOffsetY = 25;
+  const controlOffsetY = 35;
+  const controlOffsetX = 35;
   const controlRadius = BASE_PLAYER_RADIUS + 15;
 
   ctx.save();
   ctx.beginPath();
-  ctx.arc(x, y + controlOffsetY, controlRadius, 0, Math.PI * 2);
+  ctx.arc(x + controlOffsetX, y + controlOffsetY, controlRadius, 0, Math.PI * 2);
   // 根據血量決定顏色（參考 main.js: hp === 2 ? '#0f0' : '#fa0'）
   ctx.strokeStyle = hp === PLAYER_MAX_HP ? '#0f0' : '#fa0';
   ctx.lineWidth = 2;
