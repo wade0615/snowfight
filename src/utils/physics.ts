@@ -107,7 +107,7 @@ export function calculateMaxDistance(charge: number): number {
   return SNOWBALL_MAX_DISTANCE * (0.3 + charge * 0.7);
 }
 
-// 限制玩家移動範圍 (右下三角形)
+// 限制玩家移動範圍 (右半邊矩形)
 export function constrainPlayerPosition(
   x: number,
   y: number,
@@ -121,26 +121,14 @@ export function constrainPlayerPosition(
   const minY = height * BOUNDS.player.minY + radius;
   const maxY = height * BOUNDS.player.maxY - radius;
 
-  // 基本邊界限制
+  // 矩形邊界限制
   const newX = Math.max(minX, Math.min(maxX, x));
-  let newY = Math.max(minY, Math.min(maxY, y));
-
-  // 三角形限制：右下區域
-  // 對角線從 (minX, maxY) 到 (maxX, minY)
-  const diagSlope = (minY - maxY) / (maxX - minX);
-  const diagIntercept = maxY - diagSlope * minX;
-  const maxYAtX = diagSlope * newX + diagIntercept;
-
-  if (newY < maxYAtX) {
-    // 在對角線上方，需要調整
-    // 將點投影到對角線上
-    newY = maxYAtX;
-  }
+  const newY = Math.max(minY, Math.min(maxY, y));
 
   return { x: newX, y: newY };
 }
 
-// 限制敵人移動範圍 (左上三角形)
+// 限制敵人移動範圍 (左半邊矩形)
 export function constrainEnemyPosition(
   x: number,
   y: number,
@@ -154,25 +142,14 @@ export function constrainEnemyPosition(
   const minY = height * BOUNDS.enemy.minY + radius;
   const maxY = height * BOUNDS.enemy.maxY - radius;
 
-  // 基本邊界限制
+  // 矩形邊界限制
   const newX = Math.max(minX, Math.min(maxX, x));
-  let newY = Math.max(minY, Math.min(maxY, y));
-
-  // 三角形限制：左上區域
-  // 對角線從 (minX, maxY) 到 (maxX, minY)
-  const diagSlope = (minY - maxY) / (maxX - minX);
-  const diagIntercept = maxY - diagSlope * minX;
-  const minYAtX = diagSlope * newX + diagIntercept;
-
-  if (newY > minYAtX) {
-    // 在對角線下方，需要調整
-    newY = minYAtX;
-  }
+  const newY = Math.max(minY, Math.min(maxY, y));
 
   return { x: newX, y: newY };
 }
 
-// 檢查點是否在玩家區域內
+// 檢查點是否在玩家區域內 (右半邊矩形)
 export function isInPlayerArea(
   x: number,
   y: number,
@@ -184,19 +161,10 @@ export function isInPlayerArea(
   const minY = height * BOUNDS.player.minY;
   const maxY = height * BOUNDS.player.maxY;
 
-  if (x < minX || x > maxX || y < minY || y > maxY) {
-    return false;
-  }
-
-  // 檢查三角形
-  const diagSlope = (minY - maxY) / (maxX - minX);
-  const diagIntercept = maxY - diagSlope * minX;
-  const maxYAtX = diagSlope * x + diagIntercept;
-
-  return y >= maxYAtX;
+  return x >= minX && x <= maxX && y >= minY && y <= maxY;
 }
 
-// 檢查點是否在敵人區域內
+// 檢查點是否在敵人區域內 (左半邊矩形)
 export function isInEnemyArea(
   x: number,
   y: number,
@@ -208,16 +176,7 @@ export function isInEnemyArea(
   const minY = height * BOUNDS.enemy.minY;
   const maxY = height * BOUNDS.enemy.maxY;
 
-  if (x < minX || x > maxX || y < minY || y > maxY) {
-    return false;
-  }
-
-  // 檢查三角形
-  const diagSlope = (minY - maxY) / (maxX - minX);
-  const diagIntercept = maxY - diagSlope * minX;
-  const minYAtX = diagSlope * x + diagIntercept;
-
-  return y <= minYAtX;
+  return x >= minX && x <= maxX && y >= minY && y <= maxY;
 }
 
 // 計算從敵人位置投向玩家區域的方向

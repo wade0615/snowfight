@@ -35,23 +35,23 @@ export default function GameCanvas() {
     isLoading,
   } = useGameStore();
 
-  // 載入圖片
+  // 載入圖片 (使用 SVG)
   useEffect(() => {
     const imageList: { key: keyof GameImages; src: string }[] = [
       // 玩家圖片
-      { key: 'player', src: '/img/player.png' },           // 站立狀態
-      { key: 'playerPrepare', src: '/img/player_prepare.png' }, // 蓄力狀態
-      { key: 'playerDead', src: '/img/player_dead.png' },  // 死亡狀態
+      { key: 'player', src: '/img/player.svg' },           // 站立狀態
+      { key: 'playerPrepare', src: '/img/player_prepare.svg' }, // 蓄力狀態
+      { key: 'playerDead', src: '/img/player_dead.svg' },  // 死亡狀態
       // 敵人圖片
-      { key: 'crouch', src: '/img/crouch.png' },
-      { key: 'prepare', src: '/img/prepare.png' },
-      { key: 'standup', src: '/img/standup.png' },
-      { key: 'throw', src: '/img/throw.png' },
-      { key: 'walk1', src: '/img/walk1.png' },
-      { key: 'walk2', src: '/img/walk2.png' },
-      { key: 'dead', src: '/img/dead.png' },
-      { key: 'pain', src: '/img/pain.png' },
-      { key: 'fall', src: '/img/fall.png' },
+      { key: 'crouch', src: '/img/bot_crouch.svg' },
+      { key: 'prepare', src: '/img/bot_prepare.svg' },
+      { key: 'standup', src: '/img/bot_stand.svg' },       // 使用站立圖作為站起
+      { key: 'throw', src: '/img/bot_throw.svg' },
+      { key: 'walk1', src: '/img/bot_walk1.svg' },
+      { key: 'walk2', src: '/img/bot_walk2.svg' },
+      { key: 'dead', src: '/img/bot_dead.svg' },
+      { key: 'pain', src: '/img/bot_pain.svg' },
+      { key: 'fall', src: '/img/bot_fall.svg' },
     ];
 
     let loaded = 0;

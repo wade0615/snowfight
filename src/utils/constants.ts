@@ -11,13 +11,13 @@ export const BASE_ENEMY_RADIUS = 16; // 原本 26，縮小為 60%
 export const SNOWBALL_RADIUS = 6; // 原本 10，同步縮小為 60%
 
 // 角色數量
-export const PLAYER_COUNT = 3;
+export const PLAYER_COUNT = 1;
 export const ENEMY_START_COUNT = 3;
 export const ENEMY_ADD_PER_LEVEL = 2;
 export const MAX_LEVEL = 50;
 
 // 血量
-export const PLAYER_MAX_HP = 2;
+export const PLAYER_MAX_HP = 5;
 export const ENEMY_MAX_HP = 3;
 export const BARRIER_MAX_HP = 10;
 
@@ -84,21 +84,21 @@ export const COLORS = {
   },
 };
 
-// 遊戲區域邊界 (相對於畫布尺寸的比例)
+// 遊戲區域邊界 (相對於畫布尺寸的比例) - 左右對分
 export const BOUNDS = {
-  // 玩家拖曳活動區域 (擴大範圍)
+  // 玩家活動區域 (右半邊)
   player: {
-    minX: 0.1,
+    minX: 0.55,
     maxX: 0.95,
-    minY: 0.15,
-    maxY: 0.95,
+    minY: 0.1,
+    maxY: 0.9,
   },
-  // 敵人活動區域 (左上三角形)
+  // 敵人活動區域 (左半邊)
   enemy: {
     minX: 0.05,
-    maxX: 0.85,
+    maxX: 0.45,
     minY: 0.1,
-    maxY: 0.85,
+    maxY: 0.9,
   },
 };
 

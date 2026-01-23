@@ -191,9 +191,9 @@ export function useCanvasEvents(
     const chargeTime = Date.now() - spaceChargeStartRef.current;
     const charge = Math.min(1, chargeTime / CHARGE_TIME);
 
-    // 固定朝左上方投擲
+    // 固定朝左方水平投擲
     const finalTargetX = player.x - 500;
-    const finalTargetY = player.y - 500;
+    const finalTargetY = player.y;
 
     const velocity = calculateThrowVelocity(
       player.x,
@@ -254,9 +254,9 @@ export function useCanvasEvents(
     const chargeTime = Date.now() - spaceChargeStartRef.current;
     const charge = Math.min(1, chargeTime / CHARGE_TIME);
 
-    // 固定朝左上方投擲
+    // 固定朝左方水平投擲
     const finalTargetX = player.x - 500;
-    const finalTargetY = player.y - 500;
+    const finalTargetY = player.y;
 
     const velocity = calculateThrowVelocity(
       player.x,

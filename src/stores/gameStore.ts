@@ -23,6 +23,8 @@ interface GameStore {
   level: number;
   score: number;
   greetingStartTime: number;
+  hitCount: number; // 命中計數器
+  hitTarget: number; // 過關所需命中次數
 
   // 角色
   players: Player[];
@@ -56,6 +58,8 @@ interface GameStore {
   setScore: (score: number) => void;
   addScore: (points: number) => void;
   setGreetingStartTime: (time: number) => void;
+  addHitCount: () => void;
+  resetHitCount: () => void;
 
   initPlayers: () => void;
   initEnemies: (count: number) => void;
@@ -93,12 +97,8 @@ interface GameStore {
 }
 
 const createInitialPlayer = (index: number, canvasWidth: number, canvasHeight: number): Player => {
-  const positions = [
-    { x: 0.85, y: 0.65 },
-    { x: 0.75, y: 0.75 },
-    { x: 0.65, y: 0.85 },
-  ];
-  const pos = positions[index] || positions[0];
+  // 玩家位置在右半邊中央
+  const pos = { x: 0.75, y: 0.5 };
   return {
     x: canvasWidth * pos.x,
     y: canvasHeight * pos.y,
@@ -115,9 +115,17 @@ const createInitialPlayer = (index: number, canvasWidth: number, canvasHeight: n
 };
 
 const createInitialEnemy = (index: number, total: number, canvasWidth: number, canvasHeight: number): Enemy => {
-  const spacing = (BOUNDS.enemy.maxX - BOUNDS.enemy.minX) / (total + 1);
-  const x = canvasWidth * (BOUNDS.enemy.minX + spacing * (index + 1));
-  const y = canvasHeight * (BOUNDS.enemy.minY + Math.random() * (BOUNDS.enemy.maxY - BOUNDS.enemy.minY));
+  // 敵人在左半邊區域均勻分布
+  const rows = Math.ceil(Math.sqrt(total));
+  const cols = Math.ceil(total / rows);
+  const row = Math.floor(index / cols);
+  const col = index % cols;
+
+  const xSpacing = (BOUNDS.enemy.maxX - BOUNDS.enemy.minX) / (cols + 1);
+  const ySpacing = (BOUNDS.enemy.maxY - BOUNDS.enemy.minY) / (rows + 1);
+
+  const x = canvasWidth * (BOUNDS.enemy.minX + xSpacing * (col + 1));
+  const y = canvasHeight * (BOUNDS.enemy.minY + ySpacing * (row + 1));
 
   return {
     x,
@@ -150,6 +158,8 @@ export const useGameStore = create<GameStore>((set, get) => {
     level: 1,
     score: 0,
     greetingStartTime: 0,
+    hitCount: 0,
+    hitTarget: ENEMY_START_COUNT,
 
     players: [],
     enemies: [],
@@ -182,6 +192,8 @@ export const useGameStore = create<GameStore>((set, get) => {
   setScore: (score) => set({ score }),
   addScore: (points) => set((state) => ({ score: state.score + points })),
   setGreetingStartTime: (time) => set({ greetingStartTime: time }),
+  addHitCount: () => set((state) => ({ hitCount: state.hitCount + 1 })),
+  resetHitCount: () => set({ hitCount: 0 }),
 
   initPlayers: () => {
     const { canvasSize } = get();
@@ -200,17 +212,32 @@ export const useGameStore = create<GameStore>((set, get) => {
   },
 
   initBarriers: () => {
-    const { canvasSize, players } = get();
-    const scale = canvasSize.width / 960; // 基於 mobile 尺寸計算 scale
-    const barrierRadius = BASE_PLAYER_RADIUS * scale * 1.5; // 提升 1.5 倍大小
+    const { canvasSize } = get();
+    const scale = canvasSize.width / 960;
+    const barrierRadius = BASE_PLAYER_RADIUS * scale * 1.5;
 
-    // 為每個玩家在其前方（左上方向）創建一個掩體
-    const barriers: Barrier[] = players.map((player) => ({
-      x: player.baseX - barrierRadius * 3, // 在玩家左前方
-      y: player.baseY - barrierRadius * 3, // 在玩家上前方
-      radius: barrierRadius,
-      hp: 10, // 掩體可以承受 10 次攻擊
-    }));
+    // 在玩家側（右半邊左側邊緣）三等分放置掩體，面對敵人方向
+    const barrierX = canvasSize.width * 0.58; // 玩家區域左側
+    const barriers: Barrier[] = [
+      {
+        x: barrierX,
+        y: canvasSize.height * 0.25, // 上方
+        radius: barrierRadius,
+        hp: 10,
+      },
+      {
+        x: barrierX,
+        y: canvasSize.height * 0.50, // 中央
+        radius: barrierRadius,
+        hp: 10,
+      },
+      {
+        x: barrierX,
+        y: canvasSize.height * 0.75, // 下方
+        radius: barrierRadius,
+        hp: 10,
+      },
+    ];
     set({ barriers });
   },
 
@@ -272,11 +299,13 @@ export const useGameStore = create<GameStore>((set, get) => {
       snowballs: [],
       selectedPlayerIndex: null,
       isDragging: false,
+      hitCount: 0,
+      hitTarget: enemyCount, // 過關所需命中次數 = 敵方人數
     });
   },
 
   resetGame: () => {
-    set({ score: 0, level: 1 });
+    set({ score: 0, level: 1, hitCount: 0 });
     get().startLevel(1);
   },
 

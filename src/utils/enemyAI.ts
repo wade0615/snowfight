@@ -184,25 +184,16 @@ function handleIdleState(
   return updates;
 }
 
-// 生成新的移動目標
+// 生成新的移動目標 (左半邊矩形區域)
 function generateNewTarget(width: number, height: number): { x: number; y: number } {
   const minX = width * BOUNDS.enemy.minX;
   const maxX = width * BOUNDS.enemy.maxX;
   const minY = height * BOUNDS.enemy.minY;
   const maxY = height * BOUNDS.enemy.maxY;
 
-  // 在敵人區域內隨機選點
+  // 在敵人區域內隨機選點（矩形）
   const x = minX + Math.random() * (maxX - minX);
-  let y = minY + Math.random() * (maxY - minY);
-
-  // 確保在三角形內
-  const diagSlope = (minY - maxY) / (maxX - minX);
-  const diagIntercept = maxY - diagSlope * minX;
-  const maxYAtX = diagSlope * x + diagIntercept;
-
-  if (y > maxYAtX) {
-    y = maxYAtX - 10;
-  }
+  const y = minY + Math.random() * (maxY - minY);
 
   return { x, y };
 }
@@ -215,45 +206,24 @@ function createEnemySnowball(
   height: number,
   scale: number
 ): Snowball | null {
-  // 計算敵人的正前方方向（朝向玩家區域中心）
+  // 計算敵人的正前方方向（朝向玩家區域中心，即向右）
   const playerCenterX = width * ((BOUNDS.player.minX + BOUNDS.player.maxX) / 2);
   const playerCenterY = height * ((BOUNDS.player.minY + BOUNDS.player.maxY) / 2);
-  const forwardAngle = Math.atan2(playerCenterY - enemy.y, playerCenterX - enemy.x);
 
-  // 隨機選擇一個存活玩家作為目標
-  const alivePlayers = players.filter((p) => p.alive);
+  // 找到唯一存活的玩家（現在只有一個玩家）
+  const alivePlayer = players.find((p) => p.alive);
 
   let targetX: number;
   let targetY: number;
 
-  if (alivePlayers.length === 0) {
+  if (!alivePlayer) {
     // 沒有存活玩家，丟向玩家區域中心
     targetX = playerCenterX;
     targetY = playerCenterY;
   } else {
-    // 從存活玩家中隨機選擇一個目標
-    const target = alivePlayers[Math.floor(Math.random() * alivePlayers.length)];
-
-    // 計算到目標的角度
-    const targetAngle = Math.atan2(target.y - enemy.y, target.x - enemy.x);
-
-    // 計算角度差異
-    let angleDiff = targetAngle - forwardAngle;
-    // 標準化角度差異到 -π 到 π 範圍
-    while (angleDiff > Math.PI) angleDiff -= Math.PI * 2;
-    while (angleDiff < -Math.PI) angleDiff += Math.PI * 2;
-
-    // 限制在 ±15 度（約 0.2618 弧度）範圍內
-    const maxAngle = (30 * Math.PI) / 180 / 2; // 15 度轉弧度
-    const clampedAngleDiff = Math.max(-maxAngle, Math.min(maxAngle, angleDiff));
-    const clampedAngle = forwardAngle + clampedAngleDiff;
-
-    // 計算限制角度後的目標點（使用固定距離）
-    const distance = Math.sqrt(
-      Math.pow(target.x - enemy.x, 2) + Math.pow(target.y - enemy.y, 2)
-    );
-    targetX = enemy.x + Math.cos(clampedAngle) * distance;
-    targetY = enemy.y + Math.sin(clampedAngle) * distance;
+    // 直接鎖定唯一玩家
+    targetX = alivePlayer.x;
+    targetY = alivePlayer.y;
   }
 
   // 加入隨機偏移，讓敵人不會直接命中

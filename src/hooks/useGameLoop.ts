@@ -50,6 +50,9 @@ export function useGameLoop(
     startLevel,
     resetGame,
     addScoreToLeaderboard,
+    hitCount,
+    hitTarget,
+    addHitCount,
   } = useGameStore();
 
   // 更新蓄力中的玩家
@@ -89,6 +92,7 @@ export function useGameLoop(
             const hitResult = handleEnemyHit(enemy, now);
             updateEnemy(i, hitResult);
             addScore(SCORE_PER_HIT);
+            addHitCount(); // 增加命中計數
             toRemove.push(index);
             return;
           }
@@ -141,7 +145,7 @@ export function useGameLoop(
     toRemove
       .sort((a, b) => b - a)
       .forEach((index) => removeSnowball(index));
-  }, [snowballs, players, enemies, barriers, canvasSize, updatePlayer, updateEnemy, updateBarrier, addScore, removeSnowball]);
+  }, [snowballs, players, enemies, barriers, canvasSize, updatePlayer, updateEnemy, updateBarrier, addScore, addHitCount, removeSnowball]);
 
   // 更新敵人 AI
   const updateEnemies = useCallback((now: number) => {

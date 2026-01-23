@@ -11,21 +11,20 @@ import {
 } from './constants';
 import { isMobileDevice } from './deviceDetection';
 
-// 裝飾用雪堆位置（固定位置，確保敵我雙方區域都有）
+// 裝飾用雪堆位置（固定位置，確保敵我雙方區域都有）- 左右對分
 const DECORATIVE_SNOW_PILES = [
-  // 敵人區域（左上）
-  { x: 0.10, y: 0.15 },
-  { x: 0.25, y: 0.20 },
-  { x: 0.15, y: 0.35 },
-  { x: 0.35, y: 0.30 },
-  // 中央區域
-  { x: 0.45, y: 0.45 },
-  { x: 0.55, y: 0.55 },
-  // 玩家區域（右下）
-  { x: 0.65, y: 0.70 },
-  { x: 0.80, y: 0.65 },
-  { x: 0.75, y: 0.85 },
-  { x: 0.90, y: 0.80 },
+  // 敵人區域（左半邊）
+  { x: 0.10, y: 0.25 },
+  { x: 0.25, y: 0.50 },
+  { x: 0.15, y: 0.75 },
+  { x: 0.35, y: 0.35 },
+  { x: 0.40, y: 0.65 },
+  // 玩家區域（右半邊）
+  { x: 0.60, y: 0.30 },
+  { x: 0.75, y: 0.50 },
+  { x: 0.85, y: 0.25 },
+  { x: 0.70, y: 0.75 },
+  { x: 0.90, y: 0.70 },
 ];
 
 // 繪製背景
@@ -93,7 +92,7 @@ function drawDecorativeSnowPiles(
   ctx.restore();
 }
 
-// 繪製敵人區域邊界（左上三角形，帶圓角）
+// 繪製敵人區域邊界（左半邊矩形，帶圓角）
 function drawEnemyAreaBoundary(
   ctx: CanvasRenderingContext2D,
   width: number,
@@ -106,28 +105,28 @@ function drawEnemyAreaBoundary(
   const radius = 10; // 圓角半徑
 
   ctx.save();
-  ctx.strokeStyle = '#F0F0F0'; // 更淺的灰色
+  ctx.strokeStyle = '#E8E8E8';
   ctx.lineWidth = 2;
-  ctx.setLineDash([]); // 實線
+  ctx.setLineDash([]);
 
+  // 繪製圓角矩形
   ctx.beginPath();
-  // 從左上角開始（帶圓角）
   ctx.moveTo(minX + radius, minY);
-  // 對角線到右上
   ctx.lineTo(maxX - radius, minY);
   ctx.arcTo(maxX, minY, maxX, minY + radius, radius);
-  // 對角線往左下
-  ctx.lineTo(minX + radius, maxY - radius);
+  ctx.lineTo(maxX, maxY - radius);
+  ctx.arcTo(maxX, maxY, maxX - radius, maxY, radius);
+  ctx.lineTo(minX + radius, maxY);
   ctx.arcTo(minX, maxY, minX, maxY - radius, radius);
-  // 左邊界往上
   ctx.lineTo(minX, minY + radius);
   ctx.arcTo(minX, minY, minX + radius, minY, radius);
+  ctx.closePath();
   ctx.stroke();
 
   ctx.restore();
 }
 
-// 繪製玩家區域邊界（右下三角形，帶圓角）
+// 繪製玩家區域邊界（右半邊矩形，帶圓角）
 function drawPlayerAreaBoundary(
   ctx: CanvasRenderingContext2D,
   width: number,
@@ -140,22 +139,22 @@ function drawPlayerAreaBoundary(
   const radius = 10; // 圓角半徑
 
   ctx.save();
-  ctx.strokeStyle = '#F0F0F0'; // 更淺的灰色
+  ctx.strokeStyle = '#E8E8E8';
   ctx.lineWidth = 2;
-  ctx.setLineDash([]); // 實線
+  ctx.setLineDash([]);
 
+  // 繪製圓角矩形
   ctx.beginPath();
-  // 從右下角開始（帶圓角）
-  ctx.moveTo(maxX, maxY - radius);
-  // 右邊界往上
-  ctx.lineTo(maxX, minY + radius);
-  ctx.arcTo(maxX, minY, maxX - radius, minY, radius);
-  // 對角線往左下
-  ctx.lineTo(minX + radius, maxY - radius);
-  ctx.arcTo(minX, maxY, minX + radius, maxY, radius);
-  // 下邊界往右
-  ctx.lineTo(maxX - radius, maxY);
-  ctx.arcTo(maxX, maxY, maxX, maxY - radius, radius);
+  ctx.moveTo(minX + radius, minY);
+  ctx.lineTo(maxX - radius, minY);
+  ctx.arcTo(maxX, minY, maxX, minY + radius, radius);
+  ctx.lineTo(maxX, maxY - radius);
+  ctx.arcTo(maxX, maxY, maxX - radius, maxY, radius);
+  ctx.lineTo(minX + radius, maxY);
+  ctx.arcTo(minX, maxY, minX, maxY - radius, radius);
+  ctx.lineTo(minX, minY + radius);
+  ctx.arcTo(minX, minY, minX + radius, minY, radius);
+  ctx.closePath();
   ctx.stroke();
 
   ctx.restore();
@@ -176,10 +175,10 @@ export function drawPlayer(
   const { x, y } = player;
   const isStunned = now < player.stunUntil;
 
-  // 圖片偏移量（調整為 1/3 的 1.5 倍）
-  const offsetX = -18;
-  const offsetY = -6;
-  const targetH = 32;
+  // SVG 圖片繪製參數（調整為適應新 SVG）
+  const offsetX = 0;
+  const offsetY = -8;
+  const targetH = 48;
 
   ctx.save();
 
@@ -297,7 +296,7 @@ export function drawEnemy(
   const radius = BASE_ENEMY_RADIUS * scale;
   const { x, y, throwState } = enemy;
   const isStunned = now < enemy.stunUntil;
-  const targetH = 32 * scale;
+  const targetH = 48 * scale; // 調整為適應新 SVG
 
   ctx.save();
 
@@ -305,12 +304,13 @@ export function drawEnemy(
     ctx.globalAlpha = 0.5;
   }
 
-  // 輔助函數：繪製置中圖片（參考 main.js 的 drawCenteredImage）
+  // 輔助函數：繪製置中圖片（調整為適應 SVG）
   const drawCenteredImage = (img: HTMLImageElement | null): boolean => {
     if (!img || !img.complete || !img.naturalWidth) return false;
     const imgScale = targetH / img.naturalHeight;
     const targetW = img.naturalWidth * imgScale;
-    ctx.drawImage(img, x - targetW / 2, y - targetH / 2, targetW, targetH);
+    // 調整 y 偏移讓圖片看起來置中（SVG 人物偏上方）
+    ctx.drawImage(img, x - targetW / 2, y - targetH / 2 - 8, targetW, targetH);
     return true;
   };
 
