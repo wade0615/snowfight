@@ -2,6 +2,15 @@
 
 import { useGameStore } from '@/stores/gameStore';
 
+// 格式化時長（毫秒 -> mm:ss）
+function formatDuration(ms: number): string {
+  if (!ms || ms <= 0) return '-';
+  const totalSeconds = Math.floor(ms / 1000);
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+  return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+}
+
 export default function Leaderboard() {
   const { showLeaderboard, setShowLeaderboard, getLeaderboard, clearLeaderboard, score, t } =
     useGameStore();
@@ -34,9 +43,11 @@ export default function Leaderboard() {
             <table className="w-full">
               <thead className="bg-gray-100">
                 <tr>
-                  <th className="px-4 py-2 text-left text-gray-600">{t.leaderboardRank}</th>
-                  <th className="px-4 py-2 text-left text-gray-600">{t.leaderboardScore}</th>
-                  <th className="px-4 py-2 text-left text-gray-600">{t.leaderboardDate}</th>
+                  <th className="px-3 py-2 text-left text-gray-600">{t.leaderboardRank}</th>
+                  <th className="px-3 py-2 text-left text-gray-600">{t.leaderboardScore}</th>
+                  <th className="px-3 py-2 text-left text-gray-600">{t.leaderboardLevel}</th>
+                  <th className="px-3 py-2 text-left text-gray-600">{t.leaderboardDuration}</th>
+                  <th className="px-3 py-2 text-left text-gray-600">{t.leaderboardDate}</th>
                 </tr>
               </thead>
               <tbody>
@@ -49,15 +60,17 @@ export default function Leaderboard() {
                       ${index === 0 ? 'bg-amber-50' : ''}
                     `}
                   >
-                    <td className="px-4 py-2">
+                    <td className="px-3 py-2">
                       {index === 0 && '🥇'}
                       {index === 1 && '🥈'}
                       {index === 2 && '🥉'}
                       {index > 2 && `#${index + 1}`}
                     </td>
-                    <td className="px-4 py-2 font-bold">{entry.score}</td>
-                    <td className="px-4 py-2 text-sm text-gray-500">
-                      {entry.date} {entry.time}
+                    <td className="px-3 py-2 font-bold">{entry.score}</td>
+                    <td className="px-3 py-2">{entry.level || '-'}</td>
+                    <td className="px-3 py-2">{formatDuration(entry.duration)}</td>
+                    <td className="px-3 py-2 text-sm text-gray-500">
+                      {entry.date}
                     </td>
                   </tr>
                 ))}

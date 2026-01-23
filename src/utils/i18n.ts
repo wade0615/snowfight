@@ -10,6 +10,7 @@ export interface Translations {
   gameInfo: string;
   level: string;
   score: string;
+  hitProgress: string;
   leaderboard: string;
   instructions: string;
 
@@ -17,6 +18,8 @@ export interface Translations {
   leaderboardTitle: string;
   leaderboardRank: string;
   leaderboardScore: string;
+  leaderboardLevel: string;
+  leaderboardDuration: string;
   leaderboardDate: string;
   leaderboardTime: string;
   leaderboardEmpty: string;
@@ -84,6 +87,7 @@ export const translations: Record<Language, Translations> = {
     gameInfo: '遊戲資訊',
     level: '關卡',
     score: '分數',
+    hitProgress: '命中',
     leaderboard: '排行榜',
     instructions: '說明',
 
@@ -91,6 +95,8 @@ export const translations: Record<Language, Translations> = {
     leaderboardTitle: '排行榜',
     leaderboardRank: '排名',
     leaderboardScore: '分數',
+    leaderboardLevel: '關卡',
+    leaderboardDuration: '時長',
     leaderboardDate: '日期',
     leaderboardTime: '時間',
     leaderboardEmpty: '尚無紀錄',
@@ -114,7 +120,7 @@ export const translations: Record<Language, Translations> = {
     instructionsControlsMobileCharge: '蓄力越久，投擲距離越遠',
     instructionsControlsMobileFire: '放開按鈕發射雪球',
     instructionsHealthTitle: '❤️ 生命值',
-    instructionsHealthPlayer: '你的角色有 2 點血量',
+    instructionsHealthPlayer: '你的角色有 5 點血量',
     instructionsHealthEnemy: '敵人有 3 點血量',
     instructionsHealthDamage: '被雪球打中會損失 1 點血量',
     instructionsScoreTitle: '📊 計分',
@@ -122,7 +128,7 @@ export const translations: Record<Language, Translations> = {
     instructionsScoreRecord: '分數會記錄在排行榜中',
     instructionsTipsTitle: '💡 小技巧',
     instructionsTip1: '被打中後有短暫無敵時間',
-    instructionsTip2: '善用三個角色輪流攻擊',
+    instructionsTip2: '善用掩體躲避敵人攻擊',
     instructionsTip3: '注意敵人的蓄力動作',
     instructionsClose: '了解了！',
 
@@ -157,6 +163,7 @@ export const translations: Record<Language, Translations> = {
     gameInfo: 'Game Info',
     level: 'Level',
     score: 'Score',
+    hitProgress: 'Hits',
     leaderboard: 'Leaderboard',
     instructions: 'Instructions',
 
@@ -164,6 +171,8 @@ export const translations: Record<Language, Translations> = {
     leaderboardTitle: 'Leaderboard',
     leaderboardRank: 'Rank',
     leaderboardScore: 'Score',
+    leaderboardLevel: 'Level',
+    leaderboardDuration: 'Time',
     leaderboardDate: 'Date',
     leaderboardTime: 'Time',
     leaderboardEmpty: 'No records yet',
@@ -187,7 +196,7 @@ export const translations: Record<Language, Translations> = {
     instructionsControlsMobileCharge: 'Hold longer for greater distance',
     instructionsControlsMobileFire: 'Release button to throw snowball',
     instructionsHealthTitle: '❤️ Health Points',
-    instructionsHealthPlayer: 'Your character has 2 HP',
+    instructionsHealthPlayer: 'Your character has 5 HP',
     instructionsHealthEnemy: 'Enemies have 3 HP',
     instructionsHealthDamage: 'Getting hit reduces 1 HP',
     instructionsScoreTitle: '📊 Scoring',
@@ -195,7 +204,7 @@ export const translations: Record<Language, Translations> = {
     instructionsScoreRecord: 'Scores are saved to leaderboard',
     instructionsTipsTitle: '💡 Tips',
     instructionsTip1: 'Brief invincibility after getting hit',
-    instructionsTip2: 'Use all three characters strategically',
+    instructionsTip2: 'Use barriers to dodge enemy attacks',
     instructionsTip3: 'Watch for enemy charging animation',
     instructionsClose: 'Got it!',
 

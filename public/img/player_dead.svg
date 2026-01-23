@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+
+  <!-- 頭部（右側躺地） -->
+  <circle cx="78" cy="60" r="12" fill="#ee4444" stroke="#333333" stroke-width="3"/>
+  <!-- 眼睛（X 表示死亡） -->
+  <line x1="74" y1="56" x2="78" y2="60" stroke="#333333" stroke-width="2" stroke-linecap="round"/>
+  <line x1="78" y1="56" x2="74" y2="60" stroke="#333333" stroke-width="2" stroke-linecap="round"/>
+  <!-- 嘴巴（倒下的表情） -->
+  <line x1="72" y1="64" x2="76" y2="64" stroke="#333333" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- 身體（水平躺著） -->
+  <line x1="66" y1="60" x2="56" y2="60" stroke="#333333" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- 左手臂（向上攤開） -->
+  <line x1="62" y1="60" x2="65" y2="50" stroke="#333333" stroke-width="3" stroke-linecap="round"/>
+  <!-- 左手 -->
+  <circle cx="66" cy="47" r="4" fill="none" stroke="#333333" stroke-width="3"/>
+
+  <!-- 右手臂（向下攤開） -->
+  <line x1="60" y1="60" x2="62" y2="70" stroke="#333333" stroke-width="3" stroke-linecap="round"/>
+  <!-- 右手 -->
+  <circle cx="63" cy="73" r="4" fill="none" stroke="#333333" stroke-width="3"/>
+
+  <!-- 左腿（向左上方） -->
+  <line x1="56" y1="60" x2="46" y2="57" stroke="#333333" stroke-width="3" stroke-linecap="round"/>
+  <!-- 左腳 -->
+  <line x1="46" y1="57" x2="44" y2="57" stroke="#333333" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- 右腿（向左下方） -->
+  <line x1="56" y1="60" x2="46" y2="63" stroke="#333333" stroke-width="3" stroke-linecap="round"/>
+  <!-- 右腳 -->
+  <line x1="46" y1="63" x2="44" y2="63" stroke="#333333" stroke-width="3" stroke-linecap="round"/>
+</svg>

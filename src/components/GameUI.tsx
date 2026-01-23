@@ -8,6 +8,8 @@ export default function GameUI() {
   const {
     level,
     score,
+    hitCount,
+    hitTarget,
     gameState,
     menuCollapsed,
     setMenuCollapsed,
@@ -68,6 +70,10 @@ export default function GameUI() {
               <div className="flex justify-between">
                 <span className="font-medium">{t.score}:</span>
                 <span className="font-bold text-green-600">{score}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="font-medium">{t.hitProgress}:</span>
+                <span className="font-bold text-orange-600">{hitCount} / {hitTarget}</span>
               </div>
             </div>
 

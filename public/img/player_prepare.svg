@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+
+  <!-- 頭部 -->
+  <circle cx="50" cy="38" r="12" fill="#ee4444" stroke="#333333" stroke-width="3"/>
+  <!-- 眼睛（向左看） -->
+  <circle cx="44" cy="36" r="2" fill="#333333"/>
+  <!-- 嘴巴（堅定表情） -->
+  <line x1="43" y1="42" x2="48" y2="42" stroke="#333333" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- 身體 -->
+  <line x1="50" y1="50" x2="50" y2="60" stroke="#333333" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- 左手臂（向前伸出保持平衡） -->
+  <line x1="50" y1="54" x2="35" y2="58" stroke="#333333" stroke-width="3" stroke-linecap="round"/>
+  <!-- 左手 -->
+  <circle cx="32" cy="60" r="4" fill="none" stroke="#333333" stroke-width="3"/>
+
+  <!-- 右手臂（舉起準備投擲） -->
+  <line x1="50" y1="54" x2="60" y2="42" stroke="#333333" stroke-width="3" stroke-linecap="round"/>
+  <!-- 右手握拳（在頭部後上方） -->
+  <circle cx="63" cy="38" r="4" fill="none" stroke="#333333" stroke-width="3"/>
+
+  <!-- 左腿 -->
+  <line x1="50" y1="60" x2="48" y2="70" stroke="#333333" stroke-width="3" stroke-linecap="round"/>
+  <!-- 左腳 -->
+  <line x1="48" y1="70" x2="46" y2="70" stroke="#333333" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- 右腿 -->
+  <line x1="50" y1="60" x2="53" y2="70" stroke="#333333" stroke-width="3" stroke-linecap="round"/>
+  <!-- 右腳 -->
+  <line x1="53" y1="70" x2="55" y2="70" stroke="#333333" stroke-width="3" stroke-linecap="round"/>
+</svg>
