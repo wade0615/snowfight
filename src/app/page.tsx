@@ -6,10 +6,12 @@ import GameUI from '@/components/GameUI';
 import Leaderboard from '@/components/modals/Leaderboard';
 import Instructions from '@/components/modals/Instructions';
 import { isMobileDevice } from '@/utils/deviceDetection';
+import { useGameStore } from '@/stores/gameStore';
 
 export default function Home() {
   // 使用 useState 初始化為 false，避免 SSR hydration mismatch
   const [isMobile, setIsMobile] = useState(false);
+  const language = useGameStore((s) => s.language);
 
   // 在客戶端掛載後檢測裝置類型
   // 使用 requestAnimationFrame 延遲到下一幀更新，避免在 effect 中直接 setState
@@ -18,6 +20,11 @@ export default function Home() {
       setIsMobile(isMobileDevice());
     });
   }, []);
+
+  // 同步 <html lang> 屬性與用戶語言偏好
+  useEffect(() => {
+    document.documentElement.lang = language === 'zh' ? 'zh-Hant' : 'en-US';
+  }, [language]);
 
   return (
     <main
