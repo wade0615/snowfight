@@ -1,9 +1,11 @@
 'use client';
 
 import { useGameStore } from '@/stores/gameStore';
+import { isMobileDevice } from '@/utils/deviceDetection';
 
 export default function Instructions() {
   const { showInstructions, setShowInstructions, t } = useGameStore();
+  const isMobile = isMobileDevice();
 
   if (!showInstructions) return null;
 
@@ -14,7 +16,7 @@ export default function Instructions() {
       onClick={() => setShowInstructions(false)}
     >
       <div
-        className="pixel-border w-full max-w-md mx-4 max-h-[80vh] overflow-y-auto"
+        className={`pixel-border w-full max-w-md mx-4 overflow-y-auto ${isMobile ? 'max-h-[80vw]' : 'max-h-[80vh]'}`}
         style={{
           background: '#FAF5EB',
           padding: '24px',
