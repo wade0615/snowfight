@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from 'next';
 import './globals.css';
 
+// Pixel Art fonts loaded via CSS @import in globals.css (Press Start 2P + VT323)
+
 export const metadata: Metadata = {
   title: '打雪仗 Snowball Fight - 雪球大戰網頁遊戲',
   description: '免費線上打雪仗遊戲！在雪球戰爭中與敵人對戰，體驗刺激的雪球大戰。支援電腦和手機，隨時隨地享受 Snowball Fight 雪球對戰的樂趣。',
@@ -59,7 +61,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="zh-Hant">
-      <body className="antialiased overflow-hidden">
+      <body className="overflow-hidden">
         {children}
       </body>
     </html>

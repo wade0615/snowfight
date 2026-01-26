@@ -9,6 +9,7 @@ import {
   drawBarrier,
   drawGreeting,
   drawGameOver,
+  setupPixelRendering,
 } from '@/utils/renderer';
 import {
   checkSnowballHitPlayer,
@@ -236,6 +237,9 @@ export function useGameLoop(
 
       const ctx = canvas.getContext('2d');
       if (!ctx) return;
+
+      // 確保像素渲染模式 (每幀重設，因為瀏覽器可能重置)
+      setupPixelRendering(ctx);
 
       const now = timestamp;
 

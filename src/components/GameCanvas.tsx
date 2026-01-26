@@ -150,16 +150,19 @@ export default function GameCanvas() {
     <div
       ref={containerRef}
       className="relative w-full h-full flex items-center justify-center"
-      style={{ backgroundColor: '#e5e5e5' }}
+      style={{ backgroundColor: '#1a1a2e' }}
     >
       <canvas
         ref={canvasRef}
         onClick={handleCanvasClick}
-        className="shadow-2xl cursor-pointer"
+        className="cursor-pointer"
         style={{
           maxWidth: '960px',
           maxHeight: '540px',
-          touchAction: 'none', // 防止瀏覽器預設的觸控行為
+          touchAction: 'none',
+          imageRendering: 'pixelated',
+          border: '4px solid #1a1a2e',
+          boxShadow: '6px 6px 0px 0px #0d0d1a',
         }}
       />
 
@@ -169,15 +172,51 @@ export default function GameCanvas() {
         onAttackEnd={handleTouchAttackEnd}
       />
 
-      {/* 載入中 */}
+      {/* 載入中 - Pixel Art 風格 */}
       {isLoading && (
-        <div className="absolute inset-0 flex flex-col items-center justify-center bg-gray-200/80">
-          <div className="text-gray-700 text-2xl mb-4">載入中...</div>
-          <div className="w-64 h-2 bg-gray-400 rounded-full overflow-hidden">
+        <div
+          className="absolute inset-0 flex flex-col items-center justify-center"
+          style={{ background: '#FAF5EB' }}
+        >
+          <div
+            style={{
+              fontFamily: "'Press Start 2P', monospace",
+              fontSize: '16px',
+              color: '#1a1a2e',
+              marginBottom: '24px',
+            }}
+          >
+            LOADING...
+          </div>
+          <div
+            style={{
+              width: '256px',
+              height: '16px',
+              background: '#1a1a2e',
+              border: '3px solid #1a1a2e',
+              boxShadow: '3px 3px 0px 0px #0d0d1a',
+              position: 'relative',
+              overflow: 'hidden',
+            }}
+          >
             <div
-              className="h-full bg-blue-500 transition-all duration-300"
-              style={{ width: `${useGameStore.getState().loadingProgress}%` }}
+              style={{
+                height: '100%',
+                background: '#30A14E',
+                width: `${useGameStore.getState().loadingProgress}%`,
+                imageRendering: 'pixelated',
+              }}
             />
+          </div>
+          <div
+            style={{
+              fontFamily: "'VT323', monospace",
+              fontSize: '18px',
+              color: '#888',
+              marginTop: '12px',
+            }}
+          >
+            {Math.round(useGameStore.getState().loadingProgress)}%
           </div>
         </div>
       )}

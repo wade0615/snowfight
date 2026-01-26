@@ -9,83 +9,171 @@ export default function Instructions() {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
+      className="fixed inset-0 z-50 flex items-center justify-center"
+      style={{ background: 'rgba(0, 0, 0, 0.6)' }}
       onClick={() => setShowInstructions(false)}
     >
       <div
-        className="bg-white rounded-lg shadow-xl p-6 w-full max-w-md mx-4 max-h-[80vh] overflow-y-auto"
+        className="pixel-border w-full max-w-md mx-4 max-h-[80vh] overflow-y-auto"
+        style={{
+          background: '#FAF5EB',
+          padding: '24px',
+        }}
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-2xl font-bold text-gray-800">❓ {t.instructionsTitle}</h2>
+          <h2
+            style={{
+              fontFamily: "'Press Start 2P', monospace",
+              fontSize: '14px',
+              color: '#1a1a2e',
+            }}
+          >
+            {t.instructionsTitle}
+          </h2>
           <button
             onClick={() => setShowInstructions(false)}
-            className="text-gray-500 hover:text-gray-700 text-2xl"
+            className="cursor-pointer"
+            style={{
+              fontFamily: "'Press Start 2P', monospace",
+              fontSize: '16px',
+              color: '#1a1a2e',
+            }}
           >
-            ×
+            x
           </button>
         </div>
 
-        <div className="space-y-4 text-gray-700">
+        <div
+          className="space-y-4"
+          style={{
+            fontFamily: "'VT323', monospace",
+            fontSize: '18px',
+            color: '#333',
+          }}
+        >
           <section>
-            <h3 className="font-bold text-lg mb-2">{t.instructionsGoalTitle}</h3>
+            <h3
+              style={{
+                fontFamily: "'Press Start 2P', monospace",
+                fontSize: '10px',
+                color: '#1a1a2e',
+                marginBottom: '8px',
+              }}
+            >
+              {t.instructionsGoalTitle}
+            </h3>
             <p>{t.instructionsGoalDesc}</p>
           </section>
 
+          <div style={{ borderTop: '2px dashed #C8B8A0' }} />
+
           <section>
-            <h3 className="font-bold text-lg mb-2">{t.instructionsControlsTitle}</h3>
+            <h3
+              style={{
+                fontFamily: "'Press Start 2P', monospace",
+                fontSize: '10px',
+                color: '#1a1a2e',
+                marginBottom: '8px',
+              }}
+            >
+              {t.instructionsControlsTitle}
+            </h3>
             <div className="space-y-3">
               <div>
-                <p className="font-semibold text-blue-600 mb-1">{t.instructionsControlsPC}</p>
-                <ul className="list-disc list-inside space-y-1 ml-2">
-                  <li>{t.instructionsControlsPCMove}</li>
-                  <li>{t.instructionsControlsPCAttack}</li>
-                  <li>{t.instructionsControlsPCCharge}</li>
-                  <li>{t.instructionsControlsPCFire}</li>
+                <p style={{ color: '#3E7DC9', fontWeight: 'bold', marginBottom: '4px' }}>
+                  {t.instructionsControlsPC}
+                </p>
+                <ul className="list-none space-y-1 ml-2">
+                  <li>&gt; {t.instructionsControlsPCMove}</li>
+                  <li>&gt; {t.instructionsControlsPCAttack}</li>
+                  <li>&gt; {t.instructionsControlsPCCharge}</li>
+                  <li>&gt; {t.instructionsControlsPCFire}</li>
                 </ul>
               </div>
               <div>
-                <p className="font-semibold text-green-600 mb-1">{t.instructionsControlsMobile}</p>
-                <ul className="list-disc list-inside space-y-1 ml-2">
-                  <li>{t.instructionsControlsMobileMove}</li>
-                  <li>{t.instructionsControlsMobileAttack}</li>
-                  <li>{t.instructionsControlsMobileCharge}</li>
-                  <li>{t.instructionsControlsMobileFire}</li>
+                <p style={{ color: '#30A14E', fontWeight: 'bold', marginBottom: '4px' }}>
+                  {t.instructionsControlsMobile}
+                </p>
+                <ul className="list-none space-y-1 ml-2">
+                  <li>&gt; {t.instructionsControlsMobileMove}</li>
+                  <li>&gt; {t.instructionsControlsMobileAttack}</li>
+                  <li>&gt; {t.instructionsControlsMobileCharge}</li>
+                  <li>&gt; {t.instructionsControlsMobileFire}</li>
                 </ul>
               </div>
             </div>
           </section>
 
+          <div style={{ borderTop: '2px dashed #C8B8A0' }} />
+
           <section>
-            <h3 className="font-bold text-lg mb-2">{t.instructionsHealthTitle}</h3>
-            <ul className="list-disc list-inside space-y-1">
-              <li>{t.instructionsHealthPlayer}</li>
-              <li>{t.instructionsHealthEnemy}</li>
-              <li>{t.instructionsHealthDamage}</li>
+            <h3
+              style={{
+                fontFamily: "'Press Start 2P', monospace",
+                fontSize: '10px',
+                color: '#1a1a2e',
+                marginBottom: '8px',
+              }}
+            >
+              {t.instructionsHealthTitle}
+            </h3>
+            <ul className="list-none space-y-1">
+              <li>&gt; {t.instructionsHealthPlayer}</li>
+              <li>&gt; {t.instructionsHealthEnemy}</li>
+              <li>&gt; {t.instructionsHealthDamage}</li>
             </ul>
           </section>
 
+          <div style={{ borderTop: '2px dashed #C8B8A0' }} />
+
           <section>
-            <h3 className="font-bold text-lg mb-2">{t.instructionsScoreTitle}</h3>
-            <ul className="list-disc list-inside space-y-1">
-              <li>{t.instructionsScoreHit}</li>
-              <li>{t.instructionsScoreRecord}</li>
+            <h3
+              style={{
+                fontFamily: "'Press Start 2P', monospace",
+                fontSize: '10px',
+                color: '#1a1a2e',
+                marginBottom: '8px',
+              }}
+            >
+              {t.instructionsScoreTitle}
+            </h3>
+            <ul className="list-none space-y-1">
+              <li>&gt; {t.instructionsScoreHit}</li>
+              <li>&gt; {t.instructionsScoreRecord}</li>
             </ul>
           </section>
 
+          <div style={{ borderTop: '2px dashed #C8B8A0' }} />
+
           <section>
-            <h3 className="font-bold text-lg mb-2">{t.instructionsTipsTitle}</h3>
-            <ul className="list-disc list-inside space-y-1">
-              <li>{t.instructionsTip1}</li>
-              <li>{t.instructionsTip2}</li>
-              <li>{t.instructionsTip3}</li>
+            <h3
+              style={{
+                fontFamily: "'Press Start 2P', monospace",
+                fontSize: '10px',
+                color: '#1a1a2e',
+                marginBottom: '8px',
+              }}
+            >
+              {t.instructionsTipsTitle}
+            </h3>
+            <ul className="list-none space-y-1">
+              <li>&gt; {t.instructionsTip1}</li>
+              <li>&gt; {t.instructionsTip2}</li>
+              <li>&gt; {t.instructionsTip3}</li>
             </ul>
           </section>
         </div>
 
         <button
           onClick={() => setShowInstructions(false)}
-          className="w-full mt-6 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+          className="w-full mt-6 pixel-btn cursor-pointer"
+          style={{
+            padding: '10px 16px',
+            background: '#3E7DC9',
+            color: '#FFF',
+            fontSize: '10px',
+          }}
         >
           {t.instructionsClose}
         </button>

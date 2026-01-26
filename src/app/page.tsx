@@ -20,9 +20,12 @@ export default function Home() {
   }, []);
 
   return (
-    <main className={`w-screen h-screen bg-gray-900 overflow-hidden ${isMobile ? '' : 'flex items-center justify-center'}`}>
+    <main
+      className={`w-screen h-screen overflow-hidden ${isMobile ? '' : 'flex items-center justify-center'}`}
+      style={{ background: '#1a1a2e' }}
+    >
       <div
-        className="relative transition-transform duration-300"
+        className="relative"
         style={{
           // 手機版：填滿整個 viewport，旋轉後會正確顯示
           width: isMobile ? '100vh' : '100%',

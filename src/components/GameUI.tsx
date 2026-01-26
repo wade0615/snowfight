@@ -32,86 +32,135 @@ export default function GameUI() {
 
   return (
     <>
-      {/* 遊戲資訊面板 */}
+      {/* 遊戲資訊面板 - Pixel Art 風格 */}
       <div
         className={`
           absolute top-4 left-10 z-10
-          bg-white/95 backdrop-blur-sm rounded-lg shadow-lg
-          transition-all duration-300
+          pixel-border hand-drawn
           ${menuCollapsed ? "w-12 h-12" : "p-4"}
         `}
+        style={{
+          background: '#FAF5EB',
+          imageRendering: 'pixelated',
+        }}
       >
         {menuCollapsed ? (
           <button
             onClick={() => setMenuCollapsed(false)}
-            className="w-full h-full flex items-center justify-center text-xl text-gray-800 hover:text-gray-600"
+            className="w-full h-full flex items-center justify-center cursor-pointer"
+            style={{
+              fontFamily: "'Press Start 2P', monospace",
+              fontSize: '14px',
+              color: '#1a1a2e',
+            }}
             aria-label="展開選單"
           >
-            ☰
+            =
           </button>
         ) : (
           <div className="space-y-2">
             <div className="flex justify-between items-center mb-2">
-              <span className="font-bold text-gray-900">{t.gameInfo}</span>
+              <span
+                style={{
+                  fontFamily: "'Press Start 2P', monospace",
+                  fontSize: '10px',
+                  color: '#1a1a2e',
+                }}
+              >
+                {t.gameInfo}
+              </span>
               <button
                 onClick={() => setMenuCollapsed(true)}
-                className="text-gray-600 hover:text-gray-800 text-xl leading-none"
+                className="cursor-pointer"
+                style={{
+                  fontFamily: "'Press Start 2P', monospace",
+                  fontSize: '14px',
+                  color: '#1a1a2e',
+                  lineHeight: 1,
+                }}
                 aria-label="Close menu"
               >
-                ✕
+                x
               </button>
             </div>
 
-            <div className="text-gray-800">
+            <div style={{ fontFamily: "'VT323', monospace", fontSize: '18px', color: '#1a1a2e' }}>
               <div className="flex justify-between">
-                <span className="font-medium">{t.level}:</span>
-                <span className="font-bold text-blue-600">{level}</span>
+                <span>{t.level}:</span>
+                <span style={{ color: '#3E7DC9', fontWeight: 'bold' }}>{level}</span>
               </div>
               <div className="flex justify-between">
-                <span className="font-medium">{t.score}:</span>
-                <span className="font-bold text-green-600">{score}</span>
+                <span>{t.score}:</span>
+                <span style={{ color: '#30A14E', fontWeight: 'bold' }}>{score}</span>
               </div>
               <div className="flex justify-between">
-                <span className="font-medium">{t.hitProgress}:</span>
-                <span className="font-bold text-orange-600">{hitCount} / {hitTarget}</span>
+                <span>{t.hitProgress}:</span>
+                <span style={{ color: '#E8A317', fontWeight: 'bold' }}>{hitCount} / {hitTarget}</span>
               </div>
             </div>
 
-            <div className="border-t border-gray-300 pt-2 mt-2 space-y-1">
+            <div
+              className="pt-2 mt-2 space-y-1"
+              style={{ borderTop: '2px dashed #C8B8A0' }}
+            >
               <button
                 onClick={() => setShowLeaderboard(true)}
-                className="w-full text-left px-2 py-1 rounded hover:bg-gray-200 text-sm text-gray-800 font-medium transition-colors"
+                className="w-full text-left px-2 py-1 cursor-pointer pixel-btn"
+                style={{
+                  fontSize: '8px',
+                  background: '#FAF5EB',
+                  color: '#1a1a2e',
+                }}
               >
-                🏆 {t.leaderboard}
+                {t.leaderboard}
               </button>
               <button
                 onClick={() => setShowInstructions(true)}
-                className="w-full text-left px-2 py-1 rounded hover:bg-gray-200 text-sm text-gray-800 font-medium transition-colors"
+                className="w-full text-left px-2 py-1 cursor-pointer pixel-btn"
+                style={{
+                  fontSize: '8px',
+                  background: '#FAF5EB',
+                  color: '#1a1a2e',
+                }}
               >
-                ❓ {t.instructions}
+                {t.instructions}
               </button>
             </div>
 
-            <div className="border-t border-gray-300 pt-2 mt-2">
-              <div className="text-xs text-gray-600 mb-1">{t.language}</div>
+            <div
+              className="pt-2 mt-2"
+              style={{ borderTop: '2px dashed #C8B8A0' }}
+            >
+              <div
+                className="mb-1"
+                style={{
+                  fontFamily: "'VT323', monospace",
+                  fontSize: '14px',
+                  color: '#888',
+                }}
+              >
+                {t.language}
+              </div>
               <div className="flex gap-1">
                 <button
                   onClick={() => setLanguage('zh')}
-                  className={`flex-1 px-2 py-1 rounded text-sm font-medium transition-colors ${
-                    language === 'zh'
-                      ? 'bg-blue-500 text-white'
-                      : 'bg-gray-200 text-gray-800 hover:bg-gray-300'
-                  }`}
+                  className="flex-1 px-2 py-1 cursor-pointer pixel-btn"
+                  style={{
+                    fontSize: '8px',
+                    background: language === 'zh' ? '#3E7DC9' : '#FAF5EB',
+                    color: language === 'zh' ? '#FFF' : '#1a1a2e',
+                  }}
                 >
                   {t.chinese}
                 </button>
                 <button
                   onClick={() => setLanguage('en')}
-                  className={`flex-1 px-2 py-1 rounded text-sm font-medium transition-colors ${
-                    language === 'en'
-                      ? 'bg-blue-500 text-white'
-                      : 'bg-gray-200 text-gray-800 hover:bg-gray-300'
-                  }`}
+                  className="flex-1 px-2 py-1 cursor-pointer pixel-btn"
+                  style={{
+                    fontSize: '8px',
+                    background: language === 'en' ? '#3E7DC9' : '#FAF5EB',
+                    color: language === 'en' ? '#FFF' : '#1a1a2e',
+                  }}
                 >
                   {t.english}
                 </button>
