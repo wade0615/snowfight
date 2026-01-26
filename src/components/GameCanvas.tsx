@@ -9,6 +9,10 @@ import type { GameImages } from '@/types/game';
 import {
   ASPECT_RATIO,
 } from '@/utils/constants';
+import { isMobileDevice } from '@/utils/deviceDetection';
+
+// 手機版場地放大倍率
+const MOBILE_CANVAS_SCALE = 1.2;
 
 export default function GameCanvas() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -27,6 +31,8 @@ export default function GameCanvas() {
     pain: null,
     fall: null,
   });
+
+  const [isMobile] = useState(() => isMobileDevice());
 
   const {
     setCanvasSize,
@@ -161,8 +167,11 @@ export default function GameCanvas() {
           maxHeight: '540px',
           touchAction: 'none',
           imageRendering: 'pixelated',
-          border: '4px solid #1a1a2e',
-          boxShadow: '6px 6px 0px 0px #0d0d1a',
+          border: isMobile ? 'none' : '4px solid #1a1a2e',
+          boxShadow: isMobile ? 'none' : '6px 6px 0px 0px #0d0d1a',
+          // 手機版放大 1.2 倍，讓場地與人物更大更清楚
+          transform: isMobile ? `scale(${MOBILE_CANVAS_SCALE})` : 'none',
+          transformOrigin: 'center center',
         }}
       />
 
