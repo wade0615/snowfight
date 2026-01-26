@@ -135,14 +135,26 @@ export default function GameCanvas() {
     });
   }, [setCanvasSize]);
 
-  // 監聽視窗大小變化
+  // 監聽容器與視窗大小變化
+  // 使用 ResizeObserver 偵測容器尺寸改變（解決 page.tsx isMobile 延遲導致的尺寸不一致）
   useEffect(() => {
     resizeCanvas();
+
+    const container = containerRef.current;
+    let observer: ResizeObserver | null = null;
+
+    if (container) {
+      observer = new ResizeObserver(() => {
+        resizeCanvas();
+      });
+      observer.observe(container);
+    }
 
     window.addEventListener('resize', resizeCanvas);
     window.addEventListener('orientationchange', resizeCanvas);
 
     return () => {
+      observer?.disconnect();
       window.removeEventListener('resize', resizeCanvas);
       window.removeEventListener('orientationchange', resizeCanvas);
     };
