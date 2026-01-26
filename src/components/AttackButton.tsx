@@ -69,9 +69,6 @@ export default function AttackButton({
 
   if (!shouldShow) return null;
 
-  // 手機版畫面會旋轉 90 度，按鈕也會跟著旋轉
-  // 使用 absolute 定位相對於旋轉容器
-  // 在旋轉前的座標系統中，left-12 bottom-6 會在旋轉後顯示在左下角
   return (
     <div
       className="absolute left-12 bottom-6 z-50"
@@ -79,46 +76,77 @@ export default function AttackButton({
         width: "80px",
         height: "80px",
         touchAction: "none",
-        pointerEvents: "auto", // 確保觸控事件可以被捕獲
+        pointerEvents: "auto",
       }}
     >
       <div
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
         onTouchCancel={handleTouchEnd}
-        className={`
-          relative w-full h-full rounded-full
-          flex items-center justify-center
-          transition-all duration-150
-          ${
-            selectedPlayerIndex === null
-              ? "bg-gray-400/30 cursor-not-allowed"
-              : isCharging
-              ? "bg-blue-500/60 scale-110"
-              : "bg-blue-500/40 active:scale-95"
-          }
-          border-2 border-white/50
-          shadow-lg
-        `}
+        className="relative w-full h-full flex items-center justify-center"
         style={{
-          background:
-            selectedPlayerIndex !== null && isCharging
-              ? `conic-gradient(
-                rgba(59, 130, 246, 0.8) ${chargeProgress}%,
-                rgba(59, 130, 246, 0.3) ${chargeProgress}%
-              )`
-              : undefined,
+          border: '3px solid #1a1a2e',
+          boxShadow: isCharging
+            ? '1px 1px 0px 0px #0d0d1a'
+            : '3px 3px 0px 0px #0d0d1a',
+          background: selectedPlayerIndex === null
+            ? 'rgba(150, 150, 150, 0.4)'
+            : isCharging
+              ? 'rgba(62, 125, 201, 0.7)'
+              : 'rgba(62, 125, 201, 0.5)',
+          transform: isCharging ? 'translate(2px, 2px)' : 'none',
+          transition: 'transform 0.1s, box-shadow 0.1s',
+          imageRendering: 'pixelated',
+          cursor: selectedPlayerIndex === null ? 'not-allowed' : 'pointer',
         }}
       >
-        {/* 內圈 */}
-        <div className="absolute inset-2 rounded-full bg-white/20 flex items-center justify-center">
-          {/* 雪球圖標 (簡單的圓點) */}
-          <div className="w-6 h-6 rounded-full bg-white/80" />
+        {/* 蓄力進度指示 - 像素方塊填充 */}
+        {isCharging && selectedPlayerIndex !== null && (
+          <div
+            className="absolute bottom-0 left-0 right-0"
+            style={{
+              height: `${chargeProgress}%`,
+              background: 'rgba(62, 125, 201, 0.5)',
+              transition: 'height 16ms linear',
+            }}
+          />
+        )}
+
+        {/* 內圈 - 像素風格 */}
+        <div
+          className="absolute flex items-center justify-center"
+          style={{
+            inset: '8px',
+            border: '2px dashed rgba(255, 255, 255, 0.4)',
+          }}
+        >
+          {/* 雪球圖標 (像素方塊) */}
+          <div
+            style={{
+              width: '20px',
+              height: '20px',
+              background: 'rgba(255, 255, 255, 0.8)',
+              border: '2px solid rgba(255, 255, 255, 0.6)',
+            }}
+          />
         </div>
 
         {/* 提示文字 */}
         {selectedPlayerIndex === null && (
-          <div className="absolute -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap text-xs text-white/70 bg-black/40 px-2 py-1 rounded">
+          <div
+            className="absolute whitespace-nowrap"
+            style={{
+              top: '-32px',
+              left: '50%',
+              transform: 'translateX(-50%)',
+              fontFamily: "'Press Start 2P', monospace",
+              fontSize: '6px',
+              color: 'rgba(255,255,255,0.7)',
+              background: 'rgba(0,0,0,0.6)',
+              padding: '4px 8px',
+              border: '2px solid rgba(255,255,255,0.3)',
+            }}
+          >
             {t.attackButtonHint}
           </div>
         )}

@@ -229,7 +229,8 @@ export function findPlayerAtPosition(
   players: Player[]
 ): number | null {
   // 控制圈偏移量（調整為 1.5 倍）
-  const controlOffsetY = 25;
+  const controlOffsetY = 35;
+  const controlOffsetX = 35;
   // 控制圈半徑（調整為 1.5 倍）
   const controlRadius = BASE_PLAYER_RADIUS + 15;
 
@@ -241,7 +242,7 @@ export function findPlayerAtPosition(
     if (!player.alive) continue;
 
     // 控制圈中心位置（在玩家下方）
-    const controlX = player.x;
+    const controlX = player.x + controlOffsetX;
     const controlY = player.y + controlOffsetY;
 
     const dist = distance(x, y, controlX, controlY);

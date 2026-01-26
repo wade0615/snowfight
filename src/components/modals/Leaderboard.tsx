@@ -21,55 +21,83 @@ export default function Leaderboard() {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
+      className="fixed inset-0 z-50 flex items-center justify-center"
+      style={{ background: 'rgba(0, 0, 0, 0.6)' }}
       onClick={() => setShowLeaderboard(false)}
     >
       <div
-        className="bg-white rounded-lg shadow-xl p-6 w-full max-w-md mx-4"
+        className="pixel-border w-full max-w-md mx-4"
+        style={{
+          background: '#FAF5EB',
+          padding: '24px',
+        }}
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-2xl font-bold text-gray-800">🏆 {t.leaderboardTitle}</h2>
+          <h2
+            style={{
+              fontFamily: "'Press Start 2P', monospace",
+              fontSize: '14px',
+              color: '#1a1a2e',
+            }}
+          >
+            {t.leaderboardTitle}
+          </h2>
           <button
             onClick={() => setShowLeaderboard(false)}
-            className="text-gray-500 hover:text-gray-700 text-2xl"
+            className="cursor-pointer"
+            style={{
+              fontFamily: "'Press Start 2P', monospace",
+              fontSize: '16px',
+              color: '#1a1a2e',
+            }}
           >
-            ×
+            x
           </button>
         </div>
 
         {leaderboard.length > 0 ? (
-          <div className="overflow-hidden rounded-lg border border-gray-200">
-            <table className="w-full">
-              <thead className="bg-gray-100">
-                <tr>
-                  <th className="px-3 py-2 text-left text-gray-600">{t.leaderboardRank}</th>
-                  <th className="px-3 py-2 text-left text-gray-600">{t.leaderboardScore}</th>
-                  <th className="px-3 py-2 text-left text-gray-600">{t.leaderboardLevel}</th>
-                  <th className="px-3 py-2 text-left text-gray-600">{t.leaderboardDuration}</th>
-                  <th className="px-3 py-2 text-left text-gray-600">{t.leaderboardDate}</th>
+          <div className="pixel-border-thin overflow-hidden">
+            <table
+              className="w-full"
+              style={{
+                fontFamily: "'VT323', monospace",
+                fontSize: '18px',
+              }}
+            >
+              <thead>
+                <tr style={{ background: '#E8DCC8' }}>
+                  <th className="px-3 py-2 text-left" style={{ color: '#1a1a2e', fontFamily: "'Press Start 2P', monospace", fontSize: '7px' }}>{t.leaderboardRank}</th>
+                  <th className="px-3 py-2 text-left" style={{ color: '#1a1a2e', fontFamily: "'Press Start 2P', monospace", fontSize: '7px' }}>{t.leaderboardScore}</th>
+                  <th className="px-3 py-2 text-left" style={{ color: '#1a1a2e', fontFamily: "'Press Start 2P', monospace", fontSize: '7px' }}>{t.leaderboardLevel}</th>
+                  <th className="px-3 py-2 text-left" style={{ color: '#1a1a2e', fontFamily: "'Press Start 2P', monospace", fontSize: '7px' }}>{t.leaderboardDuration}</th>
+                  <th className="px-3 py-2 text-left" style={{ color: '#1a1a2e', fontFamily: "'Press Start 2P', monospace", fontSize: '7px' }}>{t.leaderboardDate}</th>
                 </tr>
               </thead>
               <tbody>
                 {leaderboard.map((entry, index) => (
                   <tr
                     key={index}
-                    className={`
-                      border-t border-gray-100
-                      ${entry.score === score ? 'bg-yellow-50' : ''}
-                      ${index === 0 ? 'bg-amber-50' : ''}
-                    `}
+                    style={{
+                      borderTop: '2px solid #E8DCC8',
+                      color: '#333',
+                      background: entry.score === score
+                        ? '#FFF8DC'
+                        : index === 0
+                          ? '#FFF5E0'
+                          : 'transparent',
+                    }}
                   >
-                    <td className="px-3 py-2">
-                      {index === 0 && '🥇'}
-                      {index === 1 && '🥈'}
-                      {index === 2 && '🥉'}
+                    <td className="px-3 py-2" style={{ fontWeight: 'bold' }}>
+                      {index === 0 && '* 1 *'}
+                      {index === 1 && '* 2 *'}
+                      {index === 2 && '* 3 *'}
                       {index > 2 && `#${index + 1}`}
                     </td>
-                    <td className="px-3 py-2 font-bold">{entry.score}</td>
+                    <td className="px-3 py-2" style={{ fontWeight: 'bold', color: '#E04040' }}>{entry.score}</td>
                     <td className="px-3 py-2">{entry.level || '-'}</td>
                     <td className="px-3 py-2">{formatDuration(entry.duration)}</td>
-                    <td className="px-3 py-2 text-sm text-gray-500">
+                    <td className="px-3 py-2" style={{ fontSize: '16px', color: '#888' }}>
                       {entry.date}
                     </td>
                   </tr>
@@ -78,7 +106,14 @@ export default function Leaderboard() {
             </table>
           </div>
         ) : (
-          <div className="text-center py-8 text-gray-500">
+          <div
+            className="text-center py-8"
+            style={{
+              fontFamily: "'VT323', monospace",
+              fontSize: '20px',
+              color: '#888',
+            }}
+          >
             {t.leaderboardEmpty}
           </div>
         )}
@@ -90,13 +125,25 @@ export default function Leaderboard() {
                 clearLeaderboard();
               }
             }}
-            className="px-4 py-2 text-red-600 hover:bg-red-50 rounded"
+            className="pixel-btn cursor-pointer"
+            style={{
+              padding: '8px 16px',
+              background: '#FAF5EB',
+              color: '#E04040',
+              fontSize: '8px',
+            }}
           >
             {t.leaderboardClear}
           </button>
           <button
             onClick={() => setShowLeaderboard(false)}
-            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+            className="pixel-btn cursor-pointer"
+            style={{
+              padding: '8px 16px',
+              background: '#3E7DC9',
+              color: '#FFF',
+              fontSize: '10px',
+            }}
           >
             {t.leaderboardClose}
           </button>

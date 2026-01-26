@@ -11,6 +11,10 @@ import {
 } from './constants';
 import { isMobileDevice } from './deviceDetection';
 
+// Pixel Art 字體常數
+const PIXEL_FONT = "'Press Start 2P', monospace";
+const PIXEL_FONT_BODY = "'VT323', monospace";
+
 // 裝飾用雪堆位置（固定位置，確保敵我雙方區域都有）- 左右對分
 const DECORATIVE_SNOW_PILES = [
   // 敵人區域（左半邊）
@@ -27,27 +31,127 @@ const DECORATIVE_SNOW_PILES = [
   { x: 0.90, y: 0.70 },
 ];
 
+// === Pixel Art 工具函數 ===
+
+// 繪製像素風格矩形邊框 (手繪感，帶微妙抖動)
+function drawPixelRect(
+  ctx: CanvasRenderingContext2D,
+  x: number,
+  y: number,
+  w: number,
+  h: number,
+  color: string,
+  lineWidth: number = 2
+): void {
+  ctx.save();
+  ctx.strokeStyle = color;
+  ctx.lineWidth = lineWidth;
+  ctx.lineJoin = 'miter';
+  ctx.lineCap = 'square';
+
+  // 手繪感：用多段直線模擬略微不規則的邊框
+  const jitter = 0.8;
+  const segments = 8;
+
+  ctx.beginPath();
+  // 上邊
+  ctx.moveTo(x, y);
+  for (let i = 1; i <= segments; i++) {
+    const px = x + (w / segments) * i;
+    const py = y + (Math.random() - 0.5) * jitter;
+    ctx.lineTo(px, py);
+  }
+  // 右邊
+  for (let i = 1; i <= segments; i++) {
+    const px = x + w + (Math.random() - 0.5) * jitter;
+    const py = y + (h / segments) * i;
+    ctx.lineTo(px, py);
+  }
+  // 下邊
+  for (let i = segments - 1; i >= 0; i--) {
+    const px = x + (w / segments) * i;
+    const py = y + h + (Math.random() - 0.5) * jitter;
+    ctx.lineTo(px, py);
+  }
+  // 左邊
+  for (let i = segments - 1; i >= 0; i--) {
+    const px = x + (Math.random() - 0.5) * jitter;
+    const py = y + (h / segments) * i;
+    ctx.lineTo(px, py);
+  }
+  ctx.closePath();
+  ctx.stroke();
+  ctx.restore();
+}
+
+// 繪製像素陰影 (偏移色塊)
+function drawPixelShadow(
+  ctx: CanvasRenderingContext2D,
+  x: number,
+  y: number,
+  w: number,
+  h: number,
+  offset: number = 3
+): void {
+  ctx.save();
+  ctx.fillStyle = 'rgba(0,0,0,0.18)';
+  ctx.fillRect(x + offset, y + offset, w, h);
+  ctx.restore();
+}
+
+// 確保 Canvas 使用像素渲染 (disable smoothing)
+export function setupPixelRendering(ctx: CanvasRenderingContext2D): void {
+  ctx.imageSmoothingEnabled = false;
+  // @ts-expect-error vendor prefix
+  ctx.mozImageSmoothingEnabled = false;
+  // @ts-expect-error vendor prefix
+  ctx.webkitImageSmoothingEnabled = false;
+  // @ts-expect-error vendor prefix
+  ctx.msImageSmoothingEnabled = false;
+}
+
+// === 背景繪製 ===
+
 // 繪製背景
 export function drawBackground(
   ctx: CanvasRenderingContext2D,
   width: number,
   height: number
 ): void {
-  // 全範圍雪白色底色
-  ctx.fillStyle = '#FFFFFF';
+  // 像素風格的雪地底色 - 帶微妙的紙張質感
+  ctx.fillStyle = COLORS.pixel.paper;
   ctx.fillRect(0, 0, width, height);
 
-  // 繪製裝飾用雪堆
+  // 繪製像素網格暗示（極淡）
+  ctx.save();
+  ctx.strokeStyle = 'rgba(180, 170, 150, 0.12)';
+  ctx.lineWidth = 1;
+  const gridSize = 32;
+  for (let gx = 0; gx < width; gx += gridSize) {
+    ctx.beginPath();
+    ctx.moveTo(gx, 0);
+    ctx.lineTo(gx, height);
+    ctx.stroke();
+  }
+  for (let gy = 0; gy < height; gy += gridSize) {
+    ctx.beginPath();
+    ctx.moveTo(0, gy);
+    ctx.lineTo(width, gy);
+    ctx.stroke();
+  }
+  ctx.restore();
+
+  // 繪製裝飾用雪堆（像素風格）
   drawDecorativeSnowPiles(ctx, width, height);
 
-  // 繪製敵人區域邊界（左上三角形）
+  // 繪製敵人區域邊界（手繪像素邊框）
   drawEnemyAreaBoundary(ctx, width, height);
 
-  // 繪製玩家區域邊界（右下三角形）
+  // 繪製玩家區域邊界（手繪像素邊框）
   drawPlayerAreaBoundary(ctx, width, height);
 }
 
-// 繪製裝飾用雪堆（僅視覺效果）
+// 繪製裝飾用雪堆（像素風格 - 簡化幾何）
 function drawDecorativeSnowPiles(
   ctx: CanvasRenderingContext2D,
   width: number,
@@ -58,41 +162,34 @@ function drawDecorativeSnowPiles(
   DECORATIVE_SNOW_PILES.forEach((pile) => {
     const x = width * pile.x;
     const y = height * pile.y;
-    const baseWidth = 40;
-    const pileHeight = 20;
-    const topRadius = 6; // 頂端圓角半徑
+    const baseWidth = 36;
+    const pileHeight = 16;
 
-    // 計算三角形的三個點
-    const leftX = x - baseWidth / 2;
-    const rightX = x + baseWidth / 2;
-    const bottomY = y + pileHeight / 2;
-    const topY = y - pileHeight / 2;
-
-    // 繪製錐形雪堆（頂端帶圓角）
+    // 像素風格三角雪堆
     ctx.beginPath();
-    ctx.moveTo(leftX, bottomY);
-    // 左邊線到接近頂端
-    ctx.lineTo(x - topRadius * 0.5, topY + topRadius);
-    // 頂端圓角
-    ctx.quadraticCurveTo(x, topY - topRadius * 0.3, x + topRadius * 0.5, topY + topRadius);
-    // 右邊線到底端
-    ctx.lineTo(rightX, bottomY);
+    ctx.moveTo(x - baseWidth / 2, y + pileHeight / 2);
+    ctx.lineTo(x, y - pileHeight / 2);
+    ctx.lineTo(x + baseWidth / 2, y + pileHeight / 2);
     ctx.closePath();
 
-    // 淺淺的填充
-    ctx.fillStyle = 'rgba(220, 230, 240, 0.4)';
+    ctx.fillStyle = 'rgba(200, 215, 230, 0.35)';
     ctx.fill();
 
-    // 淺淺的邊框
-    ctx.strokeStyle = 'rgba(200, 210, 220, 0.3)';
-    ctx.lineWidth = 1;
+    // 像素描邊
+    ctx.strokeStyle = 'rgba(160, 175, 190, 0.3)';
+    ctx.lineWidth = 2;
+    ctx.lineJoin = 'miter';
     ctx.stroke();
+
+    // 雪堆頂部小點裝飾
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
+    ctx.fillRect(x - 2, y - pileHeight / 2 - 2, 4, 4);
   });
 
   ctx.restore();
 }
 
-// 繪製敵人區域邊界（左半邊矩形，帶圓角）
+// 繪製敵人區域邊界（像素風格虛線框）
 function drawEnemyAreaBoundary(
   ctx: CanvasRenderingContext2D,
   width: number,
@@ -102,31 +199,20 @@ function drawEnemyAreaBoundary(
   const maxX = width * BOUNDS.enemy.maxX;
   const minY = height * BOUNDS.enemy.minY;
   const maxY = height * BOUNDS.enemy.maxY;
-  const radius = 10; // 圓角半徑
 
   ctx.save();
-  ctx.strokeStyle = '#E8E8E8';
+  ctx.strokeStyle = '#C8B8A0';
   ctx.lineWidth = 2;
+  ctx.lineJoin = 'miter';
+  ctx.lineCap = 'square';
+  ctx.setLineDash([8, 6]);
+
+  ctx.strokeRect(minX, minY, maxX - minX, maxY - minY);
   ctx.setLineDash([]);
-
-  // 繪製圓角矩形
-  ctx.beginPath();
-  ctx.moveTo(minX + radius, minY);
-  ctx.lineTo(maxX - radius, minY);
-  ctx.arcTo(maxX, minY, maxX, minY + radius, radius);
-  ctx.lineTo(maxX, maxY - radius);
-  ctx.arcTo(maxX, maxY, maxX - radius, maxY, radius);
-  ctx.lineTo(minX + radius, maxY);
-  ctx.arcTo(minX, maxY, minX, maxY - radius, radius);
-  ctx.lineTo(minX, minY + radius);
-  ctx.arcTo(minX, minY, minX + radius, minY, radius);
-  ctx.closePath();
-  ctx.stroke();
-
   ctx.restore();
 }
 
-// 繪製玩家區域邊界（右半邊矩形，帶圓角）
+// 繪製玩家區域邊界（像素風格虛線框）
 function drawPlayerAreaBoundary(
   ctx: CanvasRenderingContext2D,
   width: number,
@@ -136,29 +222,20 @@ function drawPlayerAreaBoundary(
   const maxX = width * BOUNDS.player.maxX;
   const minY = height * BOUNDS.player.minY;
   const maxY = height * BOUNDS.player.maxY;
-  const radius = 10; // 圓角半徑
 
   ctx.save();
-  ctx.strokeStyle = '#E8E8E8';
+  ctx.strokeStyle = '#C8B8A0';
   ctx.lineWidth = 2;
+  ctx.lineJoin = 'miter';
+  ctx.lineCap = 'square';
+  ctx.setLineDash([8, 6]);
+
+  ctx.strokeRect(minX, minY, maxX - minX, maxY - minY);
   ctx.setLineDash([]);
-
-  // 繪製圓角矩形
-  ctx.beginPath();
-  ctx.moveTo(minX + radius, minY);
-  ctx.lineTo(maxX - radius, minY);
-  ctx.arcTo(maxX, minY, maxX, minY + radius, radius);
-  ctx.lineTo(maxX, maxY - radius);
-  ctx.arcTo(maxX, maxY, maxX - radius, maxY, radius);
-  ctx.lineTo(minX + radius, maxY);
-  ctx.arcTo(minX, maxY, minX, maxY - radius, radius);
-  ctx.lineTo(minX, minY + radius);
-  ctx.arcTo(minX, minY, minX + radius, minY, radius);
-  ctx.closePath();
-  ctx.stroke();
-
   ctx.restore();
 }
+
+// === 角色繪製 ===
 
 // 繪製玩家 (使用色塊)
 export function drawPlayer(
@@ -255,10 +332,11 @@ function drawPlayerShape(
   radius: number,
   charging: boolean
 ): void {
-  // 身體
+  // 身體 - 像素風格 (方形圓角改為方形)
   ctx.fillStyle = COLORS.player.body;
   ctx.strokeStyle = COLORS.player.outline;
   ctx.lineWidth = 2;
+  ctx.lineJoin = 'miter';
 
   ctx.beginPath();
   ctx.arc(x, y, radius, 0, Math.PI * 2);
@@ -278,6 +356,7 @@ function drawPlayerShape(
     ctx.lineTo(x + radius * 1.5, y - radius * 0.8);
     ctx.strokeStyle = COLORS.player.body;
     ctx.lineWidth = 6;
+    ctx.lineCap = 'square';
     ctx.stroke();
   }
 }
@@ -387,6 +466,7 @@ function drawEnemyShape(
   ctx.fillStyle = COLORS.enemy.body;
   ctx.strokeStyle = COLORS.enemy.outline;
   ctx.lineWidth = 2;
+  ctx.lineJoin = 'miter';
 
   // 根據狀態調整姿勢
   let bodyY = y;
@@ -413,11 +493,14 @@ function drawEnemyShape(
     ctx.lineTo(x - radius * 1.5, bodyY - radius * 0.8);
     ctx.strokeStyle = COLORS.enemy.body;
     ctx.lineWidth = 6;
+    ctx.lineCap = 'square';
     ctx.stroke();
   }
 }
 
-// 繪製掩體（雪堆）
+// === 物件繪製 ===
+
+// 繪製掩體（像素風格雪堆）
 export function drawBarrier(
   ctx: CanvasRenderingContext2D,
   barrier: Barrier,
@@ -426,49 +509,61 @@ export function drawBarrier(
   if (barrier.hp <= 0) return;
 
   const { x, y, radius } = barrier;
-  const actualRadius = radius * 1.2; // 稍微放大一點
+  const actualRadius = radius * 1.2;
 
-  // 雪堆底部陰影
-  ctx.beginPath();
-  ctx.ellipse(x, y + actualRadius * 0.3, actualRadius * 1.1, actualRadius * 0.4, 0, 0, Math.PI * 2);
-  ctx.fillStyle = 'rgba(200, 200, 200, 0.5)';
-  ctx.fill();
+  // 像素陰影
+  ctx.save();
+  ctx.fillStyle = 'rgba(0, 0, 0, 0.15)';
+  ctx.fillRect(
+    x - actualRadius + 3,
+    y - actualRadius * 0.5 + 3,
+    actualRadius * 2,
+    actualRadius * 1.2
+  );
+  ctx.restore();
 
-  // 雪堆主體 - 用橢圓形模擬雪堆
+  // 雪堆主體 - 像素風格（簡化為方塊組合）
+  ctx.save();
+  ctx.fillStyle = '#F8F8F8';
+  ctx.strokeStyle = '#B0B0B0';
+  ctx.lineWidth = 2;
+  ctx.lineJoin = 'miter';
+
+  // 用橢圓形但帶方角的風格
   ctx.beginPath();
   ctx.ellipse(x, y, actualRadius, actualRadius * 0.7, 0, 0, Math.PI * 2);
-
-  // 漸層填充
-  const gradient = ctx.createRadialGradient(x - actualRadius * 0.2, y - actualRadius * 0.2, 0, x, y, actualRadius);
-  gradient.addColorStop(0, '#FFFFFF');
-  gradient.addColorStop(0.7, '#F0F0F0');
-  gradient.addColorStop(1, '#DCDCDC');
-  ctx.fillStyle = gradient;
   ctx.fill();
-
-  // 邊框
-  ctx.strokeStyle = '#C0C0C0';
-  ctx.lineWidth = 1;
   ctx.stroke();
 
-  // 根據 HP 顯示損壞程度
+  // 像素風格高光
+  ctx.fillStyle = '#FFFFFF';
+  ctx.fillRect(x - actualRadius * 0.4, y - actualRadius * 0.3, 6, 6);
+  ctx.fillRect(x - actualRadius * 0.15, y - actualRadius * 0.45, 4, 4);
+
+  // 根據 HP 顯示損壞程度 (像素裂痕)
   if (barrier.hp < 3) {
-    ctx.fillStyle = 'rgba(150, 150, 150, 0.3)';
+    ctx.strokeStyle = '#888';
+    ctx.lineWidth = 2;
     ctx.beginPath();
-    ctx.arc(x - actualRadius * 0.3, y, actualRadius * 0.2, 0, Math.PI * 2);
-    ctx.fill();
+    ctx.moveTo(x - actualRadius * 0.2, y - actualRadius * 0.1);
+    ctx.lineTo(x, y + actualRadius * 0.1);
+    ctx.lineTo(x + actualRadius * 0.15, y - actualRadius * 0.05);
+    ctx.stroke();
   }
   if (barrier.hp < 2) {
     ctx.beginPath();
-    ctx.arc(x + actualRadius * 0.2, y - actualRadius * 0.2, actualRadius * 0.15, 0, Math.PI * 2);
-    ctx.fill();
+    ctx.moveTo(x + actualRadius * 0.1, y - actualRadius * 0.3);
+    ctx.lineTo(x + actualRadius * 0.3, y);
+    ctx.stroke();
   }
+
+  ctx.restore();
 
   // 血量顯示
   drawHpBar(ctx, x, y - actualRadius - 10, barrier.hp, BARRIER_MAX_HP, scale);
 }
 
-// 繪製雪球
+// 繪製雪球（像素風格）
 export function drawSnowball(
   ctx: CanvasRenderingContext2D,
   snowball: Snowball,
@@ -477,53 +572,61 @@ export function drawSnowball(
   const radius = SNOWBALL_RADIUS * scale;
   const { x, y } = snowball;
 
-  // 陰影
-  ctx.beginPath();
-  ctx.arc(x + 2, y + 2, radius, 0, Math.PI * 2);
-  ctx.fillStyle = COLORS.snowball.shadow;
-  ctx.fill();
+  // 像素陰影（偏移方塊）
+  ctx.fillStyle = '#C0C0C0';
+  ctx.fillRect(
+    Math.round(x - radius + 2),
+    Math.round(y - radius + 2),
+    Math.round(radius * 2),
+    Math.round(radius * 2)
+  );
 
-  // 雪球本體
-  const gradient = ctx.createRadialGradient(x - 2, y - 2, 0, x, y, radius);
-  gradient.addColorStop(0, '#FFFFFF');
-  gradient.addColorStop(1, '#E8E8E8');
-
+  // 雪球本體（圓形但無漸層 → 純色填充）
   ctx.beginPath();
   ctx.arc(x, y, radius, 0, Math.PI * 2);
-  ctx.fillStyle = gradient;
+  ctx.fillStyle = '#FAFAFA';
   ctx.fill();
+  ctx.strokeStyle = '#D0D0D0';
+  ctx.lineWidth = 1;
+  ctx.stroke();
 
-  // 高光
-  ctx.beginPath();
-  ctx.arc(x - radius * 0.3, y - radius * 0.3, radius * 0.2, 0, Math.PI * 2);
-  ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
-  ctx.fill();
+  // 像素風格高光（小方塊）
+  ctx.fillStyle = '#FFFFFF';
+  ctx.fillRect(
+    Math.round(x - radius * 0.4),
+    Math.round(y - radius * 0.4),
+    Math.round(radius * 0.5),
+    Math.round(radius * 0.5)
+  );
 }
 
-// 繪製控制圈指示（參考 main.js）
+// === UI 繪製 ===
+
+// 繪製控制圈指示（像素風格虛線圈）
 function drawControlCircle(
   ctx: CanvasRenderingContext2D,
   x: number,
   y: number,
   hp: number
 ): void {
-  // 控制圈位置在玩家下方（調整為 1.5 倍）
-  const controlOffsetY = 25;
+  const controlOffsetY = 35;
+  const controlOffsetX = 35;
   const controlRadius = BASE_PLAYER_RADIUS + 15;
 
   ctx.save();
+  ctx.setLineDash([4, 4]);
   ctx.beginPath();
-  ctx.arc(x, y + controlOffsetY, controlRadius, 0, Math.PI * 2);
-  // 根據血量決定顏色（參考 main.js: hp === 2 ? '#0f0' : '#fa0'）
-  ctx.strokeStyle = hp === PLAYER_MAX_HP ? '#0f0' : '#fa0';
+  ctx.arc(x + controlOffsetX, y + controlOffsetY, controlRadius, 0, Math.PI * 2);
+  ctx.strokeStyle = hp === PLAYER_MAX_HP ? '#30A14E' : '#E8A317';
   ctx.lineWidth = 2;
-  ctx.globalAlpha = 0.2;
+  ctx.globalAlpha = 0.3;
   ctx.stroke();
+  ctx.setLineDash([]);
   ctx.globalAlpha = 1;
   ctx.restore();
 }
 
-// 繪製蓄力圈
+// 繪製蓄力圈（像素風格方形擴展）
 function drawChargeCircle(
   ctx: CanvasRenderingContext2D,
   x: number,
@@ -531,18 +634,22 @@ function drawChargeCircle(
   radius: number,
   charge: number
 ): void {
-  const chargeRadius = radius * (1 + charge);
+  const chargeSize = radius * (1 + charge);
 
+  ctx.save();
+  ctx.setLineDash([3, 3]);
   ctx.beginPath();
-  ctx.arc(x, y, chargeRadius, 0, Math.PI * 2);
+  ctx.arc(x, y, chargeSize, 0, Math.PI * 2);
   ctx.fillStyle = COLORS.charge.fill;
   ctx.fill();
   ctx.strokeStyle = COLORS.charge.stroke;
   ctx.lineWidth = 2;
   ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.restore();
 }
 
-// 繪製血量條
+// 繪製血量條（像素風格 - 方塊填充，無圓角）
 function drawHpBar(
   ctx: CanvasRenderingContext2D,
   x: number,
@@ -555,9 +662,18 @@ function drawHpBar(
   const barHeight = 6 * scale;
   const hpRatio = hp / maxHp;
 
-  // 背景
-  ctx.fillStyle = '#333';
-  ctx.fillRect(x - barWidth / 2, y, barWidth, barHeight);
+  const bx = Math.round(x - barWidth / 2);
+  const by = Math.round(y);
+  const bw = Math.round(barWidth);
+  const bh = Math.round(barHeight);
+
+  // 像素陰影
+  ctx.fillStyle = 'rgba(0,0,0,0.2)';
+  ctx.fillRect(bx + 2, by + 2, bw, bh);
+
+  // 背景（深色）
+  ctx.fillStyle = '#1A1A2E';
+  ctx.fillRect(bx, by, bw, bh);
 
   // 血量
   let hpColor = COLORS.hp.full;
@@ -568,15 +684,20 @@ function drawHpBar(
   }
 
   ctx.fillStyle = hpColor;
-  ctx.fillRect(x - barWidth / 2, y, barWidth * hpRatio, barHeight);
+  ctx.fillRect(bx, by, Math.round(bw * hpRatio), bh);
 
-  // 邊框
+  // 像素邊框（無圓角）
   ctx.strokeStyle = '#000';
   ctx.lineWidth = 1;
-  ctx.strokeRect(x - barWidth / 2, y, barWidth, barHeight);
+  ctx.lineJoin = 'miter';
+  ctx.strokeRect(bx, by, bw, bh);
+
+  // 高光線（頂部 1px 亮線）
+  ctx.fillStyle = 'rgba(255,255,255,0.25)';
+  ctx.fillRect(bx + 1, by + 1, Math.round(bw * hpRatio) - 2, 1);
 }
 
-// 繪製關卡文字
+// 繪製關卡文字（像素字體）
 export function drawLevelText(
   ctx: CanvasRenderingContext2D,
   level: number,
@@ -585,14 +706,20 @@ export function drawLevelText(
 ): void {
   ctx.save();
   ctx.fillStyle = COLORS.ui.text;
-  ctx.font = 'bold 48px Arial';
+  ctx.font = `bold 32px ${PIXEL_FONT}`;
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
-  ctx.fillText(`第 ${level} 關`, width / 2, height / 2);
+
+  // 文字陰影
+  ctx.fillStyle = 'rgba(0,0,0,0.2)';
+  ctx.fillText(`LEVEL ${level}`, width / 2 + 3, height / 2 + 3);
+
+  ctx.fillStyle = COLORS.ui.text;
+  ctx.fillText(`LEVEL ${level}`, width / 2, height / 2);
   ctx.restore();
 }
 
-// 繪製遊戲結束畫面
+// 繪製遊戲結束畫面（像素風格）
 export function drawGameOver(
   ctx: CanvasRenderingContext2D,
   isWin: boolean,
@@ -606,30 +733,64 @@ export function drawGameOver(
   ctx.fillStyle = COLORS.ui.overlay;
   ctx.fillRect(0, 0, width, height);
 
+  // 像素風格對話框背景
+  const boxW = 500;
+  const boxH = 260;
+  const boxX = (width - boxW) / 2;
+  const boxY = (height - boxH) / 2;
+
+  // 對話框陰影
+  drawPixelShadow(ctx, boxX, boxY, boxW, boxH, 5);
+
+  // 對話框底色
+  ctx.fillStyle = COLORS.pixel.paper;
+  ctx.fillRect(boxX, boxY, boxW, boxH);
+
+  // 對話框像素邊框
+  drawPixelRect(ctx, boxX, boxY, boxW, boxH, COLORS.pixel.border, 3);
+
   ctx.save();
-  ctx.fillStyle = '#FFFFFF';
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
 
   if (isWin) {
-    ctx.font = 'bold 64px Arial';
-    ctx.fillText(t.levelComplete, width / 2, height / 2 - 40);
-    ctx.font = '32px Arial';
-    ctx.fillText(`${level} ${t.levelCompleted}`, width / 2, height / 2 + 20);
-    ctx.fillText(t.clickToNextLevel, width / 2, height / 2 + 70);
+    // 標題
+    ctx.font = `bold 22px ${PIXEL_FONT}`;
+    ctx.fillStyle = COLORS.pixel.border;
+    ctx.fillText(t.levelComplete, width / 2, boxY + 60);
+
+    ctx.font = `20px ${PIXEL_FONT_BODY}`;
+    ctx.fillStyle = '#555';
+    ctx.fillText(`${level} ${t.levelCompleted}`, width / 2, boxY + 110);
+
+    // 點擊提示 (閃爍效果用靜態模擬)
+    ctx.font = `16px ${PIXEL_FONT}`;
+    ctx.fillStyle = COLORS.pixel.accent2;
+    ctx.fillText(t.clickToNextLevel, width / 2, boxY + 180);
   } else {
-    ctx.font = 'bold 64px Arial';
-    ctx.fillText(t.gameOver, width / 2, height / 2 - 60);
-    ctx.font = '32px Arial';
-    ctx.fillText(`${t.finalScore}: ${score}`, width / 2, height / 2);
-    ctx.fillText(`${t.reachedLevel} ${level}`, width / 2, height / 2 + 40);
-    ctx.fillText(t.clickToRestart, width / 2, height / 2 + 100);
+    // 標題
+    ctx.font = `bold 24px ${PIXEL_FONT}`;
+    ctx.fillStyle = COLORS.pixel.accent;
+    ctx.fillText(t.gameOver, width / 2, boxY + 50);
+
+    ctx.font = `24px ${PIXEL_FONT_BODY}`;
+    ctx.fillStyle = COLORS.pixel.border;
+    ctx.fillText(`${t.finalScore}: ${score}`, width / 2, boxY + 110);
+
+    ctx.font = `22px ${PIXEL_FONT_BODY}`;
+    ctx.fillStyle = '#555';
+    ctx.fillText(`${t.reachedLevel} ${level}`, width / 2, boxY + 150);
+
+    // 點擊提示
+    ctx.font = `14px ${PIXEL_FONT}`;
+    ctx.fillStyle = COLORS.pixel.accent2;
+    ctx.fillText(t.clickToRestart, width / 2, boxY + 210);
   }
 
   ctx.restore();
 }
 
-// 繪製開場問候
+// 繪製開場問候（像素風格）
 export function drawGreeting(
   ctx: CanvasRenderingContext2D,
   width: number,
@@ -637,35 +798,75 @@ export function drawGreeting(
   t: { greetingTitle: string; greetingControlsPC: string; greetingControlsPCDesc: string; greetingControlsMobile: string; greetingControlsMobileDesc: string; greetingStart: string }
 ): void {
   ctx.save();
-  ctx.fillStyle = COLORS.ui.text;
+
+  // 像素風格對話框
+  const boxW = 560;
+  const boxH = 280;
+  const boxX = (width - boxW) / 2;
+  const boxY = (height - boxH) / 2;
+
+  // 對話框陰影
+  drawPixelShadow(ctx, boxX, boxY, boxW, boxH, 5);
+
+  // 對話框底色
+  ctx.fillStyle = COLORS.pixel.paper;
+  ctx.fillRect(boxX, boxY, boxW, boxH);
+
+  // 手繪像素邊框
+  drawPixelRect(ctx, boxX, boxY, boxW, boxH, COLORS.pixel.border, 3);
+
+  // 裝飾角標（左上 & 右下小方塊）
+  ctx.fillStyle = COLORS.pixel.accent;
+  ctx.fillRect(boxX - 4, boxY - 4, 12, 12);
+  ctx.fillRect(boxX + boxW - 8, boxY + boxH - 8, 12, 12);
+  ctx.fillStyle = COLORS.pixel.accent2;
+  ctx.fillRect(boxX + boxW - 8, boxY - 4, 12, 12);
+  ctx.fillRect(boxX - 4, boxY + boxH - 8, 12, 12);
+
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
 
-  // 標題
-  ctx.font = 'bold 72px Arial';
-  ctx.fillText(t.greetingTitle, width / 2, height / 2 - 80);
+  // 標題（像素字體）
+  ctx.font = `bold 28px ${PIXEL_FONT}`;
+  ctx.fillStyle = COLORS.pixel.border;
+  // 文字陰影
+  ctx.fillStyle = 'rgba(0,0,0,0.15)';
+  ctx.fillText(t.greetingTitle, width / 2 + 2, boxY + 55 + 2);
+  ctx.fillStyle = COLORS.pixel.border;
+  ctx.fillText(t.greetingTitle, width / 2, boxY + 55);
 
-  // 操作說明
-  ctx.font = '24px Arial';
-  ctx.fillStyle = '#333';
+  // 操作說明（VT323 大號字體）
+  ctx.font = `26px ${PIXEL_FONT_BODY}`;
+  ctx.fillStyle = '#444';
 
-  // 使用 User Agent 偵測裝置類型
   const isMobile = isMobileDevice();
 
   if (isMobile) {
-    ctx.fillText(t.greetingControlsMobile, width / 2, height / 2 - 10);
-    ctx.font = '20px Arial';
-    ctx.fillText(t.greetingControlsMobileDesc, width / 2, height / 2 + 20);
+    ctx.fillText(t.greetingControlsMobile, width / 2, boxY + 120);
+    ctx.font = `22px ${PIXEL_FONT_BODY}`;
+    ctx.fillStyle = '#666';
+    ctx.fillText(t.greetingControlsMobileDesc, width / 2, boxY + 155);
   } else {
-    ctx.fillText(t.greetingControlsPC, width / 2, height / 2 - 10);
-    ctx.font = '20px Arial';
-    ctx.fillText(t.greetingControlsPCDesc, width / 2, height / 2 + 20);
+    ctx.fillText(t.greetingControlsPC, width / 2, boxY + 120);
+    ctx.font = `22px ${PIXEL_FONT_BODY}`;
+    ctx.fillStyle = '#666';
+    ctx.fillText(t.greetingControlsPCDesc, width / 2, boxY + 155);
   }
 
-  // 開始提示
-  ctx.font = 'bold 28px Arial';
-  ctx.fillStyle = '#0066cc';
-  ctx.fillText(t.greetingStart, width / 2, height / 2 + 80);
+  // 開始提示（像素字體 + 強調色）
+  ctx.font = `bold 16px ${PIXEL_FONT}`;
+  ctx.fillStyle = COLORS.pixel.accent2;
+  ctx.fillText(t.greetingStart, width / 2, boxY + 220);
+
+  // 底部裝飾線
+  ctx.strokeStyle = COLORS.pixel.border;
+  ctx.lineWidth = 2;
+  ctx.setLineDash([6, 4]);
+  ctx.beginPath();
+  ctx.moveTo(boxX + 30, boxY + boxH - 30);
+  ctx.lineTo(boxX + boxW - 30, boxY + boxH - 30);
+  ctx.stroke();
+  ctx.setLineDash([]);
 
   ctx.restore();
 }

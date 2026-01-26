@@ -51,36 +51,46 @@ export const ENEMY_FALL_DURATION = 500;
 // 分數
 export const SCORE_PER_HIT = 50;
 
-// 顏色
+// 顏色 - Pixel Art / Hand-drawn 復古調色板
 export const COLORS = {
   sky: {
-    top: "#87CEEB",
-    bottom: "#E0F6FF",
+    top: "#7EC8E3",    // 柔和天藍 (像素風)
+    bottom: "#D4EDFC", // 淺藍
   },
   player: {
-    body: "#E74C3C",
-    outline: "#C0392B",
+    body: "#E04040",    // NES 紅
+    outline: "#8B0000", // 深紅描邊
   },
   enemy: {
-    body: "#27AE60",
-    outline: "#1E8449",
+    body: "#30A14E",    // NES 綠
+    outline: "#1B5E20", // 深綠描邊
   },
   snowball: {
-    fill: "#FFFFFF",
-    shadow: "#E8E8E8",
+    fill: "#FAFAFA",
+    shadow: "#C0C0C0",
   },
   charge: {
-    fill: "rgba(255, 165, 0, 0.3)",
-    stroke: "rgba(255, 165, 0, 0.8)",
+    fill: "rgba(255, 200, 0, 0.35)",
+    stroke: "rgba(255, 160, 0, 0.9)",
   },
   hp: {
-    full: "#2ECC71",
-    medium: "#F39C12",
-    low: "#E74C3C",
+    full: "#30A14E",    // 像素綠
+    medium: "#E8A317",  // 像素黃
+    low: "#E04040",     // 像素紅
   },
   ui: {
-    text: "#333333",
-    overlay: "rgba(0, 0, 0, 0.7)",
+    text: "#1A1A2E",
+    overlay: "rgba(0, 0, 0, 0.75)",
+  },
+  // 新增 Pixel Art 專用色
+  pixel: {
+    bg: "#F0E6D3",        // 羊皮紙底色
+    paper: "#FAF5EB",     // 紙張白
+    border: "#1A1A2E",    // 深藍黑描邊
+    shadow: "#2C2C2C",    // 陰影
+    accent: "#E04040",    // 紅色強調
+    accent2: "#3E7DC9",   // 藍色強調
+    gold: "#E8A317",      // 金色
   },
 };
 
