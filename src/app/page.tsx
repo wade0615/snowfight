@@ -24,6 +24,7 @@ export default function Home() {
       className={`w-screen h-screen overflow-hidden ${isMobile ? '' : 'flex items-center justify-center'}`}
       style={{ background: '#1a1a2e' }}
     >
+      <h1 className="sr-only">打雪仗 Snowball Fight - 免費線上雪球大戰網頁遊戲</h1>
       <div
         className="relative"
         style={{

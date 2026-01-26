@@ -1,0 +1,18 @@
+{
+  "name": "打雪仗 Snowball Fight",
+  "short_name": "打雪仗",
+  "description": "免費線上打雪仗遊戲！在雪球戰爭中與敵人對戰，體驗刺激的雪球大戰。",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "landscape",
+  "background_color": "#1a1a2e",
+  "theme_color": "#1a1a2e",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
