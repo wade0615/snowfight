@@ -7,7 +7,7 @@
 - **項目名稱**：Snowball Fight（打雪仗）
 - **開發者**：Cruxover
 - **版本**：0.1.0
-- **上線地址**：https://snowcraft-rho.vercel.app
+- **上線地址**：https://snowfight.vercel.app
 - **儲存庫**：https://github.com/wade0615/snowfight
 - **部署平台**：Vercel
 - **開源協議**：MIT License
@@ -188,7 +188,6 @@ src/
     'snowball fight',
     'snowball game',
     'snowfight',
-    'snowcraft',
     'free browser game',
     'web game',
     '雪球戰爭',
@@ -242,7 +241,7 @@ robots: index, follow
   "@type": "VideoGame",
   "name": "打雪仗 Snowball Fight",
   "description": "免費線上打雪仗遊戲！...",
-  "url": "https://snowcraft-rho.vercel.app",
+  "url": "https://snowfight.vercel.app",
   "genre": ["Action", "Casual"],
   "gamePlatform": ["Web Browser", "Mobile"],
   "applicationCategory": "Game",
@@ -297,7 +296,7 @@ User-agent: *
 Allow: /
 Disallow: /admin
 
-Sitemap: https://snowcraft-rho.vercel.app/sitemap.xml
+Sitemap: https://snowfight.vercel.app/sitemap.xml
 ```
 
 **當前設定**：允許所有爬蟲索引
@@ -355,7 +354,7 @@ export const ADS_CONFIG = {
 ```
 NEXT_PUBLIC_ADSENSE_ID=ca-pub-xxxxxxxxxxxxxxxx
 NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
-NEXT_PUBLIC_SITE_URL=https://snowcraft-rho.vercel.app
+NEXT_PUBLIC_SITE_URL=https://snowfight.vercel.app
 ```
 
 #### 廣告顯示邏輯
@@ -527,7 +526,7 @@ $1 / 天 = $30 / 月（極限情況）
 | **藝術風格** | 🟢 低 | 像素藝術風格廣泛使用，無侵權 | 持續使用 |
 | **角色設計** | 🟢 低 | 原創簡單幾何人物，無相似性 | 無需修改 |
 | **音效/音樂** | 🟡 中 | 取決於音效來源授權 | 確認所有音效的授權來源 |
-| **品牌名稱** | 🟢 低 | "Snowcraft"無知名品牌衝突 | 監控商標 |
+| **品牌名稱** | 🟢 低 | "Snowfight"無知名品牌衝突 | 監控商標 |
 | **程式碼** | 🟢 低 | 自行開發，無第三方程式碼複製 | 定期開源協議檢查 |
 
 ### 具體風險分析

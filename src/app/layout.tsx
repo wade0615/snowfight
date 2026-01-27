@@ -6,7 +6,7 @@ const gaId = process.env.NEXT_PUBLIC_GA_ID || '';
 
 // Pixel Art fonts loaded via CSS @import in globals.css (Press Start 2P + VT323)
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://snowcraft-rho.vercel.app';
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://snowfight.vercel.app';
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -16,7 +16,6 @@ export const metadata: Metadata = {
     'snowball fight',
     'snowball game',
     'snowfight',
-    'snowcraft',
     'snowball war',
     'online game',
     'free browser game',
