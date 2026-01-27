@@ -79,6 +79,119 @@ export interface Translations {
   language: string;
   chinese: string;
   english: string;
+
+  // ===== SEO 頁面翻譯 =====
+
+  // 導航
+  navBackToGame: string;
+  navHowToPlay: string;
+  navTips: string;
+  navLevels: string;
+  navAbout: string;
+  navPrivacy: string;
+
+  // How to Play 頁面
+  howToPlayTitle: string;
+  howToPlayIntro: string;
+  howToPlayGoalTitle: string;
+  howToPlayGoalDesc: string;
+  howToPlayControlsTitle: string;
+  howToPlayControlsPCTitle: string;
+  howToPlayControlsPCMove: string;
+  howToPlayControlsPCSelect: string;
+  howToPlayControlsPCCharge: string;
+  howToPlayControlsPCFire: string;
+  howToPlayControlsMobileTitle: string;
+  howToPlayControlsMobileMove: string;
+  howToPlayControlsMobileSelect: string;
+  howToPlayControlsMobileCharge: string;
+  howToPlayControlsMobileFire: string;
+  howToPlayHealthTitle: string;
+  howToPlayHealthPlayer: string;
+  howToPlayHealthEnemy: string;
+  howToPlayHealthDamage: string;
+  howToPlayHealthInvincible: string;
+  howToPlayScoringTitle: string;
+  howToPlayScoringHit: string;
+  howToPlayScoringLevel: string;
+  howToPlayScoringLeaderboard: string;
+  howToPlayBarriersTitle: string;
+  howToPlayBarriersDesc: string;
+
+  // Tips 頁面
+  tipsTitle: string;
+  tipsIntro: string;
+  tipsBasicTitle: string;
+  tipsBasic1: string;
+  tipsBasic2: string;
+  tipsBasic3: string;
+  tipsBasic4: string;
+  tipsAdvancedTitle: string;
+  tipsAdvanced1: string;
+  tipsAdvanced2: string;
+  tipsAdvanced3: string;
+  tipsAdvanced4: string;
+  tipsSurvivalTitle: string;
+  tipsSurvival1: string;
+  tipsSurvival2: string;
+  tipsSurvival3: string;
+
+  // Levels 頁面
+  levelsTitle: string;
+  levelsIntro: string;
+  levelsFormulaTitle: string;
+  levelsFormulaDesc: string;
+  levelsFormulaExample: string;
+  levelsDifficultyTitle: string;
+  levelsDifficultyEarly: string;
+  levelsDifficultyEarlyDesc: string;
+  levelsDifficultyMid: string;
+  levelsDifficultyMidDesc: string;
+  levelsDifficultyLate: string;
+  levelsDifficultyLateDesc: string;
+  levelsProgressionTitle: string;
+  levelsProgressionDesc: string;
+
+  // About 頁面
+  aboutTitle: string;
+  aboutGameTitle: string;
+  aboutGameDesc1: string;
+  aboutGameDesc2: string;
+  aboutFeaturesTitle: string;
+  aboutFeature1: string;
+  aboutFeature2: string;
+  aboutFeature3: string;
+  aboutFeature4: string;
+  aboutFeature5: string;
+  aboutTechTitle: string;
+  aboutTechStack: string;
+  aboutDeveloperTitle: string;
+  aboutDeveloperDesc: string;
+  aboutContactTitle: string;
+  aboutContactDesc: string;
+
+  // Privacy 頁面
+  privacyTitle: string;
+  privacyIntro: string;
+  privacyDataTitle: string;
+  privacyDataDesc: string;
+  privacyDataItem1: string;
+  privacyDataItem2: string;
+  privacyLocalStorageTitle: string;
+  privacyLocalStorageDesc: string;
+  privacyLocalStorageItem1: string;
+  privacyLocalStorageItem2: string;
+  privacyAdsTitle: string;
+  privacyAdsDesc: string;
+  privacyAnalyticsTitle: string;
+  privacyAnalyticsDesc: string;
+  privacyThirdPartyTitle: string;
+  privacyThirdPartyDesc: string;
+  privacyChangesTitle: string;
+  privacyChangesDesc: string;
+  privacyContactTitle: string;
+  privacyContactDesc: string;
+  privacyLastUpdated: string;
 }
 
 export const translations: Record<Language, Translations> = {
@@ -156,6 +269,119 @@ export const translations: Record<Language, Translations> = {
     language: '語言',
     chinese: '中文',
     english: 'English',
+
+    // ===== SEO 頁面翻譯 =====
+
+    // 導航
+    navBackToGame: '返回遊戲',
+    navHowToPlay: '遊戲說明',
+    navTips: '遊戲技巧',
+    navLevels: '關卡介紹',
+    navAbout: '關於',
+    navPrivacy: '隱私政策',
+
+    // How to Play 頁面
+    howToPlayTitle: '遊戲說明',
+    howToPlayIntro: '歡迎來到打雪仗！這是一款有趣的雪球戰鬥遊戲，你需要擊敗所有敵人才能過關。',
+    howToPlayGoalTitle: '遊戲目標',
+    howToPlayGoalDesc: '消滅所有敵人（綠色角色）來完成關卡。小心不要被敵人的雪球擊中！',
+    howToPlayControlsTitle: '操作方式',
+    howToPlayControlsPCTitle: '電腦版操作',
+    howToPlayControlsPCMove: '使用滑鼠拖曳紅色角色來移動',
+    howToPlayControlsPCSelect: '點擊角色可以選中',
+    howToPlayControlsPCCharge: '按住空白鍵蓄力攻擊，蓄力越久投擲距離越遠',
+    howToPlayControlsPCFire: '放開空白鍵發射雪球',
+    howToPlayControlsMobileTitle: '手機版操作',
+    howToPlayControlsMobileMove: '拖曳紅色角色來移動',
+    howToPlayControlsMobileSelect: '點擊角色可以選中',
+    howToPlayControlsMobileCharge: '按住左下角攻擊按鈕蓄力',
+    howToPlayControlsMobileFire: '放開按鈕發射雪球',
+    howToPlayHealthTitle: '生命值系統',
+    howToPlayHealthPlayer: '玩家角色有 5 點血量',
+    howToPlayHealthEnemy: '敵人有 3 點血量',
+    howToPlayHealthDamage: '被雪球擊中會損失 1 點血量',
+    howToPlayHealthInvincible: '被擊中後有短暫的無敵時間',
+    howToPlayScoringTitle: '計分規則',
+    howToPlayScoringHit: '每次擊中敵人得 50 分',
+    howToPlayScoringLevel: '通過關卡不會額外得分',
+    howToPlayScoringLeaderboard: '遊戲結束時分數會記錄在排行榜',
+    howToPlayBarriersTitle: '掩體',
+    howToPlayBarriersDesc: '場上有掩體可以幫助你躲避敵人的攻擊，善加利用它們！',
+
+    // Tips 頁面
+    tipsTitle: '遊戲技巧',
+    tipsIntro: '想要在打雪仗中取得高分？這裡有一些實用的技巧幫助你！',
+    tipsBasicTitle: '基礎技巧',
+    tipsBasic1: '被擊中後會有短暫無敵時間，善用這段時間重新定位',
+    tipsBasic2: '蓄力時間決定投擲距離，不要總是滿蓄力',
+    tipsBasic3: '保持移動！站著不動很容易被敵人擊中',
+    tipsBasic4: '注意敵人的蓄力動作，看到敵人舉手就準備閃避',
+    tipsAdvancedTitle: '進階技巧',
+    tipsAdvanced1: '利用掩體作為戰術位置，從掩體後面攻擊更安全',
+    tipsAdvanced2: '優先攻擊血量低的敵人，快速減少場上敵人數量',
+    tipsAdvanced3: '預判敵人移動方向，在敵人將到達的位置發射雪球',
+    tipsAdvanced4: '別忘了你可以移動中蓄力，邊跑邊準備攻擊',
+    tipsSurvivalTitle: '生存策略',
+    tipsSurvival1: '不要貪心追擊，保住自己的血量才是最重要的',
+    tipsSurvival2: '當敵人過多時，退到場邊先處理靠近的敵人',
+    tipsSurvival3: '在高關卡時，掩體是你最好的朋友',
+
+    // Levels 頁面
+    levelsTitle: '關卡介紹',
+    levelsIntro: '了解打雪仗的關卡設計，幫助你更好地規劃戰術！',
+    levelsFormulaTitle: '敵人數量公式',
+    levelsFormulaDesc: '每個關卡的敵人數量根據以下公式計算：',
+    levelsFormulaExample: '敵人數 = 3 + (關卡數 - 1) × 2。例如：第 1 關有 3 個敵人，第 5 關有 11 個敵人，第 10 關有 21 個敵人。',
+    levelsDifficultyTitle: '難度階段',
+    levelsDifficultyEarly: '初期（第 1-3 關）',
+    levelsDifficultyEarlyDesc: '敵人數量較少（3-7個），適合熟悉操作和練習瞄準。',
+    levelsDifficultyMid: '中期（第 4-7 關）',
+    levelsDifficultyMidDesc: '敵人數量增加（9-15個），需要開始運用掩體和走位策略。',
+    levelsDifficultyLate: '後期（第 8 關以上）',
+    levelsDifficultyLateDesc: '敵人數量眾多（17個以上），需要高超的技巧和謹慎的策略才能生存。',
+    levelsProgressionTitle: '關卡進度',
+    levelsProgressionDesc: '每關必須消滅所有敵人才能進入下一關。你的分數和關卡進度會記錄在排行榜中，挑戰你的最高紀錄吧！',
+
+    // About 頁面
+    aboutTitle: '關於遊戲',
+    aboutGameTitle: '打雪仗',
+    aboutGameDesc1: '打雪仗是一款像素風格的網頁遊戲，讓你體驗刺激的雪球戰鬥。這款遊戲支援電腦和手機雙平台，隨時隨地都能玩！',
+    aboutGameDesc2: '遊戲採用經典的像素藝術風格，搭配簡單直覺的操作方式，無論是遊戲老手還是新手都能輕鬆上手。',
+    aboutFeaturesTitle: '遊戲特色',
+    aboutFeature1: '可愛的像素藝術風格',
+    aboutFeature2: '簡單直覺的操作方式',
+    aboutFeature3: '支援電腦和手機',
+    aboutFeature4: '中英雙語支援',
+    aboutFeature5: '本地排行榜系統',
+    aboutTechTitle: '技術資訊',
+    aboutTechStack: '本遊戲使用 Next.js、React、TypeScript 和 HTML5 Canvas 開發。',
+    aboutDeveloperTitle: '開發者',
+    aboutDeveloperDesc: '由 Cruxover 開發製作。',
+    aboutContactTitle: '聯絡我們',
+    aboutContactDesc: '如有任何問題或建議，歡迎透過 GitHub 聯繫我們。',
+
+    // Privacy 頁面
+    privacyTitle: '隱私政策',
+    privacyIntro: '本隱私政策說明打雪仗遊戲如何收集、使用和保護您的資訊。',
+    privacyDataTitle: '資料收集',
+    privacyDataDesc: '我們的遊戲收集以下類型的資料：',
+    privacyDataItem1: '遊戲分數和進度（僅儲存在您的裝置上）',
+    privacyDataItem2: '語言偏好設定（僅儲存在您的裝置上）',
+    privacyLocalStorageTitle: '本地儲存',
+    privacyLocalStorageDesc: '我們使用瀏覽器的 localStorage 來儲存：',
+    privacyLocalStorageItem1: '排行榜資料',
+    privacyLocalStorageItem2: '語言設定',
+    privacyAdsTitle: '廣告',
+    privacyAdsDesc: '本遊戲使用 Google AdSense 顯示廣告。Google 可能會使用 Cookie 來提供相關廣告。您可以透過 Google 的廣告設定來管理您的廣告偏好。',
+    privacyAnalyticsTitle: '分析',
+    privacyAnalyticsDesc: '我們使用 Google Analytics 來了解網站流量和使用情況。這有助於我們改善遊戲體驗。Google Analytics 會收集匿名的使用數據。',
+    privacyThirdPartyTitle: '第三方服務',
+    privacyThirdPartyDesc: '本遊戲使用以下第三方服務：Google AdSense（廣告）和 Google Analytics（分析）。這些服務有各自的隱私政策。',
+    privacyChangesTitle: '政策更新',
+    privacyChangesDesc: '我們可能會不時更新此隱私政策。任何更改都會在此頁面上公布。',
+    privacyContactTitle: '聯絡方式',
+    privacyContactDesc: '如果您對此隱私政策有任何疑問，請透過 GitHub 聯繫我們。',
+    privacyLastUpdated: '最後更新日期：2025年1月',
   },
 
   en: {
@@ -232,6 +458,119 @@ export const translations: Record<Language, Translations> = {
     language: 'Language',
     chinese: '中文',
     english: 'English',
+
+    // ===== SEO Page Translations =====
+
+    // Navigation
+    navBackToGame: 'Back to Game',
+    navHowToPlay: 'How to Play',
+    navTips: 'Tips',
+    navLevels: 'Levels',
+    navAbout: 'About',
+    navPrivacy: 'Privacy',
+
+    // How to Play page
+    howToPlayTitle: 'How to Play',
+    howToPlayIntro: 'Welcome to Snowball Fight! This is a fun snowball battle game where you need to defeat all enemies to advance.',
+    howToPlayGoalTitle: 'Game Goal',
+    howToPlayGoalDesc: 'Eliminate all enemies (green characters) to complete each level. Watch out for enemy snowballs!',
+    howToPlayControlsTitle: 'Controls',
+    howToPlayControlsPCTitle: 'PC Controls',
+    howToPlayControlsPCMove: 'Drag the red character with your mouse to move',
+    howToPlayControlsPCSelect: 'Click on the character to select it',
+    howToPlayControlsPCCharge: 'Hold SPACE to charge your throw - longer charge means farther throw',
+    howToPlayControlsPCFire: 'Release SPACE to throw the snowball',
+    howToPlayControlsMobileTitle: 'Mobile Controls',
+    howToPlayControlsMobileMove: 'Drag the red character to move',
+    howToPlayControlsMobileSelect: 'Tap the character to select it',
+    howToPlayControlsMobileCharge: 'Hold the attack button in the bottom-left corner to charge',
+    howToPlayControlsMobileFire: 'Release the button to throw the snowball',
+    howToPlayHealthTitle: 'Health System',
+    howToPlayHealthPlayer: 'Your character has 5 HP',
+    howToPlayHealthEnemy: 'Enemies have 3 HP',
+    howToPlayHealthDamage: 'Getting hit by a snowball costs 1 HP',
+    howToPlayHealthInvincible: 'Brief invincibility after getting hit',
+    howToPlayScoringTitle: 'Scoring',
+    howToPlayScoringHit: 'Each hit on an enemy gives 50 points',
+    howToPlayScoringLevel: 'No bonus points for completing levels',
+    howToPlayScoringLeaderboard: 'Scores are saved to the leaderboard when game ends',
+    howToPlayBarriersTitle: 'Barriers',
+    howToPlayBarriersDesc: 'Use the barriers on the field to take cover from enemy attacks!',
+
+    // Tips page
+    tipsTitle: 'Game Tips',
+    tipsIntro: 'Want to get a high score in Snowball Fight? Here are some useful tips to help you!',
+    tipsBasicTitle: 'Basic Tips',
+    tipsBasic1: 'You have brief invincibility after getting hit - use this time to reposition',
+    tipsBasic2: 'Charge time determines throw distance - don\'t always fully charge',
+    tipsBasic3: 'Keep moving! Standing still makes you an easy target',
+    tipsBasic4: 'Watch for enemy charging animations - be ready to dodge when they raise their arm',
+    tipsAdvancedTitle: 'Advanced Tips',
+    tipsAdvanced1: 'Use barriers as tactical positions - attacking from behind cover is safer',
+    tipsAdvanced2: 'Prioritize low-health enemies to quickly reduce enemy count',
+    tipsAdvanced3: 'Predict enemy movement and throw where they\'re heading',
+    tipsAdvanced4: 'You can charge while moving - run and prepare to attack simultaneously',
+    tipsSurvivalTitle: 'Survival Strategies',
+    tipsSurvival1: 'Don\'t be greedy - preserving your health is the priority',
+    tipsSurvival2: 'When overwhelmed, retreat to the edge and deal with nearby enemies first',
+    tipsSurvival3: 'In higher levels, barriers are your best friends',
+
+    // Levels page
+    levelsTitle: 'Level Guide',
+    levelsIntro: 'Learn about Snowball Fight\'s level design to help plan your tactics!',
+    levelsFormulaTitle: 'Enemy Count Formula',
+    levelsFormulaDesc: 'The number of enemies in each level is calculated as follows:',
+    levelsFormulaExample: 'Enemies = 3 + (Level - 1) × 2. For example: Level 1 has 3 enemies, Level 5 has 11 enemies, Level 10 has 21 enemies.',
+    levelsDifficultyTitle: 'Difficulty Stages',
+    levelsDifficultyEarly: 'Early (Levels 1-3)',
+    levelsDifficultyEarlyDesc: 'Fewer enemies (3-7). Perfect for learning controls and practicing aim.',
+    levelsDifficultyMid: 'Mid (Levels 4-7)',
+    levelsDifficultyMidDesc: 'More enemies (9-15). Time to start using barriers and positioning strategies.',
+    levelsDifficultyLate: 'Late (Level 8+)',
+    levelsDifficultyLateDesc: 'Many enemies (17+). Requires advanced skills and careful strategy to survive.',
+    levelsProgressionTitle: 'Level Progression',
+    levelsProgressionDesc: 'Eliminate all enemies to advance to the next level. Your score and progress are saved to the leaderboard - challenge your high score!',
+
+    // About page
+    aboutTitle: 'About',
+    aboutGameTitle: 'Snowball Fight',
+    aboutGameDesc1: 'Snowball Fight is a pixel-art web game that lets you experience exciting snowball battles. The game supports both desktop and mobile platforms - play anytime, anywhere!',
+    aboutGameDesc2: 'Featuring classic pixel art style with simple and intuitive controls, this game is easy to pick up for both gaming veterans and newcomers.',
+    aboutFeaturesTitle: 'Game Features',
+    aboutFeature1: 'Cute pixel art style',
+    aboutFeature2: 'Simple and intuitive controls',
+    aboutFeature3: 'Desktop and mobile support',
+    aboutFeature4: 'Bilingual support (English & Chinese)',
+    aboutFeature5: 'Local leaderboard system',
+    aboutTechTitle: 'Technical Info',
+    aboutTechStack: 'Built with Next.js, React, TypeScript, and HTML5 Canvas.',
+    aboutDeveloperTitle: 'Developer',
+    aboutDeveloperDesc: 'Developed by Cruxover.',
+    aboutContactTitle: 'Contact',
+    aboutContactDesc: 'For questions or suggestions, please reach out via GitHub.',
+
+    // Privacy page
+    privacyTitle: 'Privacy Policy',
+    privacyIntro: 'This privacy policy explains how Snowball Fight collects, uses, and protects your information.',
+    privacyDataTitle: 'Data Collection',
+    privacyDataDesc: 'Our game collects the following types of data:',
+    privacyDataItem1: 'Game scores and progress (stored only on your device)',
+    privacyDataItem2: 'Language preferences (stored only on your device)',
+    privacyLocalStorageTitle: 'Local Storage',
+    privacyLocalStorageDesc: 'We use browser localStorage to store:',
+    privacyLocalStorageItem1: 'Leaderboard data',
+    privacyLocalStorageItem2: 'Language settings',
+    privacyAdsTitle: 'Advertising',
+    privacyAdsDesc: 'This game uses Google AdSense to display ads. Google may use cookies to serve relevant advertisements. You can manage your ad preferences through Google\'s ad settings.',
+    privacyAnalyticsTitle: 'Analytics',
+    privacyAnalyticsDesc: 'We use Google Analytics to understand site traffic and usage patterns. This helps us improve the game experience. Google Analytics collects anonymous usage data.',
+    privacyThirdPartyTitle: 'Third-Party Services',
+    privacyThirdPartyDesc: 'This game uses the following third-party services: Google AdSense (advertising) and Google Analytics (analytics). These services have their own privacy policies.',
+    privacyChangesTitle: 'Policy Updates',
+    privacyChangesDesc: 'We may update this privacy policy from time to time. Any changes will be posted on this page.',
+    privacyContactTitle: 'Contact',
+    privacyContactDesc: 'If you have any questions about this privacy policy, please contact us via GitHub.',
+    privacyLastUpdated: 'Last updated: January 2025',
   },
 };
 

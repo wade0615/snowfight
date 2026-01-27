@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import Link from "next/link";
 import { useGameStore } from "@/stores/gameStore";
 import { isMobileDevice } from "@/utils/deviceDetection";
 
@@ -165,6 +166,73 @@ export default function GameUI() {
                   {t.english}
                 </button>
               </div>
+            </div>
+
+            {/* SEO Pages Navigation */}
+            <div
+              className="pt-2 mt-2 space-y-1"
+              style={{ borderTop: '2px dashed #C8B8A0' }}
+            >
+              <Link
+                href="/how-to-play"
+                className="block w-full text-left px-2 py-1 pixel-btn"
+                style={{
+                  fontSize: '8px',
+                  background: '#FAF5EB',
+                  color: '#1a1a2e',
+                  textDecoration: 'none',
+                }}
+              >
+                {t.navHowToPlay}
+              </Link>
+              <Link
+                href="/tips"
+                className="block w-full text-left px-2 py-1 pixel-btn"
+                style={{
+                  fontSize: '8px',
+                  background: '#FAF5EB',
+                  color: '#1a1a2e',
+                  textDecoration: 'none',
+                }}
+              >
+                {t.navTips}
+              </Link>
+              <Link
+                href="/levels"
+                className="block w-full text-left px-2 py-1 pixel-btn"
+                style={{
+                  fontSize: '8px',
+                  background: '#FAF5EB',
+                  color: '#1a1a2e',
+                  textDecoration: 'none',
+                }}
+              >
+                {t.navLevels}
+              </Link>
+              <Link
+                href="/about"
+                className="block w-full text-left px-2 py-1 pixel-btn"
+                style={{
+                  fontSize: '8px',
+                  background: '#FAF5EB',
+                  color: '#1a1a2e',
+                  textDecoration: 'none',
+                }}
+              >
+                {t.navAbout}
+              </Link>
+              <Link
+                href="/privacy"
+                className="block w-full text-left px-2 py-1 pixel-btn"
+                style={{
+                  fontSize: '8px',
+                  background: '#FAF5EB',
+                  color: '#1a1a2e',
+                  textDecoration: 'none',
+                }}
+              >
+                {t.navPrivacy}
+              </Link>
             </div>
           </div>
         )}

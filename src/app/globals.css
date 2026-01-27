@@ -137,3 +137,26 @@ html {
     transition: none;
   }
 }
+
+/* ===== SEO Page Styles ===== */
+
+/* Page container for SEO pages - allows scrolling */
+.page-scrollable {
+  overflow: auto !important;
+  height: auto !important;
+  min-height: 100vh;
+  touch-action: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Reset html overflow for SEO pages */
+html:has(.page-scrollable) {
+  overflow: auto;
+  position: static;
+}
+
+body:has(.page-scrollable) {
+  overflow: auto;
+  height: auto;
+  touch-action: auto;
+}
