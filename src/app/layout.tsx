@@ -107,7 +107,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="zh-Hant">
-      <head>
+      <body className="overflow-hidden">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+        {children}
         {gaId && (
           <>
             <Script
@@ -119,13 +124,6 @@ export default function RootLayout({
             </Script>
           </>
         )}
-      </head>
-      <body className="overflow-hidden">
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
-        {children}
       </body>
     </html>
   );
