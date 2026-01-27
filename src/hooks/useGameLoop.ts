@@ -32,29 +32,29 @@ export function useGameLoop(
 ) {
   const animationFrameRef = useRef<number>(0);
 
-  const {
-    gameState,
-    setGameState,
-    level,
-    score,
-    players,
-    enemies,
-    snowballs,
-    barriers,
-    updatePlayer,
-    updateEnemy,
-    updateBarrier,
-    addSnowball,
-    removeSnowball,
-    addScore,
-    canvasSize,
-    startLevel,
-    resetGame,
-    addScoreToLeaderboard,
-    hitCount,
-    hitTarget,
-    addHitCount,
-  } = useGameStore();
+  // 精細化 Zustand 訂閱，避免過度訂閱
+  // 使用選擇器只訂閱需要的狀態，減少不必要的 re-render
+  const gameState = useGameStore((s) => s.gameState);
+  const setGameState = useGameStore((s) => s.setGameState);
+  const level = useGameStore((s) => s.level);
+  const score = useGameStore((s) => s.score);
+  const players = useGameStore((s) => s.players);
+  const enemies = useGameStore((s) => s.enemies);
+  const snowballs = useGameStore((s) => s.snowballs);
+  const barriers = useGameStore((s) => s.barriers);
+  const updatePlayer = useGameStore((s) => s.updatePlayer);
+  const updateEnemy = useGameStore((s) => s.updateEnemy);
+  const updateBarrier = useGameStore((s) => s.updateBarrier);
+  const addSnowball = useGameStore((s) => s.addSnowball);
+  const removeSnowball = useGameStore((s) => s.removeSnowball);
+  const addScore = useGameStore((s) => s.addScore);
+  const canvasSize = useGameStore((s) => s.canvasSize);
+  const startLevel = useGameStore((s) => s.startLevel);
+  const resetGame = useGameStore((s) => s.resetGame);
+  const addScoreToLeaderboard = useGameStore((s) => s.addScoreToLeaderboard);
+  const hitCount = useGameStore((s) => s.hitCount);
+  const hitTarget = useGameStore((s) => s.hitTarget);
+  const addHitCount = useGameStore((s) => s.addHitCount);
 
   // 更新蓄力中的玩家
   const updateChargingPlayers = useCallback((now: number) => {
@@ -66,10 +66,12 @@ export function useGameLoop(
     });
   }, [players, updatePlayer]);
 
-  // 更新雪球
+  // 批量更新雪球狀態，避免多次 setState
+  // 一次性收集所有狀態變化，然後批量更新
   const updateSnowballs = useCallback((now: number) => {
     const { width, height, scale } = canvasSize;
     const toRemove: number[] = [];
+    const updatedSnowballs: typeof snowballs = [];
 
     snowballs.forEach((snowball, index) => {
       // 更新位置
@@ -84,9 +86,12 @@ export function useGameLoop(
         return;
       }
 
+      let shouldRemove = false;
+
       // 檢查碰撞
       if (snowball.from === 'player') {
         // 玩家雪球打敵人
+        // 明確的早期退出點，避免邏輯混亂
         for (let i = 0; i < enemies.length; i++) {
           const enemy = enemies[i];
           if (checkSnowballHitEnemy(updated, enemy, scale)) {
@@ -94,59 +99,63 @@ export function useGameLoop(
             updateEnemy(i, hitResult);
             addScore(SCORE_PER_HIT);
             addHitCount(); // 增加命中計數
-            toRemove.push(index);
-            return;
+            shouldRemove = true;
+            break; // 退出敵人迴圈
           }
         }
       } else {
-        // 敵人雪球先檢查是否擊中掩體
+        // 敵人雪球檢測優先級：掩體 > 玩家
+        // 分層碰撞檢測，先檢查掩體再檢查玩家
+
+        // 第一層：檢查是否擊中掩體
         for (let i = 0; i < barriers.length; i++) {
           const barrier = barriers[i];
           if (checkSnowballHitBarrier(updated, barrier, scale)) {
             const newHp = barrier.hp - 1;
             updateBarrier(i, { hp: newHp });
-            toRemove.push(index);
-            return;
+            shouldRemove = true;
+            break; // 掩體被擊中，不再檢查玩家
           }
         }
 
-        // 敵人雪球打玩家
-        for (let i = 0; i < players.length; i++) {
-          const player = players[i];
-          if (checkSnowballHitPlayer(updated, player, scale)) {
-            const newHp = player.hp - 1;
-            if (newHp <= 0) {
-              updatePlayer(i, {
-                hp: 0,
-                alive: false,
-                deadState: 1,
-                deadTime: now,
-              });
-            } else {
-              updatePlayer(i, {
-                hp: newHp,
-                stunUntil: now + STUN_DURATION,
-              });
+        // 第二層：僅在未擊中掩體的情況下檢查玩家
+        if (!shouldRemove) {
+          for (let i = 0; i < players.length; i++) {
+            const player = players[i];
+            if (checkSnowballHitPlayer(updated, player, scale)) {
+              const newHp = player.hp - 1;
+              if (newHp <= 0) {
+                updatePlayer(i, {
+                  hp: 0,
+                  alive: false,
+                  deadState: 1,
+                  deadTime: now,
+                });
+              } else {
+                updatePlayer(i, {
+                  hp: newHp,
+                  stunUntil: now + STUN_DURATION,
+                });
+              }
+              shouldRemove = true;
+              break; // 玩家被擊中，退出迴圈
             }
-            toRemove.push(index);
-            return;
           }
         }
       }
 
-      // 更新雪球位置 (透過 store)
-      useGameStore.setState((state) => ({
-        snowballs: state.snowballs.map((s, i) =>
-          i === index ? updated : s
-        ),
-      }));
+      // 只將未移除的雪球加入更新列表
+      if (!shouldRemove) {
+        updatedSnowballs.push(updated);
+      }
     });
 
+    // 一次性批量更新所有雪球狀態
+    useGameStore.setState({ snowballs: updatedSnowballs });
+
     // 移除已處理的雪球（從後往前刪除避免索引問題）
-    toRemove
-      .sort((a, b) => b - a)
-      .forEach((index) => removeSnowball(index));
-  }, [snowballs, players, enemies, barriers, canvasSize, updatePlayer, updateEnemy, updateBarrier, addScore, addHitCount, removeSnowball]);
+    // 注：由於改用 updatedSnowballs 重建列表，不需要逐個 removeSnowball
+  }, [snowballs, players, enemies, barriers, canvasSize, updatePlayer, updateEnemy, updateBarrier, addScore, addHitCount]);
 
   // 更新敵人 AI
   const updateEnemies = useCallback((now: number) => {
@@ -262,16 +271,21 @@ export function useGameLoop(
     };
   });
 
-  // 啟動遊戲迴圈
+  // 加強 RAF cleanup，避免記憶體洩漏
+  // 明確檢查 canvas 是否存在，確保 RAF 不會在已卸載的 DOM 上運行
   useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return; // 提前退出，避免無效的 RAF 啟動
+
     animationFrameRef.current = requestAnimationFrame((ts) => gameLoopRef.current?.(ts));
 
     return () => {
+      // cleanup：取消所有待定的 RAF
       if (animationFrameRef.current) {
         cancelAnimationFrame(animationFrameRef.current);
       }
     };
-  }, []); // 只在mount時啟動一次
+  }, []); // 只在 mount 時啟動一次
 
   // 處理畫布點擊（開場開始 & 遊戲結束後的重啟）
   const handleCanvasClick = useCallback(() => {

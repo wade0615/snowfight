@@ -5,8 +5,10 @@ import GameCanvas from '@/components/GameCanvas';
 import GameUI from '@/components/GameUI';
 import Leaderboard from '@/components/modals/Leaderboard';
 import Instructions from '@/components/modals/Instructions';
+import GoogleAds from '@/components/GoogleAds';
 import { isMobileDevice } from '@/utils/deviceDetection';
 import { useGameStore } from '@/stores/gameStore';
+import { ADS_CONFIG } from '@/config/ads';
 
 export default function Home() {
   // 使用 useState 初始化為 false，避免 SSR hydration mismatch
@@ -54,6 +56,46 @@ export default function Home() {
         <Leaderboard />
         <Instructions />
       </div>
+
+      {/* Desktop-only ads in dark letterbox areas */}
+      {!isMobile && (
+        <>
+          {/* Bottom banner — visible when viewport is tall enough */}
+          <div
+            className="hidden min-[660px]:block fixed bottom-0 left-1/2 -translate-x-1/2 z-50"
+            style={{ pointerEvents: 'auto' }}
+          >
+            <GoogleAds
+              adSlot={ADS_CONFIG.AD_SLOTS.GAME_BOTTOM_BANNER}
+              adFormat="banner"
+              responsive
+              style={{
+                width: '728px',
+                maxWidth: '100vw',
+                height: '90px',
+                margin: 0,
+              }}
+            />
+          </div>
+
+          {/* Right sidebar skyscraper — visible on wide screens */}
+          <div
+            className="hidden min-[1300px]:flex fixed right-0 top-1/2 -translate-y-1/2 z-50"
+            style={{ pointerEvents: 'auto' }}
+          >
+            <GoogleAds
+              adSlot={ADS_CONFIG.AD_SLOTS.GAME_RIGHT_SIDEBAR}
+              adFormat="skyscraper"
+              responsive={false}
+              style={{
+                width: '160px',
+                height: '600px',
+                margin: 0,
+              }}
+            />
+          </div>
+        </>
+      )}
     </main>
   );
 }
