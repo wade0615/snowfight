@@ -10,58 +10,11 @@ export const ADS_CONFIG = {
 
   // 廣告單元配置
   AD_SLOTS: {
-    // 首頁頂部橫幅廣告
-    HOME_TOP_BANNER: "ad-slot-home-top",
+    // 遊戲畫面下方橫幅廣告（桌面版）
+    GAME_BOTTOM_BANNER: "5579450459",
 
-    // 首頁底部橫幅廣告
-    HOME_BOTTOM_BANNER: "ad-slot-home-bottom",
-
-    // 占卜結果頁面廣告
-    RESULT_PAGE_RECTANGLE: "ad-slot-result-rectangle",
-
-    // 牌卡圖鑑頁面廣告
-    CARDS_PAGE_SIDEBAR: "ad-slot-cards-sidebar",
-
-    // 響應式廣告（通用）
-    RESPONSIVE_GENERAL: "5579450459",
-  },
-
-  // 廣告格式配置
-  AD_FORMATS: {
-    BANNER: {
-      width: "728px",
-      height: "90px",
-      maxWidth: "100%",
-    },
-    RECTANGLE: {
-      width: "300px",
-      height: "250px",
-    },
-    SKYSCRAPER: {
-      width: "160px",
-      height: "600px",
-    },
-    RESPONSIVE: {
-      width: "100%",
-      maxWidth: "728px",
-    },
-  },
-
-  // 廣告位置配置
-  AD_POSITIONS: {
-    HOME: {
-      top: "HOME_TOP_BANNER",
-      bottom: "HOME_BOTTOM_BANNER",
-      sidebar: "RESPONSIVE_GENERAL",
-    },
-    RESULT: {
-      content: "RESULT_PAGE_RECTANGLE",
-      sidebar: "RESPONSIVE_GENERAL",
-    },
-    CARDS: {
-      sidebar: "CARDS_PAGE_SIDEBAR",
-      bottom: "RESPONSIVE_GENERAL",
-    },
+    // 遊戲畫面右側摩天大樓廣告（桌面版寬螢幕）
+    GAME_RIGHT_SIDEBAR: "5579450459",
   },
 } as const;
 
