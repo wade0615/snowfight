@@ -356,7 +356,7 @@ export const translations: Record<Language, Translations> = {
     aboutTechTitle: '技術資訊',
     aboutTechStack: '本遊戲使用 Next.js、React、TypeScript 和 HTML5 Canvas 開發。',
     aboutDeveloperTitle: '開發者',
-    aboutDeveloperDesc: '由 Cruxover 開發製作。',
+    aboutDeveloperDesc: '由 扳手 開發製作。',
     aboutContactTitle: '聯絡我們',
     aboutContactDesc: '如有任何問題或建議，歡迎透過 GitHub 聯繫我們。',
 
@@ -545,7 +545,7 @@ export const translations: Record<Language, Translations> = {
     aboutTechTitle: 'Technical Info',
     aboutTechStack: 'Built with Next.js, React, TypeScript, and HTML5 Canvas.',
     aboutDeveloperTitle: 'Developer',
-    aboutDeveloperDesc: 'Developed by Cruxover.',
+    aboutDeveloperDesc: 'Developed by Spanner.',
     aboutContactTitle: 'Contact',
     aboutContactDesc: 'For questions or suggestions, please reach out via GitHub.',
 
