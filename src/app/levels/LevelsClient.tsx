@@ -89,8 +89,17 @@ export default function LevelsClient() {
       </Section>
 
       {/* Progression */}
-      <Section title={t.levelsProgressionTitle} isLast>
+      <Section title={t.levelsProgressionTitle}>
         <p>{t.levelsProgressionDesc}</p>
+      </Section>
+
+      {/* Tactics */}
+      <Section title={t.levelsTacticsTitle} isLast>
+        <ul className="list-none space-y-3">
+          <li style={{ fontSize: '13px' }}>{t.levelsTactics1}</li>
+          <li style={{ fontSize: '13px' }}>{t.levelsTactics2}</li>
+          <li style={{ fontSize: '13px' }}>{t.levelsTactics3}</li>
+        </ul>
       </Section>
     </PageLayout>
   );

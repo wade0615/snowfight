@@ -37,6 +37,12 @@ export default function AboutClient() {
         <p>{t.aboutDeveloperDesc}</p>
       </Section>
 
+      {/* Development Story */}
+      <Section title={t.aboutStoryTitle}>
+        <p className="mb-3">{t.aboutStoryDesc1}</p>
+        <p>{t.aboutStoryDesc2}</p>
+      </Section>
+
       {/* Contact */}
       <Section title={t.aboutContactTitle} isLast>
         <p>{t.aboutContactDesc}</p>

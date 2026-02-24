@@ -170,6 +170,42 @@ export interface Translations {
   aboutContactTitle: string;
   aboutContactDesc: string;
 
+  // 首頁描述
+  homeDescTitle: string;
+  homeDescP1: string;
+  homeDescP2: string;
+  homeHowToTitle: string;
+  homeHowToStep1: string;
+  homeHowToStep2: string;
+  homeHowToStep3: string;
+  homeHowToStep4: string;
+  homeHowToStep5: string;
+  homeWhyTitle: string;
+  homeWhy1: string;
+  homeWhy2: string;
+  homeWhy3: string;
+  homeWhy4: string;
+  homeWhy5: string;
+
+  // Tips 頁面擴充
+  tipsBasicIntro: string;
+  tipsAdvancedIntro: string;
+  tipsSurvivalIntro: string;
+  tipsBasic5: string;
+  tipsAdvanced5: string;
+  tipsSurvival4: string;
+
+  // Levels 頁面擴充
+  levelsTacticsTitle: string;
+  levelsTactics1: string;
+  levelsTactics2: string;
+  levelsTactics3: string;
+
+  // About 頁面擴充
+  aboutStoryTitle: string;
+  aboutStoryDesc1: string;
+  aboutStoryDesc2: string;
+
   // Privacy 頁面
   privacyTitle: string;
   privacyIntro: string;
@@ -360,6 +396,42 @@ export const translations: Record<Language, Translations> = {
     aboutContactTitle: '聯絡我們',
     aboutContactDesc: '如有任何問題或建議，歡迎透過 GitHub 聯繫我們。',
 
+    // 首頁描述
+    homeDescTitle: '關於這款遊戲',
+    homeDescP1: '打雪仗是一款完全免費的像素風格網頁遊戲，讓你在瀏覽器中享受刺激的雪球大戰！操控你的像素小人，投擲雪球擊敗所有綠色敵人才能進入下一關。每一關的敵人數量都會增加，持續挑戰你的反應速度和策略思考。',
+    homeDescP2: '遊戲無需下載或註冊，直接在瀏覽器中即可遊玩。支援電腦（滑鼠與鍵盤）和手機（觸控，自動橫向模式），讓你隨時隨地都能享受打雪仗的樂趣。善用掩體躲避敵人的攻擊，蓄力越久投擲距離越遠，靈活走位才能在高關卡中存活！挑戰自己的最高分，在排行榜上留下傲人成績。',
+    homeHowToTitle: '快速上手',
+    homeHowToStep1: '點擊畫面開始遊戲',
+    homeHowToStep2: '用滑鼠（電腦）或手指（手機）拖曳紅色角色來移動',
+    homeHowToStep3: '按住空白鍵（電腦）或左下角按鈕（手機）蓄力攻擊',
+    homeHowToStep4: '放開鍵/按鈕，投擲雪球打中敵人',
+    homeHowToStep5: '消滅所有綠色敵人，挑戰更難的下一關！',
+    homeWhyTitle: '為什麼選擇打雪仗？',
+    homeWhy1: '完全免費，無需帳號或任何下載',
+    homeWhy2: '像素藝術風格，懷舊感十足',
+    homeWhy3: '電腦和手機都支援，隨時能玩',
+    homeWhy4: '本地排行榜自動記錄你的最高分',
+    homeWhy5: '關卡難度不斷提升，永遠有新挑戰',
+
+    // Tips 頁面擴充
+    tipsBasicIntro: '掌握這些基礎技巧，幫助你在遊戲初期站穩腳跟，順利通過前幾關。',
+    tipsAdvancedIntro: '熟悉基礎之後，這些進階策略能幫你在中高難度關卡取得更好的成績。',
+    tipsSurvivalIntro: '在敵人越來越多的高關卡中，生存比進攻更重要。記住這些策略，才能撐到最後。',
+    tipsBasic5: '先選中角色再蓄力，選中後角色會高亮顯示',
+    tipsAdvanced5: '利用投擲弧線，嘗試繞過掩體攻擊躲在後方的敵人',
+    tipsSurvival4: '場上剩最後一個敵人時，可以大膽移動到最佳攻擊位置',
+
+    // Levels 頁面擴充
+    levelsTacticsTitle: '分階段戰術建議',
+    levelsTactics1: '初期（第 1-3 關）：熟悉蓄力機制，先練習短距離精準投擲，不要一開始就全力蓄力。',
+    levelsTactics2: '中期（第 4-7 關）：開始善用掩體，以「打帶跑」策略避免被多個敵人同時鎖定。',
+    levelsTactics3: '後期（第 8 關以上）：保持移動是關鍵，永遠不要站在場地中央，在掩體附近靈活走位。',
+
+    // About 頁面擴充
+    aboutStoryTitle: '開發背景',
+    aboutStoryDesc1: '打雪仗的誕生源自一個簡單的想法：做一款在任何裝置上都能立即遊玩、操作簡單但具有深度的網頁小遊戲。選擇像素藝術風格是因為它懷舊、可愛，而且在所有螢幕尺寸上都能清晰呈現。',
+    aboutStoryDesc2: '遊戲採用 HTML5 Canvas 搭配 React/Next.js 開發，確保在所有現代瀏覽器中都能流暢運行。從最基礎的雪球投擲概念出發，逐步加入掩體系統、蓄力機制、生命值和排行榜功能，讓這款看似簡單的小遊戲擁有更豐富的策略層次。',
+
     // Privacy 頁面
     privacyTitle: '隱私政策',
     privacyIntro: '本隱私政策說明打雪仗遊戲如何收集、使用和保護您的資訊。',
@@ -548,6 +620,42 @@ export const translations: Record<Language, Translations> = {
     aboutDeveloperDesc: 'Developed by Spanner.',
     aboutContactTitle: 'Contact',
     aboutContactDesc: 'For questions or suggestions, please reach out via GitHub.',
+
+    // Home page description
+    homeDescTitle: 'About This Game',
+    homeDescP1: 'Snowball Fight is a completely free pixel-art browser game where you battle waves of green enemies in thrilling snowball fights! Control your pixel character, throw snowballs to defeat all enemies on the field, and face progressively harder levels that test your reflexes and strategic thinking.',
+    homeDescP2: 'No download or registration required — just open your browser and start playing! Fully compatible with both PC (mouse and keyboard) and mobile devices (touch controls with auto-landscape mode). Use barriers for cover, charge your throws for extra range, and move strategically to survive the higher levels. Compete for high scores and claim the top spot on the leaderboard!',
+    homeHowToTitle: 'Quick Start Guide',
+    homeHowToStep1: 'Click the screen to start the game',
+    homeHowToStep2: 'Drag the red character with your mouse (PC) or finger (mobile) to move',
+    homeHowToStep3: 'Hold SPACE (PC) or the bottom-left button (mobile) to charge your throw',
+    homeHowToStep4: 'Release to throw the snowball at enemies',
+    homeHowToStep5: 'Defeat all green enemies to advance to the next (harder) level!',
+    homeWhyTitle: 'Why Play Snowball Fight?',
+    homeWhy1: 'Completely free — no account or download required',
+    homeWhy2: 'Charming pixel art style with a nostalgic retro feel',
+    homeWhy3: 'Play on any device — desktop browser or mobile',
+    homeWhy4: 'Local leaderboard automatically tracks your personal best',
+    homeWhy5: 'Progressively challenging levels keep the game fresh',
+
+    // Expanded Tips
+    tipsBasicIntro: 'Master these fundamental techniques to build a strong foundation in the early levels and set yourself up for success.',
+    tipsAdvancedIntro: 'Once you have the basics down, these advanced strategies will help you score higher and survive deeper into the game.',
+    tipsSurvivalIntro: 'As levels get harder and enemies multiply, survival becomes more important than aggression. Keep these in mind to outlast the toughest waves.',
+    tipsBasic5: 'Select your character before charging — the character glows when selected',
+    tipsAdvanced5: 'Use the throw arc to lob snowballs over barriers and hit hiding enemies',
+    tipsSurvival4: 'When only one enemy remains, safely reposition to your ideal attack spot',
+
+    // Expanded Levels
+    levelsTacticsTitle: 'Tactical Advice by Stage',
+    levelsTactics1: 'Early (Levels 1-3): Focus on mastering the charge mechanic. Practice short-range precision throws before attempting maximum distance shots.',
+    levelsTactics2: 'Mid (Levels 4-7): Start actively using barriers. Use a hit-and-run approach to avoid being targeted by multiple enemies at once.',
+    levelsTactics3: 'Late (Level 8+): Constant movement is critical. Never stand in the open center — always stay near cover and keep repositioning.',
+
+    // Expanded About
+    aboutStoryTitle: 'Development Story',
+    aboutStoryDesc1: 'Snowball Fight was born from a simple idea: create a browser game that can be played instantly on any device, with intuitive controls but enough strategic depth to keep players coming back. The pixel art style was chosen for its nostalgic charm and its ability to look crisp on screens of all sizes.',
+    aboutStoryDesc2: 'Built with HTML5 Canvas and React/Next.js for smooth performance across all modern browsers on both desktop and mobile. Starting from the core concept of snowball throwing, the game evolved to include the barrier system, charge mechanics, health points, and leaderboard tracking — all designed to add strategic depth to what looks like a simple game.',
 
     // Privacy page
     privacyTitle: 'Privacy Policy',
