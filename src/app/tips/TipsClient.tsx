@@ -14,30 +14,36 @@ export default function TipsClient() {
 
       {/* Basic Tips */}
       <Section title={t.tipsBasicTitle}>
+        <p className="mb-3" style={{ fontSize: '13px', opacity: 0.85 }}>{t.tipsBasicIntro}</p>
         <ul className="list-none space-y-2">
           <li>&gt; {t.tipsBasic1}</li>
           <li>&gt; {t.tipsBasic2}</li>
           <li>&gt; {t.tipsBasic3}</li>
           <li>&gt; {t.tipsBasic4}</li>
+          <li>&gt; {t.tipsBasic5}</li>
         </ul>
       </Section>
 
       {/* Advanced Tips */}
       <Section title={t.tipsAdvancedTitle}>
+        <p className="mb-3" style={{ fontSize: '13px', opacity: 0.85 }}>{t.tipsAdvancedIntro}</p>
         <ul className="list-none space-y-2">
           <li>&gt; {t.tipsAdvanced1}</li>
           <li>&gt; {t.tipsAdvanced2}</li>
           <li>&gt; {t.tipsAdvanced3}</li>
           <li>&gt; {t.tipsAdvanced4}</li>
+          <li>&gt; {t.tipsAdvanced5}</li>
         </ul>
       </Section>
 
       {/* Survival Strategies */}
       <Section title={t.tipsSurvivalTitle} isLast>
+        <p className="mb-3" style={{ fontSize: '13px', opacity: 0.85 }}>{t.tipsSurvivalIntro}</p>
         <ul className="list-none space-y-2">
           <li>&gt; {t.tipsSurvival1}</li>
           <li>&gt; {t.tipsSurvival2}</li>
           <li>&gt; {t.tipsSurvival3}</li>
+          <li>&gt; {t.tipsSurvival4}</li>
         </ul>
       </Section>
     </PageLayout>
