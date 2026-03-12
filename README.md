@@ -17,11 +17,13 @@
 ### 操作方式
 
 #### 💻 電腦版
+
 - **移動**：滑鼠拖曳紅色角色來移動和選中
 - **攻擊**：按住空白鍵蓄力，放開發射雪球
 - **蓄力**：按住越久，投擲距離越遠
 
 #### 📱 手機版
+
 - **移動**：觸控拖曳紅色角色來移動和選中
 - **攻擊**：按住左下角攻擊按鈕蓄力，放開發射雪球
 - **蓄力**：按住越久，投擲距離越遠
@@ -78,7 +80,7 @@ npm start
 
 可直接部署至 [Vercel](https://vercel.com)：
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/cruxover/snowball-fight)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/wade0615/snowfight)
 
 ## 授權
 

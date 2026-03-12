@@ -24,7 +24,7 @@ const jsonLd = {
   isPartOf: {
     '@type': 'WebSite',
     name: 'Snowball Fight',
-    url: process.env.NEXT_PUBLIC_SITE_URL || 'https://snowfight.vercel.app',
+    url: process.env.NEXT_PUBLIC_SITE_URL || 'https://snowfight.live',
   },
 };
 

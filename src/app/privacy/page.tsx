@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import PrivacyClient from './PrivacyClient';
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://snowfight.vercel.app';
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://snowfight.live';
 
 export const metadata: Metadata = {
   title: '隱私政策 Privacy Policy - 打雪仗 Snowball Fight',
