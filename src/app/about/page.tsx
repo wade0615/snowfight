@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import AboutClient from "./AboutClient";
 
 const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL || "https://snowfight.vercel.app";
+  process.env.NEXT_PUBLIC_SITE_URL || "https://snowfight.live";
 
 export const metadata: Metadata = {
   title: "關於 About - 打雪仗 Snowball Fight",

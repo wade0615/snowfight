@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import HowToPlayClient from './HowToPlayClient';
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://snowfight.vercel.app';
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://snowfight.live';
 
 export const metadata: Metadata = {
   title: '遊戲說明 How to Play - 打雪仗 Snowball Fight',

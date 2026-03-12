@@ -7,7 +7,7 @@ const gaId = process.env.NEXT_PUBLIC_GA_ID || "";
 // Pixel Art fonts loaded via CSS @import in globals.css (Press Start 2P + VT323)
 
 const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL || "https://snowfight.vercel.app";
+  process.env.NEXT_PUBLIC_SITE_URL || "https://snowfight.live";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),

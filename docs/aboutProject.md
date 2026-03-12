@@ -7,7 +7,7 @@
 - **項目名稱**：Snowball Fight（打雪仗）
 - **開發者**：Costhrough
 - **版本**：0.1.0
-- **上線地址**：https://snowfight.vercel.app
+- **上線地址**：https://snowfight.live
 - **儲存庫**：https://github.com/wade0615/snowfight
 - **部署平台**：Vercel
 - **開源協議**：MIT License
@@ -254,7 +254,7 @@ robots: index, follow
   "@type": "VideoGame",
   "name": "打雪仗 Snowball Fight",
   "description": "免費線上打雪仗遊戲！...",
-  "url": "https://snowfight.vercel.app",
+  "url": "https://snowfight.live",
   "genre": ["Action", "Casual"],
   "gamePlatform": ["Web Browser", "Mobile"],
   "applicationCategory": "Game",
@@ -311,7 +311,7 @@ User-agent: *
 Allow: /
 Disallow: /admin
 
-Sitemap: https://snowfight.vercel.app/sitemap.xml
+Sitemap: https://snowfight.live/sitemap.xml
 ```
 
 **當前設定**：允許所有爬蟲索引
@@ -369,7 +369,7 @@ export const ADS_CONFIG = {
 ```
 NEXT_PUBLIC_ADSENSE_ID=ca-pub-xxxxxxxxxxxxxxxx
 NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
-NEXT_PUBLIC_SITE_URL=https://snowfight.vercel.app
+NEXT_PUBLIC_SITE_URL=https://snowfight.live
 ```
 
 #### 廣告顯示邏輯
