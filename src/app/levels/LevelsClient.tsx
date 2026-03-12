@@ -95,11 +95,11 @@ export default function LevelsClient() {
 
       {/* Tactics */}
       <Section title={t.levelsTacticsTitle} isLast>
-        <ul className="list-none space-y-3">
-          <li style={{ fontSize: '13px' }}>{t.levelsTactics1}</li>
-          <li style={{ fontSize: '13px' }}>{t.levelsTactics2}</li>
-          <li style={{ fontSize: '13px' }}>{t.levelsTactics3}</li>
-        </ul>
+        <div className="space-y-4">
+          <p style={{ fontSize: '13px' }}>{t.levelsTactics1}</p>
+          <p style={{ fontSize: '13px' }}>{t.levelsTactics2}</p>
+          <p style={{ fontSize: '13px' }}>{t.levelsTactics3}</p>
+        </div>
       </Section>
     </PageLayout>
   );

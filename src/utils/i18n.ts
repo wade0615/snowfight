@@ -370,11 +370,11 @@ export const translations: Record<Language, Translations> = {
     levelsFormulaExample: '敵人數 = 3 + (關卡數 - 1) × 2。例如：第 1 關有 3 個敵人，第 5 關有 11 個敵人，第 10 關有 21 個敵人。',
     levelsDifficultyTitle: '難度階段',
     levelsDifficultyEarly: '初期（第 1-3 關）',
-    levelsDifficultyEarlyDesc: '敵人數量較少（3-7個），適合熟悉操作和練習瞄準。',
+    levelsDifficultyEarlyDesc: '敵人數量較少（3–7 個），整體節奏較慢，非常適合熟悉遊戲機制。你有充裕的時間嘗試不同的蓄力長度，找到適合自己的投擲節奏，也可以練習預判敵人的移動方向。即便犯錯，血量也有足夠的緩衝可以彌補。建議把握這段時間紮實練習基礎技巧，因為中後期的節奏會快很多，容錯空間也更小。',
     levelsDifficultyMid: '中期（第 4-7 關）',
-    levelsDifficultyMidDesc: '敵人數量增加（9-15個），需要開始運用掩體和走位策略。',
+    levelsDifficultyMidDesc: '敵人數量增加（9–15 個），場面開始複雜，需要同時追蹤多個敵人的位置與蓄力狀態。掩體的利用率在此階段大幅提升——不要在空曠處停留，以掩體為中心展開行動。建議採取「打帶跑」策略：攻擊完立刻移位，避免成為固定目標。優先集火血量低的敵人，讓場上威脅數量持續下降。',
     levelsDifficultyLate: '後期（第 8 關以上）',
-    levelsDifficultyLateDesc: '敵人數量眾多（17個以上），需要高超的技巧和謹慎的策略才能生存。',
+    levelsDifficultyLateDesc: '敵人數量眾多（17 個以上），場面極度混亂，存活本身就是一項挑戰。此階段需要高度的空間意識：隨時注意哪些敵人正在蓄力、哪個方向的威脅最大。強烈建議保持在場邊或掩體附近移動，放棄遠距攻擊，集中消滅最近的威脅才是這個階段獲得分數最有效的方式。',
     levelsProgressionTitle: '關卡進度',
     levelsProgressionDesc: '每關必須消滅所有敵人才能進入下一關。你的分數和關卡進度會記錄在排行榜中，挑戰你的最高紀錄吧！',
 
@@ -394,7 +394,7 @@ export const translations: Record<Language, Translations> = {
     aboutDeveloperTitle: '開發者',
     aboutDeveloperDesc: '由 扳手 開發製作。',
     aboutContactTitle: '聯絡我們',
-    aboutContactDesc: '如有任何問題或建議，歡迎透過 GitHub 聯繫我們。',
+    aboutContactDesc: '如有任何問題或建議，歡迎透過電子郵件 costhrough@gmail.com 聯繫我們，或在 GitHub 上提交 issue。',
 
     // 首頁描述
     homeDescTitle: '關於這款遊戲',
@@ -414,18 +414,18 @@ export const translations: Record<Language, Translations> = {
     homeWhy5: '關卡難度不斷提升，永遠有新挑戰',
 
     // Tips 頁面擴充
-    tipsBasicIntro: '掌握這些基礎技巧，幫助你在遊戲初期站穩腳跟，順利通過前幾關。',
-    tipsAdvancedIntro: '熟悉基礎之後，這些進階策略能幫你在中高難度關卡取得更好的成績。',
-    tipsSurvivalIntro: '在敵人越來越多的高關卡中，生存比進攻更重要。記住這些策略，才能撐到最後。',
+    tipsBasicIntro: '掌握這些基礎技巧，是在打雪仗中取得好成績的第一步。最重要的機制是被命中後的短暫無敵時間——角色閃爍期間不會受到傷害，這是重新定位的最佳時機，不要浪費。此外，蓄力時間直接決定投擲距離：短蓄力（約 0.5 秒）適合近身戰，長蓄力（約 2 秒）才能打到遠方的敵人，靈活調整比每次蓄滿更有效率。記得先選中角色（發光表示已選中），才能發動攻擊。',
+    tipsAdvancedIntro: '熟悉基礎操作後，進階策略的核心在於主動利用掩體和控制攻擊節奏。不要在空曠處停留，以掩體為根據地，採取「露頭攻擊後立即退後」的打法，大幅降低被命中的機率。場上有多個敵人時，集中火力先解決血量最低的那個，快速減少場上的威脅數量。另外，雪球有拋物線飛行弧線，善加利用可以越過矮掩體打到躲在後面的敵人，這個技巧在高關卡非常關鍵。',
+    tipsSurvivalIntro: '到了後期高難度關卡，生存意識遠比進攻慾望更重要。每一點血量都非常珍貴，不要為了追擊一個敵人而暴露自己在多個敵人的射程內。建立穩定的「攻擊—移位」節奏：每次出手後立刻移動，讓敵人的預判落空。當被多個敵人包圍時，第一步是退往場邊或掩體，縮小被攻擊的方向，再逐一處理最近的威脅。',
     tipsBasic5: '先選中角色再蓄力，選中後角色會高亮顯示',
     tipsAdvanced5: '利用投擲弧線，嘗試繞過掩體攻擊躲在後方的敵人',
     tipsSurvival4: '場上剩最後一個敵人時，可以大膽移動到最佳攻擊位置',
 
     // Levels 頁面擴充
     levelsTacticsTitle: '分階段戰術建議',
-    levelsTactics1: '初期（第 1-3 關）：熟悉蓄力機制，先練習短距離精準投擲，不要一開始就全力蓄力。',
-    levelsTactics2: '中期（第 4-7 關）：開始善用掩體，以「打帶跑」策略避免被多個敵人同時鎖定。',
-    levelsTactics3: '後期（第 8 關以上）：保持移動是關鍵，永遠不要站在場地中央，在掩體附近靈活走位。',
+    levelsTactics1: '初期（第 1-3 關）：這是熟悉蓄力機制的最佳時機。建議先練習短距離精準投擲，感受蓄力時間與距離的對應關係，不要一開始就習慣性地蓄滿力量。初期節奏慢，可以從容試驗各種操作方式，為後期高速戰鬥打好基礎。',
+    levelsTactics2: '中期（第 4-7 關）：掩體從「可選」變成「必選」。開始養成以掩體為中心移動的習慣，進攻後立刻退回掩體附近。這個階段最常見的失敗原因是在空曠處停留太久，被多個敵人同時鎖定。保持移動、快速出手，才能在敵人反應過來前安全脫身。',
+    levelsTactics3: '後期（第 8 關以上）：移動永遠不要停。場地中央是最危險的地方，因為四面都可能有敵人瞄準你。建議沿著場邊走位，以掩體作為短暫停靠點，隨時保持逃跑路線暢通。此階段得分節奏放慢是正常現象，保住血量比衝高分重要。',
 
     // About 頁面擴充
     aboutStoryTitle: '開發背景',
@@ -595,11 +595,11 @@ export const translations: Record<Language, Translations> = {
     levelsFormulaExample: 'Enemies = 3 + (Level - 1) × 2. For example: Level 1 has 3 enemies, Level 5 has 11 enemies, Level 10 has 21 enemies.',
     levelsDifficultyTitle: 'Difficulty Stages',
     levelsDifficultyEarly: 'Early (Levels 1-3)',
-    levelsDifficultyEarlyDesc: 'Fewer enemies (3-7). Perfect for learning controls and practicing aim.',
+    levelsDifficultyEarlyDesc: 'With fewer enemies (3–7), the pace is slow and forgiving — perfect for learning the game\'s mechanics. You have ample time to experiment with different charge durations to find your preferred throwing rhythm, and to practice predicting enemy movement. Mistakes are recoverable since you have enough HP buffer. Use this time to solidify your fundamentals, because mid and late levels move much faster and leave little room for error.',
     levelsDifficultyMid: 'Mid (Levels 4-7)',
-    levelsDifficultyMidDesc: 'More enemies (9-15). Time to start using barriers and positioning strategies.',
+    levelsDifficultyMidDesc: 'As enemy count rises (9–15), the field becomes more complex and you need to track multiple enemy positions and charge states simultaneously. Barrier usage becomes essential at this stage — avoid standing in the open and keep barriers as your anchor points. Adopt a hit-and-run approach: throw a snowball then immediately reposition to avoid becoming a stationary target. Consistently prioritizing the lowest-health enemies will help you trim the threat count faster.',
     levelsDifficultyLate: 'Late (Level 8+)',
-    levelsDifficultyLateDesc: 'Many enemies (17+). Requires advanced skills and careful strategy to survive.',
+    levelsDifficultyLateDesc: 'With 17 or more enemies on the field, sheer survival becomes the real challenge. You\'ll need sharp spatial awareness — always tracking which enemies are charging and which direction poses the greatest danger. Stay near the edges and use barriers as your primary movement corridor. Abandon long-range shots in favor of eliminating the closest enemies first; this is the most efficient way to score and stay alive when overwhelmed.',
     levelsProgressionTitle: 'Level Progression',
     levelsProgressionDesc: 'Eliminate all enemies to advance to the next level. Your score and progress are saved to the leaderboard - challenge your high score!',
 
@@ -619,7 +619,7 @@ export const translations: Record<Language, Translations> = {
     aboutDeveloperTitle: 'Developer',
     aboutDeveloperDesc: 'Developed by Spanner.',
     aboutContactTitle: 'Contact',
-    aboutContactDesc: 'For questions or suggestions, please reach out via GitHub.',
+    aboutContactDesc: 'For questions or suggestions, please email us at costhrough@gmail.com or submit an issue on GitHub.',
 
     // Home page description
     homeDescTitle: 'About This Game',
@@ -639,18 +639,18 @@ export const translations: Record<Language, Translations> = {
     homeWhy5: 'Progressively challenging levels keep the game fresh',
 
     // Expanded Tips
-    tipsBasicIntro: 'Master these fundamental techniques to build a strong foundation in the early levels and set yourself up for success.',
-    tipsAdvancedIntro: 'Once you have the basics down, these advanced strategies will help you score higher and survive deeper into the game.',
-    tipsSurvivalIntro: 'As levels get harder and enemies multiply, survival becomes more important than aggression. Keep these in mind to outlast the toughest waves.',
+    tipsBasicIntro: 'Mastering these fundamentals is the first step to doing well in Snowball Fight. The most important mechanic to understand is post-hit invincibility — your character briefly flickers and cannot take damage after being hit, making it the ideal window to reposition safely. Charge duration directly determines throw distance: a short charge (about 0.5 seconds) is best for close-range targets, while a full charge (about 2 seconds) reaches far enemies. Flexible timing beats always charging to maximum. Remember to select your character first (it glows when selected) before attempting to charge.',
+    tipsAdvancedIntro: 'Once you have the basics down, advanced play revolves around barrier usage and controlling the pace of combat. Never stand in the open — use barriers as your base of operations and adopt a peek-shoot-retreat rhythm to dramatically reduce the times you get hit. When facing multiple enemies, focus fire on the lowest-health target first to quickly reduce the number of threats on the field. One powerful technique: snowballs travel in an arc, allowing you to lob shots over low barriers and hit enemies sheltering behind them — a crucial skill in later levels.',
+    tipsSurvivalIntro: 'In late-game high-difficulty levels, survival instincts matter far more than aggressive scoring. Every HP point is precious — don\'t chase a single enemy if it exposes you to several others. Develop a consistent attack-then-move rhythm: fire your shot and immediately reposition so enemy predictions fall short. When surrounded by multiple enemies, your first priority is to retreat to the field edge or behind a barrier, limiting attack angles against you, then deal with the nearest threats one at a time.',
     tipsBasic5: 'Select your character before charging — the character glows when selected',
     tipsAdvanced5: 'Use the throw arc to lob snowballs over barriers and hit hiding enemies',
     tipsSurvival4: 'When only one enemy remains, safely reposition to your ideal attack spot',
 
     // Expanded Levels
     levelsTacticsTitle: 'Tactical Advice by Stage',
-    levelsTactics1: 'Early (Levels 1-3): Focus on mastering the charge mechanic. Practice short-range precision throws before attempting maximum distance shots.',
-    levelsTactics2: 'Mid (Levels 4-7): Start actively using barriers. Use a hit-and-run approach to avoid being targeted by multiple enemies at once.',
-    levelsTactics3: 'Late (Level 8+): Constant movement is critical. Never stand in the open center — always stay near cover and keep repositioning.',
+    levelsTactics1: 'Early (Levels 1–3): This is your window to master the charge mechanic. Focus on short-range precision throws first — get a feel for how charge duration maps to distance before attempting maximum-range shots. Since the pace is slow, you can experiment freely and build the muscle memory that will carry you through faster levels ahead.',
+    levelsTactics2: 'Mid (Levels 4–7): Barriers transition from optional to essential. Build the habit of keeping a barrier nearby and always having a retreat path. The most common cause of failure in this stage is standing still in the open too long and drawing fire from several enemies at once. Stay mobile, throw quickly, and withdraw before enemies can coordinate their attacks.',
+    levelsTactics3: 'Late (Level 8+): Never stop moving. The center of the field is the most dangerous position — you can be targeted from all directions simultaneously. Hug the edges, use barriers as brief stopping points, and always maintain a clear escape route. Accept that your scoring pace slows down at this stage — staying alive longer is worth more than a few extra points from reckless aggression.',
 
     // Expanded About
     aboutStoryTitle: 'Development Story',
